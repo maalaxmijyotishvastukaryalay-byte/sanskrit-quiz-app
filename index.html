@@ -49,6 +49,34 @@
     </div>
 </header>
 
+    <!-- Teacher Dashboard Screen -->
+    <div id="teacher-screen" style="display: none;">
+        <h2 style="color: #2a5298; text-align: center; border-bottom: 2px solid #2a5298; padding-bottom: 10px;">📊 छात्रों का रिज़ल्ट (गुरुजी पैनल)</h2>
+        <div style="text-align:center; margin-bottom: 20px;">
+            <button onclick="document.getElementById('teacher-screen').style.display='none'; document.getElementById('login-screen').style.display='block';" style="padding: 10px 20px; background: #e0e0e0; border: none; border-radius: 20px; font-weight: bold; font-size: 1.2rem; cursor: pointer;">🔙 वापस जाएँ</button>
+            <button onclick="fetchResults()" style="padding: 10px 20px; background: #2a5298; color: white; border: none; border-radius: 20px; font-weight: bold; font-size: 1.2rem; cursor: pointer; margin-left:10px;">🔄 रिफ्रेश (Refresh)</button>
+        </div>
+        <div id="loading-msg" style="text-align:center; font-size:1.5rem; color:#ff9800; font-weight:bold; display:none;">डेटा लोड हो रहा है... कृपया प्रतीक्षा करें ⏳</div>
+        
+        <div style="overflow-x:auto;">
+            <table style="width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 1.1rem; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                <thead style="background-color: #2a5298; color: white;">
+                    <tr>
+                        <th style="padding: 12px; border: 1px solid #ddd;">समय</th>
+                        <th style="padding: 12px; border: 1px solid #ddd;">छात्र का नाम</th>
+                        <th style="padding: 12px; border: 1px solid #ddd;">कक्षा</th>
+                        <th style="padding: 12px; border: 1px solid #ddd;">विषय</th>
+                        <th style="padding: 12px; border: 1px solid #ddd;">अंक</th>
+                    </tr>
+                </thead>
+                <tbody id="result-table-body" style="background: white; color: black; text-align: center;">
+                    <!-- Results will be injected here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
 
 <div class="container" id="login-screen" style="max-width: 450px; text-align: left; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); margin-top: 30px; border-top: 5px solid #4caf50;">
     <h2 style="color: #2e7d32; text-align: center; margin-top: 0; font-size: 1.6rem;">विद्यार्थी जानकारी</h2>
@@ -623,6 +651,7 @@
             <h3 style="color: #d84315; font-size: 1.8rem; margin-top: 0px;">${msg}</h3>
         `;
         document.getElementById('result-details').innerHTML = detailsHtml;
+          saveResultToDatabase(); // Background save
     }
 
 
@@ -653,6 +682,83 @@
     }
 
     window.onload = init;
+
+      const API_URL = "https://extendsclass.com/api/json-storage/bin/baeacdd";
+      
+      async function saveResultToDatabase() {
+          try {
+              let scoreText = score + " / " + currentTopicData.length;
+              let dateObj = new Date();
+              let timeString = dateObj.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
+
+              let newRecord = {
+                  time: timeString,
+                  name: currentStudentName,
+                  class: currentStudentClass,
+                  school: currentStudentSchool,
+                  topic: currentTopicName,
+                  score: scoreText
+              };
+
+              // Fetch current array
+              let response = await fetch(API_URL);
+              let data = await response.json();
+              if(!Array.isArray(data)) data = [];
+              
+              data.unshift(newRecord); // Add to top
+
+              // Save back to DB
+              await fetch(API_URL, {
+                  method: 'PUT',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify(data)
+              });
+          } catch(e) {
+              console.log("Error saving to DB:", e);
+          }
+      }
+
+      function openTeacherDashboard() {
+          let pwd = prompt("कृपया गुरुजी पासवर्ड दर्ज करें:");
+          if(pwd === "devendra" || pwd === "1234") {
+              document.getElementById('login-screen').style.display = 'none';
+              document.getElementById('teacher-screen').style.display = 'block';
+              fetchResults();
+          } else if(pwd !== null) {
+              alert("गलत पासवर्ड!");
+          }
+      }
+
+      async function fetchResults() {
+          document.getElementById('loading-msg').style.display = 'block';
+          document.getElementById('result-table-body').innerHTML = "";
+          try {
+              let response = await fetch(API_URL);
+              let data = await response.json();
+              
+              if(Array.isArray(data) && data.length > 0) {
+                  let html = "";
+                  data.forEach(row => {
+                      html += `
+                          <tr>
+                              <td style="padding: 10px; border: 1px solid #ddd;">${row.time}</td>
+                              <td style="padding: 10px; border: 1px solid #ddd; font-weight:bold; color:#d84315;">${row.name}</td>
+                              <td style="padding: 10px; border: 1px solid #ddd;">${row.class}</td>
+                              <td style="padding: 10px; border: 1px solid #ddd; color:#2a5298; font-weight:bold;">${row.topic}</td>
+                              <td style="padding: 10px; border: 1px solid #ddd; font-weight:bold; color:#4caf50; font-size:1.2rem;">${row.score}</td>
+                          </tr>
+                      `;
+                  });
+                  document.getElementById('result-table-body').innerHTML = html;
+              } else {
+                  document.getElementById('result-table-body').innerHTML = "<tr><td colspan='5' style='padding:20px; color:red;'>अभी तक किसी भी छात्र ने टेस्ट नहीं दिया है।</td></tr>";
+              }
+          } catch(e) {
+              document.getElementById('result-table-body').innerHTML = "<tr><td colspan='5'>डेटा लोड करने में समस्या हुई। इंटरनेट कनेक्शन चेक करें।</td></tr>";
+          }
+          document.getElementById('loading-msg').style.display = 'none';
+      }
+
 </script>
 </body>
 </html>
