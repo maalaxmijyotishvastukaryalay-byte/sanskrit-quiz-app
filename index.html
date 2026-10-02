@@ -712,6 +712,27 @@
 
     function loadQuestion() {
         document.getElementById('next-btn').style.display = 'none';
+
+          // Reset Timer
+          clearInterval(timerInterval);
+          timeLeft = 30;
+          if(document.getElementById('timer-display')) {
+              document.getElementById('timer-display').innerText = timeLeft;
+          }
+          timerInterval = setInterval(() => {
+              timeLeft--;
+              if(document.getElementById('timer-display')) {
+                  document.getElementById('timer-display').innerText = timeLeft;
+              }
+              if(timeLeft <= 0) {
+                  clearInterval(timerInterval);
+                  // Auto submit empty if time out (if checkAnswer expects div, index, correctIndex)
+                  // Let's get the correct index
+                  const currentQ = currentTopicData[currentQuestionIndex];
+                  checkAnswer(null, -1, currentQ.ans); 
+              }
+          }, 1000);
+
         const qData = currentTopicData[currentQuestionIndex];
         document.getElementById('question-text').innerText = "प्र. " + (currentQuestionIndex + 1) + ": " + qData.q;
         
@@ -728,6 +749,8 @@
     }
 
     function checkAnswer(selectedDiv, selectedIndex, correctIndex) {
+          clearInterval(timerInterval);
+          window.speechSynthesis.cancel();
         const options = document.getElementById('options-container').children;
         for(let i=0; i<options.length; i++) {
             options[i].onclick = null;
@@ -738,7 +761,7 @@
         
         if(selectedIndex === correctIndex) {
             score++;
-        } else {
+        } else if(selectedDiv) {
             selectedDiv.classList.add('wrong');
         }
         
