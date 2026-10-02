@@ -33,7 +33,18 @@
         #question-counter { font-size: 1.2rem; font-weight: bold; color: #555; text-align: right; margin-bottom: 15px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
 
 </style>
+
+  <style>
+      @media print {
+          body * { display: none !important; }
+          #certificate-print, #certificate-print * { display: block !important; }
+          .no-print { display: none !important; }
+          #certificate-print { position: absolute; left: 0; top: 0; width: 100%; border: 15px solid #2a5298; margin:0; padding:20px; box-sizing: border-box; }
+      }
+      .cert-btn { width: 100%; padding: 15px; background: linear-gradient(135deg, #9c27b0, #7b1fa2); color: white; border: none; border-radius: 8px; font-size: 1.3rem; font-weight: bold; cursor: pointer; margin-top: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
+  </style>
 </head>
+
 <body>
 
 <header>
@@ -145,14 +156,25 @@
         <label style="font-weight: bold; color: #333; font-size: 1.1rem;">मोबाइल नंबर: <span style="color:red;">*</span></label>
         <input type="number" id="student-mobile" style="width: 95%; padding: 10px; margin-top: 5px; border: 2px solid #ccc; border-radius: 5px; font-size: 1rem;" placeholder="10 अंकों का मोबाइल नंबर">
     </div>
-    <button class="btn" style="width: 100%; font-size: 1.3rem; padding: 15px; background: #4caf50; font-weight: bold; border-radius: 8px;" onclick="submitLogin()">क्विज़ शुरू करें ➔</button>
+    
+      
+
+      <button class="btn" style="width: 100%; font-size: 1.3rem; padding: 15px; background: #4caf50; font-weight: bold; border-radius: 8px;" onclick="submitLogin()">क्विज़ शुरू करें ➔</button>
 
     <button type="button" onclick="openTeacherDashboard()" style="width: 100%; padding: 15px; background: white; color: #2a5298; border: 2px solid #2a5298; border-radius: 8px; font-size: 1.3rem; font-weight: bold; cursor: pointer; margin-top: 15px;">👨‍🏫 गुरुजी पैनल (रिजल्ट देखें)</button>
 
 </div>
 
 <div class="container" id="home-screen" style="display: none;">
-    <h2 style="text-align: center; color: #424242;">विषय चुनें</h2>
+    
+      <!-- SHLOKA -->
+      <div style="background: #fff3e0; padding: 15px; border-left: 5px solid #ff9800; border-radius: 5px; margin-bottom: 20px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+          <h3 style="margin-top: 0; color: #e65100; font-size: 1.2rem;">🕉️ आज का श्लोक</h3>
+          <p id="shloka-text" style="font-size: 1.2rem; font-weight: bold; color: #424242;"></p>
+          <p id="shloka-meaning" style="font-size: 1rem; color: #616161; margin-bottom: 0;"></p>
+      </div>
+
+      <h2 style="text-align: center; color: #424242;">विषय चुनें</h2>
     <div class="grid" id="topics-grid">
         <!-- Topics will be injected here via JS -->
             <div class="card" onclick="startQuiz('लिंग निर्णय', '26. लिंग निर्णय')" style="border-color: #4caf50; color: #2e7d32;">26. लिंग निर्णय</div>
@@ -173,9 +195,38 @@
     <button class="btn" id="next-btn" style="display: none;" onclick="nextQuestion()">अगला प्रश्न</button>
 </div>
 
-<div class="container" id="result-screen">
-    <h2>आपका परिणाम!</h2>
-    <div class="score" id="score-text"></div>
+<div class="container" id="result-screen" style="display: none; text-align: center;">
+      <h2 style="font-size:2rem; color:#2a5298;">टेस्ट समाप्त!</h2>
+      <div id="result-details" style="margin: 20px 0;"></div>
+      <button class="cert-btn" onclick="generateCertificate()">🏆 प्रमाणपत्र (Certificate) डाउनलोड करें</button>
+      
+      <!-- Hidden Certificate Div -->
+      <div id="certificate-print" style="display: none; padding: 40px; border: 15px solid #2a5298; background: #fff9c4; text-align: center; font-family: Arial, sans-serif; position: absolute; top: 0; left: 0; width: 100%; z-index: 9999;">
+          <h1 style="font-size: 3rem; color: #d84315; margin-bottom: 10px;">🏆 प्रमाणपत्रम् 🏆</h1>
+          <h2 style="color: #2a5298;">शासकीय हाईस्कूल पोतरा</h2>
+          <p style="font-size: 1.5rem; margin-top: 30px;">प्रमाणित किया जाता है कि</p>
+          <h1 style="font-size: 2.5rem; color: #2e7d32; text-decoration: underline;" id="cert-name"></h1>
+          <p style="font-size: 1.5rem;">कक्षा: <b id="cert-class"></b> | स्कूल: <b id="cert-school"></b></p>
+          <p style="font-size: 1.5rem; margin-top: 20px;">ने <b>संस्कृत व्याकरण क्विज़ (<span id="cert-topic"></span>)</b> में उत्कृष्ट प्रदर्शन करते हुए</p>
+          <h1 style="font-size: 2.5rem; color: #c62828;" id="cert-score"></h1>
+          <p style="font-size: 1.5rem;">अंक प्राप्त किए हैं।</p>
+          <div style="margin-top: 50px; display: flex; justify-content: space-between; padding: 0 50px;">
+              <div>
+                  <p style="font-size: 1.2rem; border-top: 2px solid #000; padding-top: 5px;">दिनांक</p>
+                  <p id="cert-date" style="font-weight: bold;"></p>
+              </div>
+              <div>
+                  <p style="font-size: 1.2rem; border-top: 2px solid #000; padding-top: 5px;">विषय शिक्षक</p>
+                  <p style="font-weight: bold;">देवेन्द्र पाराशर</p>
+              </div>
+          </div>
+          <div class="no-print" style="margin-top: 40px;">
+              <button onclick="document.getElementById('certificate-print').style.display='none'; document.body.style.overflow='auto';" style="padding: 10px 20px; background: red; color: white; border: none; border-radius:5px; font-size: 1.2rem; cursor: pointer; margin-right:10px;">❌ बंद करें</button>
+              <button onclick="window.print()" style="padding: 10px 20px; background: green; color: white; border: none; border-radius:5px; font-size: 1.2rem; cursor: pointer;">🖨️ प्रिंट / Save PDF</button>
+          </div>
+      </div>
+      <button class="btn" style="width: 100%; font-size: 1.3rem; padding: 15px; margin-top: 15px;" onclick="showHome()">वापस जाएँ (Home)</button>
+  </div>
     <button class="btn" onclick="showHome()">मुख्य पृष्ठ पर जाएँ</button>
 </div>
 
@@ -556,7 +607,66 @@
     
     let currentTopicData = [];
     let currentQuestionIndex = 0;
-    let score = 0;
+    
+      // --- NEW FEATURES LOGIC ---
+      const shlokasList = [
+          {s: "विद्या ददाति विनयम्, विनयाद् याति पात्रताम्।", m: "विद्या से नम्रता आती है, नम्रता से योग्यता आती है।"},
+          {s: "उद्यमेन हि सिध्यन्ति कार्याणि न मनोरथैः।", m: "परिश्रम से ही काम पूरे होते हैं, केवल इच्छा करने से नहीं।"},
+          {s: "स्वदेशे पूज्यते राजा, विद्वान् सर्वत्र पूज्यते।", m: "राजा केवल अपने देश में पूजा जाता है, लेकिन विद्वान की पूजा हर जगह होती है।"},
+          {s: "अहंकारं बलं दर्पं कामं क्रोधं च संश्रिताः।", m: "हमें अहंकार, बल, घमंड, काम और क्रोध का त्याग करना चाहिए।"}
+      ];
+      
+      let timerInterval;
+      let timeLeft = 30;
+      
+      function updateShloka() {
+          const today = new Date().getDate();
+          const shloka = shlokasList[today % shlokasList.length];
+          if(document.getElementById('shloka-text')) {
+              document.getElementById('shloka-text').innerText = shloka.s;
+              document.getElementById('shloka-meaning').innerText = shloka.m;
+          }
+      }
+      
+      function playAudioQuestion() {
+          if(!currentTopicData) return;
+          window.speechSynthesis.cancel();
+          
+          // Reset Timer
+          clearInterval(timerInterval);
+          timeLeft = 30;
+          document.getElementById('timer-display').innerText = timeLeft;
+          timerInterval = setInterval(() => {
+              timeLeft--;
+              document.getElementById('timer-display').innerText = timeLeft;
+              if(timeLeft <= 0) {
+                  clearInterval(timerInterval);
+                  checkAnswer("TIME_OUT"); // Auto submit empty if time out
+              }
+          }, 1000);
+
+          let q = currentTopicData[currentQuestionIndex];
+          let text = q.q + " . " + q.opt.join(", ");
+          let utterance = new SpeechSynthesisUtterance(text);
+          utterance.lang = 'hi-IN';
+          window.speechSynthesis.speak(utterance);
+      }
+      
+      function generateCertificate() {
+          document.getElementById('cert-name').innerText = currentStudentName;
+          document.getElementById('cert-class').innerText = currentStudentClass;
+          document.getElementById('cert-school').innerText = currentStudentSchool;
+          document.getElementById('cert-topic').innerText = currentTopicName;
+          document.getElementById('cert-score').innerText = score + " / " + currentTopicData.length;
+          let d = new Date();
+          document.getElementById('cert-date').innerText = d.toLocaleDateString('en-IN');
+          
+          document.getElementById('certificate-print').style.display = 'block';
+          document.body.style.overflow = 'hidden'; // hide scrollbar for main page
+      }
+      // --------------------------
+
+      let score = 0;
     let currentStudentName = "";
     let currentStudentClass = "";
     let currentTopicName = "";
@@ -685,13 +795,13 @@
         
         currentStudentName = name; currentStudentClass = cls; currentStudentSchool = school; currentStudentMobile = mobile;
         document.getElementById('login-screen').style.display = 'none';
-        document.getElementById('home-screen').style.display = 'block';
+        document.getElementById('home-screen').style.display = 'block'; updateShloka();
     }
 
     function showHome() {
         document.getElementById('quiz-screen').style.display = 'none';
         document.getElementById('result-screen').style.display = 'none';
-        document.getElementById('home-screen').style.display = 'block';
+        document.getElementById('home-screen').style.display = 'block'; updateShloka();
     }
 
     window.onload = init;
