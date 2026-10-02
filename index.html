@@ -653,7 +653,7 @@
           }, 1000);
 
           let q = currentTopicData[currentQuestionIndex];
-          let text = q.q + " . " + q.opt.join(", ");
+          let text = q.q + " . " + q.options.join(", ");
           let utterance = new SpeechSynthesisUtterance(text);
           utterance.lang = 'hi-IN';
           window.speechSynthesis.speak(utterance);
