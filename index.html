@@ -774,14 +774,14 @@
               try { new Audio('https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3').play(); } catch(e){}
               if(document.getElementById('autoplay-toggle') && document.getElementById('autoplay-toggle').checked) {
                   window.speechSynthesis.cancel();
-                  let u = new SpeechSynthesisUtterance("शाबाश! आपका उत्तर सही है"); u.lang = 'hi-IN'; window.speechSynthesis.speak(u);
+                  let u = new SpeechSynthesisUtterance("शोभनम्! समीचीनम् उत्तरम्।"); u.lang = 'hi-IN'; window.speechSynthesis.speak(u);
               }
           } else if(selectedDiv) {
               selectedDiv.classList.add('wrong');
               try { new Audio('https://assets.mixkit.co/active_storage/sfx/2955/2955-preview.mp3').play(); } catch(e){}
               if(document.getElementById('autoplay-toggle') && document.getElementById('autoplay-toggle').checked) {
                   window.speechSynthesis.cancel();
-                  let u = new SpeechSynthesisUtterance("ओहो! यह उत्तर गलत है"); u.lang = 'hi-IN'; window.speechSynthesis.speak(u);
+                  let u = new SpeechSynthesisUtterance("चिन्ता मास्तु, पुनः प्रयत्नं करोतु।"); u.lang = 'hi-IN'; window.speechSynthesis.speak(u);
               }
           }
         
