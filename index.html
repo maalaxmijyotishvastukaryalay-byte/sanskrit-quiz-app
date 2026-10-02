@@ -218,7 +218,7 @@
 </div>
 
 <div class="container" id="result-screen" style="display: none; text-align: center;">
-      <h2 style="font-size:2rem; color:#2a5298;">टेस्ट समाप्त!</h2>
+      <h2 style="font-size:2rem; color:#2a5298;">मूल्यांकन पूर्ण!</h2>
       <div id="result-details" style="margin: 20px 0;"></div>
       <button class="cert-btn" onclick="generateCertificate()">🏆 प्रमाणपत्र (Certificate) डाउनलोड करें</button>
       
@@ -673,6 +673,7 @@
           let d = new Date();
           document.getElementById('cert-date').innerText = d.toLocaleDateString('en-IN');
           
+          window.scrollTo(0, 0);
           document.getElementById('certificate-print').style.display = 'block';
           document.body.style.overflow = 'hidden'; // hide scrollbar for main page
       }
