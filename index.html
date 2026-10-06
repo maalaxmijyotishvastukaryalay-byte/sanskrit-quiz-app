@@ -744,7 +744,10 @@
             score = 0;
               userAnswers = [];
             document.getElementById('home-screen').style.display = 'none';
-            document.getElementById('result-screen').style.display = 'none';
+            document.getElementById('result-screen').style.display = 'block';
+        document.getElementById('result-details').style.display = 'none'; // Hide details
+        document.querySelector('.cert-btn').style.display = 'none'; // Hide real cert button
+
             document.getElementById('quiz-screen').style.display = 'block';
             document.getElementById('quiz-title').innerText = fullTitle;
             loadQuestion();
@@ -898,7 +901,10 @@
         document.getElementById('login-screen').style.display = 'none';
         document.getElementById('home-screen').style.display = 'none';
         document.getElementById('quiz-screen').style.display = 'none';
-        document.getElementById('result-screen').style.display = 'none';
+        document.getElementById('result-screen').style.display = 'block';
+        document.getElementById('result-details').style.display = 'none'; // Hide details
+        document.querySelector('.cert-btn').style.display = 'none'; // Hide real cert button
+
         
         document.getElementById('certificate-print').style.display = 'block';
         document.body.style.overflow = 'hidden';
@@ -927,7 +933,10 @@
 
     function showHome() {
         document.getElementById('quiz-screen').style.display = 'none';
-        document.getElementById('result-screen').style.display = 'none';
+        document.getElementById('result-screen').style.display = 'block';
+        document.getElementById('result-details').style.display = 'none'; // Hide details
+        document.querySelector('.cert-btn').style.display = 'none'; // Hide real cert button
+
         document.getElementById('home-screen').style.display = 'block'; updateShloka();
     }
 
