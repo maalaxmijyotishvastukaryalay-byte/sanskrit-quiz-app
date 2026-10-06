@@ -36,10 +36,12 @@
 
   <style>
       @media print {
+          @page { size: landscape; margin: 0; }
+          body { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
           body * { display: none !important; }
-          #certificate-print, #certificate-print * { display: block !important; }
+          #certificate-print, #certificate-print * { display: block !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
           .no-print { display: none !important; }
-          #certificate-print { position: absolute; left: 0; top: 0; width: 100%; border: 15px solid #2a5298; margin:0; padding:20px; box-sizing: border-box; }
+          #certificate-print { position: absolute; left: 0; top: 0; width: 100vw; height: 100vh; border: 15px solid #2a5298; margin:0; padding:20px; box-sizing: border-box; background: white !important; }
       }
       .cert-btn { width: 100%; padding: 15px; background: linear-gradient(135deg, #9c27b0, #7b1fa2); color: white; border: none; border-radius: 8px; font-size: 1.3rem; font-weight: bold; cursor: pointer; margin-top: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
   </style>
