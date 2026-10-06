@@ -260,7 +260,7 @@
 
                 <div class="no-print" style="margin-top:30px;">
                 <button onclick="window.print()" style="padding:10px 20px; font-size:1.2rem; background:green; color:white; border:none; border-radius:5px; cursor:pointer;">सर्टिफिकेट डाउनलोड करें (PDF)</button>
-                <button onclick="document.getElementById('certificate-print').style.display='none'; document.body.style.overflow='auto';" style="padding:10px 20px; font-size:1.2rem; background:red; color:white; border:none; border-radius:5px; cursor:pointer; margin-left:10px;">बंद करें (Close)</button>
+                <button onclick="document.getElementById('certificate-print').style.display='none'; document.body.style.overflow='auto'; if(document.getElementById('result-details').style.display === 'none') { window.location.reload(); }" style="padding:10px 20px; font-size:1.2rem; background:red; color:white; border:none; border-radius:5px; cursor:pointer; margin-left:10px;">बंद करें (Close)</button>
             </div>
             <div style="text-align: center;">
                   <div style="height: 50px; border-bottom: 1px dotted #888; width: 120px; margin: 0 auto 5px auto;"></div>
@@ -269,7 +269,7 @@
               </div>
           </div>
           <div class="no-print" style="margin-top: 40px;">
-              <button onclick="document.getElementById('certificate-print').style.display='none'; document.body.style.overflow='auto';" style="padding: 10px 20px; background: red; color: white; border: none; border-radius:5px; font-size: 1.2rem; cursor: pointer; margin-right:10px;">❌ बंद करें</button>
+              <button onclick="document.getElementById('certificate-print').style.display='none'; document.body.style.overflow='auto'; if(document.getElementById('result-details').style.display === 'none') { window.location.reload(); }" style="padding: 10px 20px; background: red; color: white; border: none; border-radius:5px; font-size: 1.2rem; cursor: pointer; margin-right:10px;">❌ बंद करें</button>
               <button onclick="window.print()" style="padding: 10px 20px; background: green; color: white; border: none; border-radius:5px; font-size: 1.2rem; cursor: pointer;">🖨️ प्रिंट / Save PDF</button>
           </div>
       </div>
@@ -693,7 +693,7 @@
                   let medals = ['🥇', '🥈', '🥉', '🏅', '🏅'];
                   top5.forEach((row, i) => {
                       html += `<li style="padding: 8px; border-bottom: 1px solid #c8e6c9; display: flex; justify-content: space-between;">
-                          <span>${medals[i]} <b>${row.name}</b> (${row.class})</span>
+                          <span style="line-height:1.4;">${medals[i]} <b>${row.name}</b> (कक्षा ${row.class})<br><small style="color:#555; margin-left:25px;">🏫 ${row.school}</small></span>
                           <span style="color:#d84315; font-weight:bold;">${row.score}</span>
                       </li>`;
                   });
@@ -706,7 +706,27 @@
           }
       }
 
-        function updateShloka() {
+        
+    function updateShloka() {
+        const shlokas = [
+            { s: "स्वदेशे पूज्यते राजा, विद्वान् सर्वत्र पूज्यते।", m: "राजा केवल अपने देश में पूजा जाता है, लेकिन विद्वान की पूजा हर जगह होती है।" },
+            { s: "विद्या ददाति विनयम्, विनयाद् याति पात्रताम्।", m: "विद्या से नम्रता आती है, और नम्रता से योग्यता प्राप्त होती है।" },
+            { s: "उद्यमेन हि सिध्यन्ति कार्याणि न मनोरथैः।", m: "परिश्रम से ही कार्य पूरे होते हैं, केवल इच्छा करने से नहीं।" },
+            { s: "आलस्यं हि मनुष्याणां शरीरस्थो महान् रिपुः।", m: "मनुष्यों के शरीर में रहने वाला आलस्य ही उनका सबसे बड़ा शत्रु है।" },
+            { s: "काक चेष्टा, बको ध्यानं, श्वान निद्रा तथैव च।", m: "विद्यार्थी के पांच लक्षण: कौवे जैसी चेष्टा, बगुले जैसा ध्यान और कुत्ते जैसी नींद।" },
+            { s: "माता शत्रुः पिता वैरी येन बालो न पाठितः।", m: "वे माता-पिता शत्रु के समान हैं जिन्होंने अपने बच्चों को नहीं पढ़ाया।" },
+            { s: "अयं निजः परो वेति गणना लघुचेतसाम्।", m: "यह मेरा है, यह पराया है, ऐसी सोच छोटे विचारों वालों की होती है। उदार चरित्र वालों के लिए पूरा संसार ही परिवार है।" }
+        ];
+        let rand = shlokas[Math.floor(Math.random() * shlokas.length)];
+        let st = document.getElementById('shloka-text');
+        let sm = document.getElementById('shloka-meaning');
+        if(st && sm) {
+            st.innerText = rand.s;
+            sm.innerText = rand.m;
+        }
+    }
+
+    function updateShloka_old() {
           const today = new Date().getDate();
           const shloka = shlokasList[today % shlokasList.length];
           if(document.getElementById('shloka-text')) {
