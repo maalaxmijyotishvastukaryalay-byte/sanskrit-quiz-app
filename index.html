@@ -242,7 +242,11 @@
                   <p style="font-weight: bold; margin: 5px 0 0 0;">देवेन्द्र पाराशर</p>
               </div>
 
-                <div style="text-align: center;">
+                <div class="no-print" style="margin-top:30px;">
+                <button onclick="window.print()" style="padding:10px 20px; font-size:1.2rem; background:green; color:white; border:none; border-radius:5px; cursor:pointer;">सर्टिफिकेट डाउनलोड करें (PDF)</button>
+                <button onclick="document.getElementById('certificate-print').style.display='none'; document.body.style.overflow='auto';" style="padding:10px 20px; font-size:1.2rem; background:red; color:white; border:none; border-radius:5px; cursor:pointer; margin-left:10px;">बंद करें (Close)</button>
+            </div>
+            <div style="text-align: center;">
                   <div style="height: 50px; border-bottom: 1px dotted #888; width: 120px; margin: 0 auto 5px auto;"></div>
                   <p style="font-size: 1.2rem; border-top: 2px solid #000; padding-top: 5px; margin: 0;">प्राचार्य</p>
                   <p style="font-weight: bold; margin: 5px 0 0 0;">शासकीय हाईस्कूल पोतरा</p>
@@ -685,6 +689,8 @@
       // --------------------------
 
       let score = 0;
+              userAnswers = [];
+      let userAnswers = [];
     let currentStudentName = "";
     let currentStudentClass = "";
     let currentTopicName = "";
@@ -703,7 +709,22 @@
         });
     }
 
-    function startQuiz(topicKey, fullTitle) {
+    
+      function showReview() {
+          let html = "";
+          userAnswers.forEach((item, index) => {
+              let isRight = item.selected === item.correct;
+              html += `<div style="border:1px solid #ccc; border-radius:8px; padding:15px; margin-bottom:15px; background: ${isRight ? '#e8f5e9' : '#ffebee'};">`;
+              html += `<p style="font-weight:bold; font-size:1.2rem;">${index + 1}. ${item.q}</p>`;
+              html += `<p style="color: ${isRight ? 'green' : 'red'}; font-weight:bold;">आपका उत्तर: ${item.selected || 'कोई उत्तर नहीं दिया (Time Out)'}</p>`;
+              if(!isRight) html += `<p style="color: green; font-weight:bold;">सही उत्तर: ${item.correct}</p>`;
+              html += `</div>`;
+          });
+          document.getElementById('review-content').innerHTML = html;
+          document.getElementById('review-modal').style.display = 'block';
+      }
+    
+      function startQuiz(topicKey, fullTitle) {
         let matchKey = Object.keys(quizData).find(k => fullTitle.includes(k) || topicKey.includes(k));
         
         if(matchKey && quizData[matchKey] && quizData[matchKey].length > 0) {
@@ -718,6 +739,7 @@
             currentTopicData = shuffledQuestions;
             currentQuestionIndex = 0;
             score = 0;
+              userAnswers = [];
             document.getElementById('home-screen').style.display = 'none';
             document.getElementById('result-screen').style.display = 'none';
             document.getElementById('quiz-screen').style.display = 'block';
@@ -783,6 +805,17 @@
             }
         }
         
+        // Save answer for review
+        let prefix = ['क) ', 'ख) ', 'ग) ', 'घ) '];
+        let selText = selectedIndex >= 0 ? prefix[selectedIndex] + currentTopicData[currentQuestionIndex].options[selectedIndex] : 'कोई उत्तर नहीं (Time Out)';
+        let corText = prefix[correctIndex] + currentTopicData[currentQuestionIndex].options[correctIndex];
+        
+        userAnswers.push({
+            q: currentTopicData[currentQuestionIndex].q,
+            selected: selText,
+            correct: corText
+        });
+        
         if(selectedIndex === correctIndex) {
               score++;
               try { confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } }); } catch(e){}
@@ -800,7 +833,8 @@
               }
           }
         
-        document.getElementById('next-btn').style.display = 'block';
+        // Auto-advance instead of showing Next button
+        setTimeout(() => { nextQuestion(); }, 2000);
     }
 
     function nextQuestion() {
@@ -833,7 +867,17 @@
             <div style="font-size: 2.5rem; letter-spacing: 5px; margin-bottom: 10px;">${stars}</div>
             <h3 style="color: #d84315; font-size: 1.8rem; margin-top: 0px;">${msg}</h3>
         `;
-        document.getElementById('result-details').innerHTML = detailsHtml;
+        
+          if(percentage < 70) {
+              document.querySelector('.cert-btn').style.display = 'none';
+              detailsHtml += `<p style="color:red; font-weight:bold; font-size:1.2rem; margin-top:15px; border: 2px solid red; padding: 10px; background: #ffebee; border-radius: 5px;">⚠️ प्रमाणपत्र प्राप्त करने के लिए कम से कम 70% अंक आवश्यक हैं। कृपया पुनः प्रयास करें।</p>`;
+          } else {
+              document.querySelector('.cert-btn').style.display = 'block';
+          }
+          
+          let reviewBtn = `<button class="btn" style="background:#0288d1; margin-top:15px;" onclick="showReview()">🔍 हल किए गए प्रश्न देखें (Review)</button>`;
+          document.getElementById('result-details').innerHTML = detailsHtml + reviewBtn;
+
           saveResultToDatabase(); // Background save
     }
 
@@ -848,7 +892,7 @@
             alert("कृपया आगे बढ़ने से पहले अपना नाम, विद्यालय, कक्षा और मोबाइल नंबर भरें!");
             return;
         }
-        if(mobile.length < 10) {
+        if(mobile.length !== 10) {
             alert("कृपया 10 अंकों का सही मोबाइल नंबर डालें!");
             return;
         }
@@ -885,7 +929,7 @@
               };
 
               // Fetch current array
-              let response = await fetch(API_URL);
+              let response = await fetch(API_URL + '?t=' + new Date().getTime(), {cache: 'no-store'});
               let data = await response.json();
               if(!Array.isArray(data)) data = [];
               
@@ -917,7 +961,7 @@
           document.getElementById('loading-msg').style.display = 'block';
           document.getElementById('result-table-body').innerHTML = "";
           try {
-              let response = await fetch(API_URL);
+              let response = await fetch(API_URL + '?t=' + new Date().getTime(), {cache: 'no-store'});
               let data = await response.json();
               
               if(Array.isArray(data) && data.length > 0) {
@@ -947,7 +991,15 @@
 <footer style="text-align: center; margin-top: 40px; padding: 20px; color: #666; font-size: 1.1rem; font-weight: bold; border-top: 1px solid #ddd; background: #fafafa;">
         " सा विद्या या विमुक्तये "
     </footer>
-  </body>
+  
+    <!-- Review Modal -->
+    <div id="review-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:white; z-index:10000; overflow-y:scroll; padding:20px; box-sizing:border-box;">
+        <h2 style="color:#2a5298; text-align:center;">आपके उत्तर (Review)</h2>
+        <div id="review-content"></div>
+        <button onclick="document.getElementById('review-modal').style.display='none'" style="display:block; width:100%; padding:15px; background:red; color:white; font-size:1.5rem; border:none; border-radius:10px; margin-top:20px;">बंद करें (Close)</button>
+    </div>
+    
+</body>
 </html>
 
 
