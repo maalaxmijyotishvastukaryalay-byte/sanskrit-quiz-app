@@ -186,9 +186,21 @@
           <p id="shloka-meaning" style="font-size: 1rem; color: #616161; margin-bottom: 0;"></p>
       </div>
 
+      
+      <!-- Leaderboard -->
+      <div style="background: #e8f5e9; padding: 15px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border: 2px solid #4caf50;">
+          <h3 style="margin-top: 0; color: #2e7d32; text-align: center;">🏆 टॉपर्स लिस्ट (Top 5)</h3>
+          <ul id="leaderboard-list" style="list-style: none; padding: 0; margin: 0; font-size: 1.1rem; color: #333;">
+              <li style="text-align:center;">लोड हो रहा है...</li>
+          </ul>
+      </div>
+
       <h2 style="text-align: center; color: #424242;">विषय चुनें</h2>
     <div class="grid" id="topics-grid">
         <!-- Topics will be injected here via JS -->
+        <div class="card" onclick="startQuiz('बोर्ड परीक्षा के पुराने प्रश्न', 'board_pyq')" style="border-color: #f44336; color: #c62828; background: #ffebee;">🔥 बोर्ड परीक्षा के पुराने प्रश्न</div>
+        <div class="card" onclick="startQuiz('रिक्त स्थान पूर्ति', 'fill_blanks')" style="border-color: #009688; color: #00695c; background: #e0f2f1;">✍️ रिक्त स्थान पूर्ति</div>
+
             <div class="card" onclick="startQuiz('लिंग निर्णय', '26. लिंग निर्णय')" style="border-color: #4caf50; color: #2e7d32;">26. लिंग निर्णय</div>
         <div class="card" onclick="startQuiz('वचन', '27. वचन')" style="border-color: #2196f3; color: #1565c0;">27. वचन</div>
         <div class="card" onclick="startQuiz('सर्वनाम', '28. सर्वनाम')" style="border-color: #9c27b0; color: #6a1b9a;">28. सर्वनाम</div>
@@ -268,6 +280,16 @@
 
 <script>
     const quizData = {
+        "board_pyq": [
+            { q: "रामः आपणं गच्छति। (वाक्य में अव्यय पद है?)", options: ["रामः", "आपणं", "गच्छति", "कोई नहीं"], ans: "कोई नहीं", exp: "इस वाक्य में कोई भी अव्यय नहीं है। रामः (कर्ता), आपणं (कर्म), गच्छति (क्रिया) है।" },
+            { q: "पितरौ (समास विग्रह क्या होगा?)", options: ["पिता च पिता च", "माता च पिता च", "मातरौ च", "इनमें से कोई नहीं"], ans: "माता च पिता च", exp: "'पितरौ' द्वन्द्व समास का उदाहरण है। इसका विग्रह 'माता च पिता च' होता है।" },
+            { q: "विद्यालयः (संधि विच्छेद करें)", options: ["विद्या + आलयः", "विद्य + आलयः", "विद्या + लयः", "विद् + आलयः"], ans: "विद्या + आलयः", exp: "यहाँ दीर्घ स्वर संधि है। विद्या (आ) + आलयः (आ) = विद्यालयः।" }
+        ],
+        "fill_blanks": [
+            { q: "बालकः पुस्तकं ____ (पठ् धातु लट् लकार)", options: ["पठति", "पठतः", "पठन्ति", "पठसि"], ans: "पठति", exp: "कर्ता 'बालकः' प्रथम पुरुष एकवचन है, इसलिए क्रिया भी प्रथम पुरुष एकवचन 'पठति' होगी।" },
+            { q: "अहं ग्रामं ____ (गम् धातु लट् लकार)", options: ["गच्छति", "गच्छसि", "गच्छामि", "गच्छामः"], ans: "गच्छामि", exp: "कर्ता 'अहं' उत्तम पुरुष एकवचन है, इसलिए क्रिया भी उत्तम पुरुष एकवचन 'गच्छामि' होगी।" },
+            { q: "वृक्षात् पत्राणि ____ (पत् धातु लट् लकार)", options: ["पतति", "पततः", "पतन्ति", "पतसि"], ans: "पतन्ति", exp: "'पत्राणि' बहुवचन है, इसलिए क्रिया भी बहुवचन 'पतन्ति' (गिरते हैं) होगी।" }
+        ],
     "लिंग निर्णय": [
         { q: "'फलम्' शब्द किस लिंग का है?", options: ["पुल्लिंग", "स्त्रीलिंग", "नपुंसकलिंग", "कोई नहीं"], ans: 2 },
         { q: "'लता' शब्द किस लिंग का है?", options: ["पुल्लिंग", "स्त्रीलिंग", "नपुंसकलिंग", "अव्यय"], ans: 1 },
@@ -655,7 +677,36 @@
       let timerInterval;
       let timeLeft = 30;
       
-      function updateShloka() {
+      
+      async function loadLeaderboard() {
+          try {
+              let response = await fetch(API_URL + '?t=' + new Date().getTime(), {cache: 'no-store'});
+              let data = await response.json();
+              if(Array.isArray(data) && data.length > 0) {
+                  data.sort((a, b) => {
+                      let scoreA = parseInt(a.score.split('/')[0].trim());
+                      let scoreB = parseInt(b.score.split('/')[0].trim());
+                      return scoreB - scoreA;
+                  });
+                  let top5 = data.slice(0, 5);
+                  let html = "";
+                  let medals = ['🥇', '🥈', '🥉', '🏅', '🏅'];
+                  top5.forEach((row, i) => {
+                      html += `<li style="padding: 8px; border-bottom: 1px solid #c8e6c9; display: flex; justify-content: space-between;">
+                          <span>${medals[i]} <b>${row.name}</b> (${row.class})</span>
+                          <span style="color:#d84315; font-weight:bold;">${row.score}</span>
+                      </li>`;
+                  });
+                  document.getElementById('leaderboard-list').innerHTML = html;
+              } else {
+                  document.getElementById('leaderboard-list').innerHTML = "<li style='text-align:center;'>अभी कोई टॉपर नहीं है।</li>";
+              }
+          } catch(e) {
+              document.getElementById('leaderboard-list').innerHTML = "<li style='text-align:center; color:red;'>टॉपर्स लोड नहीं हो पाए।</li>";
+          }
+      }
+
+        function updateShloka() {
           const today = new Date().getDate();
           const shloka = shlokasList[today % shlokasList.length];
           if(document.getElementById('shloka-text')) {
@@ -720,7 +771,10 @@
               html += `<div style="border:1px solid #ccc; border-radius:8px; padding:15px; margin-bottom:15px; background: ${isRight ? '#e8f5e9' : '#ffebee'};">`;
               html += `<p style="font-weight:bold; font-size:1.2rem;">${index + 1}. ${item.q}</p>`;
               html += `<p style="color: ${isRight ? 'green' : 'red'}; font-weight:bold;">आपका उत्तर: ${item.selected || 'कोई उत्तर नहीं दिया (Time Out)'}</p>`;
-              if(!isRight) html += `<p style="color: green; font-weight:bold;">सही उत्तर: ${item.correct}</p>`;
+              if(!isRight) {
+                  html += `<p style="color: green; font-weight:bold;">सही उत्तर: ${item.correct}</p>`;
+                  html += `<p style="color: #424242; font-size: 0.95rem; background: #fff; padding: 10px; border-radius: 5px; border-left: 3px solid #ff9800; margin-top: 10px;"><b>💡 व्याख्या:</b> ${item.exp}</p>`;
+              }
               html += `</div>`;
           });
           document.getElementById('review-content').innerHTML = html;
@@ -819,7 +873,8 @@
         userAnswers.push({
             q: currentTopicData[currentQuestionIndex].q,
             selected: selText,
-            correct: corText
+            correct: corText,
+            exp: currentTopicData[currentQuestionIndex].exp || "इस प्रश्न का उत्तर संस्कृत व्याकरण के सामान्य नियमों पर आधारित है।"
         });
         
         if(selectedIndex === correctIndex) {
@@ -928,7 +983,7 @@
         
         currentStudentName = name; currentStudentClass = cls; currentStudentSchool = school; currentStudentMobile = mobile;
         document.getElementById('login-screen').style.display = 'none';
-        document.getElementById('home-screen').style.display = 'block'; updateShloka();
+        document.getElementById('home-screen').style.display = 'block'; updateShloka(); loadLeaderboard();
     }
 
     function showHome() {
@@ -937,7 +992,7 @@
         document.getElementById('result-details').style.display = 'none'; // Hide details
         document.querySelector('.cert-btn').style.display = 'none'; // Hide real cert button
 
-        document.getElementById('home-screen').style.display = 'block'; updateShloka();
+        document.getElementById('home-screen').style.display = 'block'; updateShloka(); loadLeaderboard();
     }
 
     window.onload = init;
