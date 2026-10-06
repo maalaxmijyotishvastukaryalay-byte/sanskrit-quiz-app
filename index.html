@@ -173,6 +173,8 @@
 
     <button type="button" onclick="openTeacherDashboard()" style="width: 100%; padding: 15px; background: white; color: #2a5298; border: 2px solid #2a5298; border-radius: 8px; font-size: 1.3rem; font-weight: bold; cursor: pointer; margin-top: 15px;">👨‍🏫 गुरुजी पैनल (रिजल्ट देखें)</button>
 
+    <button type="button" onclick="previewCertificate()" style="width: 100%; padding: 15px; background: #ff9800; color: white; border: none; border-radius: 8px; font-size: 1.2rem; font-weight: bold; cursor: pointer; margin-top: 15px;">👀 केवल सर्टिफिकेट डिज़ाइन देखें (Testing)</button>
+
 </div>
 
 <div class="container" id="home-screen" style="display: none;">
@@ -882,6 +884,26 @@
           saveResultToDatabase(); // Background save
     }
 
+
+    
+    function previewCertificate() {
+        document.getElementById('cert-name').innerText = "डेमो छात्र (Demo)";
+        document.getElementById('cert-class').innerText = "10";
+        document.getElementById('cert-school').innerText = "शा. हाई स्कूल, डेमो";
+        document.getElementById('cert-topic').innerText = "डेमो परीक्षण";
+        document.getElementById('cert-score').innerText = "10 / 10";
+        let d = new Date();
+        document.getElementById('cert-date').innerText = d.toLocaleDateString('en-IN');
+        
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('home-screen').style.display = 'none';
+        document.getElementById('quiz-screen').style.display = 'none';
+        document.getElementById('result-screen').style.display = 'none';
+        
+        document.getElementById('certificate-print').style.display = 'block';
+        document.body.style.overflow = 'hidden';
+        window.scrollTo(0,0);
+    }
 
     function submitLogin() {
         const name = document.getElementById('student-name').value.trim();
