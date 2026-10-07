@@ -206,8 +206,8 @@
       <h2 style="text-align: center; color: #424242;">विषय चुनें</h2>
     <div class="grid" id="topics-grid">
         <!-- Topics will be injected here via JS -->
-        <div class="card" onclick="startQuiz('बोर्ड परीक्षा के पुराने प्रश्न', 'board_pyq')" style="border-color: #f44336; color: #c62828; background: #ffebee;">🔥 बोर्ड परीक्षा के पुराने प्रश्न</div>
-        <div class="card" onclick="startQuiz('रिक्त स्थान पूर्ति', 'fill_blanks')" style="border-color: #009688; color: #00695c; background: #e0f2f1;">✍️ रिक्त स्थान पूर्ति</div>
+        <div class="card" onclick="startQuiz('बोर्ड परीक्षा के पुराने प्रश्न', 'board_pyq')" style="border-color: #f44336; color: #c62828; background: #ffebee;">🔥 32 बोर्ड परीक्षा के पुराने प्रश्न</div>
+        <div class="card" onclick="startQuiz('रिक्त स्थान पूर्ति', 'fill_blanks')" style="border-color: #009688; color: #00695c; background: #e0f2f1;">✍️ 33 रिक्त स्थान पूर्ति</div>
 
     
     </div>
@@ -807,7 +807,7 @@
             div.onclick = () => startQuiz(cleanName, topicStr);
             grid.appendChild(div);
         });
-        grid.innerHTML += hardcodedHtml;
+        grid.insertAdjacentHTML('beforeend', hardcodedHtml);
     }
 
     
