@@ -52,8 +52,7 @@
               return;
           }
           
-          let csvContent = "data:text/csv;charset=utf-8,\uFEFF";
-          csvContent += "समय,छात्र का नाम,कक्षा,विद्यालय,मोबाइल नंबर,विषय,स्कोर\r\n";
+          let csvContent = "समय,छात्र का नाम,कक्षा,विद्यालय,मोबाइल नंबर,विषय,स्कोर\r\n";
           
           window.allStudentsData.forEach(function(row) {
               let rowData = [
@@ -68,9 +67,11 @@
               csvContent += rowData.join(",") + "\r\n";
           });
           
-          let encodedUri = encodeURI(csvContent);
+          let blob = new Blob(["\uFEFF" + csvContent], { type: 'text/csv;charset=utf-8;' });
+          let url = URL.createObjectURL(blob);
+          
           let link = document.createElement("a");
-          link.setAttribute("href", encodedUri);
+          link.setAttribute("href", url);
           link.setAttribute("download", "Students_Data.csv");
           document.body.appendChild(link);
           link.click();
@@ -1157,10 +1158,12 @@
           document.getElementById('loading-msg').style.display = 'block';
           document.getElementById('result-table-body').innerHTML = "";
           try {
-              let response = await fetch(API_URL + '?t=' + new Date().getTime(), {cache: 'no-store'});
-              let data = await response.json();
+              let response = await fetch(API_URL, {cache: 'no-store'});
+              let resData = await response.json();
+              let data = (resData && resData.data && Array.isArray(resData.data.students)) ? resData.data.students : [];
+              window.allStudentsData = data;
               
-              if(Array.isArray(data) && data.length > 0) {
+              if(data.length > 0) {
                   let html = "";
                   data.forEach(row => {
                       html += `
