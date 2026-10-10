@@ -719,9 +719,10 @@
       
       async function loadLeaderboard() {
           try {
-              let response = await fetch(API_URL + '?t=' + new Date().getTime(), {cache: 'no-store'});
-              let data = await response.json();
-              if(Array.isArray(data) && data.length > 0) {
+              let response = await fetch(API_URL, {cache: 'no-store'});
+              let resData = await response.json();
+              let data = (resData && resData.data && Array.isArray(resData.data.students)) ? resData.data.students : [];
+              if(data.length > 0) {
                   data.sort((a, b) => {
                       let scoreA = parseInt(a.score.split('/')[0].trim());
                       let scoreB = parseInt(b.score.split('/')[0].trim());
@@ -1073,7 +1074,7 @@
 
     window.onload = init;
 
-      const API_URL = "https://extendsclass.com/api/json-storage/bin/baeacdd";
+      const API_URL = "https://api.restful-api.dev/objects/ff808181a09d98f701a1214c99682ef1";
       
       async function saveResultToDatabase() {
           try {
@@ -1092,9 +1093,9 @@
               };
 
               // Fetch current array
-              let response = await fetch(API_URL + '?t=' + new Date().getTime(), {cache: 'no-store'});
-              let data = await response.json();
-              if(!Array.isArray(data)) data = [];
+              let response = await fetch(API_URL, {cache: 'no-store'});
+              let resData = await response.json();
+              let data = (resData && resData.data && Array.isArray(resData.data.students)) ? resData.data.students : [];
               
               data.unshift(newRecord); // Add to top
 
@@ -1102,7 +1103,7 @@
               await fetch(API_URL, {
                   method: 'PUT',
                   headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify(data)
+                  body: JSON.stringify({ name: "leaderboard", data: { students: data } })
               });
           } catch(e) {
               console.log("Error saving to DB:", e);
