@@ -45,7 +45,39 @@
       }
       .cert-btn { width: 100%; padding: 15px; background: linear-gradient(135deg, #9c27b0, #7b1fa2); color: white; border: none; border-radius: 8px; font-size: 1.3rem; font-weight: bold; cursor: pointer; margin-top: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
   </style>
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js">
+      function downloadExcel() {
+          if (!window.allStudentsData || window.allStudentsData.length === 0) {
+              alert("डेटा उपलब्ध नहीं है!");
+              return;
+          }
+          
+          let csvContent = "data:text/csv;charset=utf-8,\uFEFF";
+          csvContent += "समय,छात्र का नाम,कक्षा,विद्यालय,मोबाइल नंबर,विषय,स्कोर\r\n";
+          
+          window.allStudentsData.forEach(function(row) {
+              let rowData = [
+                  '"' + (row.time || '') + '"',
+                  '"' + (row.name || '') + '"',
+                  '"' + (row.class || '') + '"',
+                  '"' + (row.school || '') + '"',
+                  '"' + (row.mobile || '') + '"',
+                  '"' + (row.topic || '') + '"',
+                  '"' + (row.score || '') + '"'
+              ];
+              csvContent += rowData.join(",") + "\r\n";
+          });
+          
+          let encodedUri = encodeURI(csvContent);
+          let link = document.createElement("a");
+          link.setAttribute("href", encodedUri);
+          link.setAttribute("download", "Students_Data.csv");
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+      }
+</script>
+
 </head>
 
 <body>
@@ -73,6 +105,7 @@
     <!-- Teacher Dashboard Screen -->
     <div id="teacher-screen" style="display: none;">
         <h2 style="color: #2a5298; text-align: center; border-bottom: 2px solid #2a5298; padding-bottom: 10px;">📊 छात्रों का रिज़ल्ट (गुरुजी पैनल)</h2>
+        <div style="text-align: right; margin-top: 10px; margin-bottom: -10px;"><button onclick="downloadExcel()" style="background: #4CAF50; color: white; border: none; padding: 8px 15px; border-radius: 5px; font-size: 1rem; cursor: pointer; font-family: 'Poppins', sans-serif; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">📥 डाउनलोड एक्सेल</button></div>
         
         <div style="text-align: center; margin-bottom: 20px;">
             <div style="display: flex; align-items: center; justify-content: center; gap: 15px; margin-top: 10px; background: rgba(0,0,0,0.15); padding: 12px 25px; border-radius: 50px; display: inline-flex;">
@@ -719,6 +752,7 @@
               let response = await fetch(API_URL, {cache: 'no-store'});
               let resData = await response.json();
               let data = (resData && resData.data && Array.isArray(resData.data.students)) ? resData.data.students : [];
+              window.allStudentsData = data;
               if(data.length > 0) {
                   data.sort((a, b) => {
                       let scoreA = parseInt(a.score.split('/')[0].trim());
@@ -1093,6 +1127,7 @@
               let response = await fetch(API_URL, {cache: 'no-store'});
               let resData = await response.json();
               let data = (resData && resData.data && Array.isArray(resData.data.students)) ? resData.data.students : [];
+              window.allStudentsData = data;
               
               data.unshift(newRecord); // Add to top
 
