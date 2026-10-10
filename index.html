@@ -48,21 +48,20 @@
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js">
       function downloadExcel() {
           if (!window.allStudentsData || window.allStudentsData.length === 0) {
-              alert("डेटा उपलब्ध नहीं है!");
+              alert("डेटा अभी लोड हो रहा है या कोई डेटा नहीं है। कृपया कुछ सेकंड रुकें।");
               return;
           }
           
           let csvContent = "समय,छात्र का नाम,कक्षा,विद्यालय,मोबाइल नंबर,विषय,स्कोर\r\n";
-          
           window.allStudentsData.forEach(function(row) {
               let rowData = [
-                  '"' + (row.time || '') + '"',
-                  '"' + (row.name || '') + '"',
-                  '"' + (row.class || '') + '"',
-                  '"' + (row.school || '') + '"',
-                  '"' + (row.mobile || '') + '"',
-                  '"' + (row.topic || '') + '"',
-                  '"' + (row.score || '') + '"'
+                  '"' + (row.time ? String(row.time).replace(/"/g, '""') : '') + '"',
+                  '"' + (row.name ? String(row.name).replace(/"/g, '""') : '') + '"',
+                  '"' + (row.class ? String(row.class).replace(/"/g, '""') : '') + '"',
+                  '"' + (row.school ? String(row.school).replace(/"/g, '""') : '') + '"',
+                  '"' + (row.mobile ? String(row.mobile).replace(/"/g, '""') : '') + '"',
+                  '"' + (row.topic ? String(row.topic).replace(/"/g, '""') : '') + '"',
+                  '"' + (row.score ? String(row.score).replace(/"/g, '""') : '') + '"'
               ];
               csvContent += rowData.join(",") + "\r\n";
           });
@@ -71,11 +70,26 @@
           let url = URL.createObjectURL(blob);
           
           let link = document.createElement("a");
-          link.setAttribute("href", url);
-          link.setAttribute("download", "Students_Data.csv");
+          link.href = url;
+          link.download = "Students_Result.csv";
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
+          
+          // Fallback data URI
+          let encodedUri = "data:text/csv;charset=utf-8,\uFEFF" + encodeURIComponent(csvContent);
+          
+          // Provide a manual link for strict mobile webviews
+          let container = document.getElementById('manual-download-container');
+          if(!container) {
+              container = document.createElement('div');
+              container.id = 'manual-download-container';
+              container.style.textAlign = 'right';
+              container.style.marginTop = '10px';
+              let btnDiv = document.querySelector('button[onclick="downloadExcel()"]').parentNode;
+              btnDiv.parentNode.insertBefore(container, btnDiv.nextSibling);
+          }
+          container.innerHTML = `<a href="${encodedUri}" download="Students_Result.csv" style="color: #d84315; text-decoration: underline; font-weight: bold; font-size: 0.9rem;">यदि फ़ाइल डाउनलोड न हो, तो यहाँ क्लिक करें</a>`;
       }
 </script>
 
