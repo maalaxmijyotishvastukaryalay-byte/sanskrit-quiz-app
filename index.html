@@ -45,53 +45,7 @@
       }
       .cert-btn { width: 100%; padding: 15px; background: linear-gradient(135deg, #9c27b0, #7b1fa2); color: white; border: none; border-radius: 8px; font-size: 1.3rem; font-weight: bold; cursor: pointer; margin-top: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
   </style>
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js">
-      function downloadExcel() {
-          if (!window.allStudentsData || window.allStudentsData.length === 0) {
-              alert("डेटा अभी लोड हो रहा है या कोई डेटा नहीं है। कृपया कुछ सेकंड रुकें।");
-              return;
-          }
-          
-          let csvContent = "समय,छात्र का नाम,कक्षा,विद्यालय,मोबाइल नंबर,विषय,स्कोर\r\n";
-          window.allStudentsData.forEach(function(row) {
-              let rowData = [
-                  '"' + (row.time ? String(row.time).replace(/"/g, '""') : '') + '"',
-                  '"' + (row.name ? String(row.name).replace(/"/g, '""') : '') + '"',
-                  '"' + (row.class ? String(row.class).replace(/"/g, '""') : '') + '"',
-                  '"' + (row.school ? String(row.school).replace(/"/g, '""') : '') + '"',
-                  '"' + (row.mobile ? String(row.mobile).replace(/"/g, '""') : '') + '"',
-                  '"' + (row.topic ? String(row.topic).replace(/"/g, '""') : '') + '"',
-                  '"' + (row.score ? String(row.score).replace(/"/g, '""') : '') + '"'
-              ];
-              csvContent += rowData.join(",") + "\r\n";
-          });
-          
-          let blob = new Blob(["\uFEFF" + csvContent], { type: 'text/csv;charset=utf-8;' });
-          let url = URL.createObjectURL(blob);
-          
-          let link = document.createElement("a");
-          link.href = url;
-          link.download = "Students_Result.csv";
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-          
-          // Fallback data URI
-          let encodedUri = "data:text/csv;charset=utf-8,\uFEFF" + encodeURIComponent(csvContent);
-          
-          // Provide a manual link for strict mobile webviews
-          let container = document.getElementById('manual-download-container');
-          if(!container) {
-              container = document.createElement('div');
-              container.id = 'manual-download-container';
-              container.style.textAlign = 'right';
-              container.style.marginTop = '10px';
-              let btnDiv = document.querySelector('button[onclick="downloadExcel()"]').parentNode;
-              btnDiv.parentNode.insertBefore(container, btnDiv.nextSibling);
-          }
-          container.innerHTML = `<a href="${encodedUri}" download="Students_Result.csv" style="color: #d84315; text-decoration: underline; font-weight: bold; font-size: 0.9rem;">यदि फ़ाइल डाउनलोड न हो, तो यहाँ क्लिक करें</a>`;
-      }
-</script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 </head>
 
@@ -1198,6 +1152,80 @@
               document.getElementById('result-table-body').innerHTML = "<tr><td colspan='5'>डेटा लोड करने में समस्या हुई। इंटरनेट कनेक्शन चेक करें।</td></tr>";
           }
           document.getElementById('loading-msg').style.display = 'none';
+      }
+
+
+      async function downloadExcel() {
+          let btn = document.querySelector('button[onclick="downloadExcel()"]');
+          let oldText = btn ? btn.innerHTML : "📥 डाउनलोड एक्सेल";
+          if (btn) btn.innerHTML = "⏳ लोड हो रहा है...";
+
+          try {
+              let students = window.allStudentsData;
+              if (!students || students.length === 0) {
+                  // If not loaded yet, fetch directly right now!
+                  let res = await fetch(API_URL, {cache: 'no-store'});
+                  let resData = await res.json();
+                  students = (resData && resData.data && Array.isArray(resData.data.students)) ? resData.data.students : [];
+                  window.allStudentsData = students;
+              }
+
+              if (!students || students.length === 0) {
+                  alert("डेटाबेस में अभी कोई छात्र रिकॉर्ड नहीं है!");
+                  if (btn) btn.innerHTML = oldText;
+                  return;
+              }
+
+              let csvContent = "समय,छात्र का नाम,कक्षा,विद्यालय,मोबाइल नंबर,विषय,स्कोर\r\n";
+              students.forEach(function(row) {
+                  let rowData = [
+                      '"' + (row.time ? String(row.time).replace(/"/g, '""') : '') + '"',
+                      '"' + (row.name ? String(row.name).replace(/"/g, '""') : '') + '"',
+                      '"' + (row.class ? String(row.class).replace(/"/g, '""') : '') + '"',
+                      '"' + (row.school ? String(row.school).replace(/"/g, '""') : '') + '"',
+                      '"' + (row.mobile ? String(row.mobile).replace(/"/g, '""') : '') + '"',
+                      '"' + (row.topic ? String(row.topic).replace(/"/g, '""') : '') + '"',
+                      '"' + (row.score ? String(row.score).replace(/"/g, '""') : '') + '"'
+                  ];
+                  csvContent += rowData.join(",") + "\r\n";
+              });
+
+              // Create CSV Blob
+              let blob = new Blob(["\uFEFF" + csvContent], { type: 'text/csv;charset=utf-8;' });
+              let url = URL.createObjectURL(blob);
+
+              // 1. Automatic click download
+              let link = document.createElement("a");
+              link.href = url;
+              link.download = "Students_Result.csv";
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+
+              // 2. Also create a clear visible RED BUTTON right on screen for mobile browsers!
+              let container = document.getElementById('manual-download-container');
+              if (!container) {
+                  container = document.createElement('div');
+                  container.id = 'manual-download-container';
+                  container.style.textAlign = 'right';
+                  container.style.marginTop = '10px';
+                  let btnParent = btn ? btn.parentNode : null;
+                  if (btnParent) {
+                      btnParent.parentNode.insertBefore(container, btnParent.nextSibling);
+                  }
+              }
+              container.innerHTML = `
+                  <div style="background: #ffebee; border: 1px solid #ef5350; padding: 10px; border-radius: 8px; display: inline-block; text-align: right; margin-top: 5px;">
+                      <span style="color: #c62828; font-size: 0.9rem; font-weight: bold; display: block; margin-bottom: 5px;">यदि फ़ाइल ऑटोमैटिक डाउनलोड न हुई हो:</span>
+                      <a href="${url}" download="Students_Result.csv" style="display: inline-block; background: #d32f2f; color: white; padding: 8px 16px; border-radius: 5px; text-decoration: none; font-weight: bold; font-size: 1rem; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">🔴 लाल बटन: यहाँ क्लिक करके एक्सेल फ़ाइल सेव करें</a>
+                  </div>
+              `;
+
+          } catch (e) {
+              alert("डाउनलोड करने में त्रुटि: " + e.message);
+          } finally {
+              if (btn) btn.innerHTML = oldText;
+          }
       }
 
 </script>
