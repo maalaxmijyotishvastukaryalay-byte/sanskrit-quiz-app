@@ -85,7 +85,7 @@
         </div>
         </div>
     </div>
-</header> <!-- FIX: ADDED MISSING CLOSING DIV -->
+<!-- Closed teacher header box -->
       <div style="text-align:center; margin-bottom: 20px;">
             <button onclick="document.getElementById('teacher-screen').style.display='none'; document.getElementById('login-screen').style.display='block';" style="padding: 10px 20px; background: #e0e0e0; border: none; border-radius: 20px; font-weight: bold; font-size: 1.2rem; cursor: pointer;">🔙 वापस जाएँ</button>
             <button onclick="fetchResults()" style="padding: 10px 20px; background: #2a5298; color: white; border: none; border-radius: 20px; font-weight: bold; font-size: 1.2rem; cursor: pointer; margin-left:10px;">🔄 रिफ्रेश (Refresh)</button>
@@ -96,10 +96,12 @@
             <table style="width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 1.1rem; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
                 <thead style="background-color: #2a5298; color: white;">
                     <tr>
+                        <th style="padding: 12px; border: 1px solid #ddd;">दिनांक / समय</th>
                         <th style="padding: 12px; border: 1px solid #ddd;">छात्र का नाम</th>
                         <th style="padding: 12px; border: 1px solid #ddd;">स्कूल का नाम</th>
                         <th style="padding: 12px; border: 1px solid #ddd;">कक्षा</th>
                         <th style="padding: 12px; border: 1px solid #ddd;">मोबाइल नंबर</th>
+                        <th style="padding: 12px; border: 1px solid #ddd;">विषय</th>
                         <th style="padding: 12px; border: 1px solid #ddd;">रिजल्ट (अंक)</th>
                     </tr>
                 </thead>
@@ -155,7 +157,7 @@
               <optgroup label="── स्वामी आत्मानंद विद्यालय ──">
                   <option value="पीएम श्री स्व. आत्मानंद अंग्रेजी माध्यम लैलूंगा">पीएम श्री स्व. आत्मानंद अंग्रेजी माध्यम लैलूंगा</option>
                   <option value="स्व. आत्मानंद उत्कृष्ट हिन्दी माध्यम राजपुर">स्व. आत्मानंद उत्कृष्ट हिन्दी माध्यम राजपुर</option>
-                  <option value="स्व. आत्मानंद उत्कृष्ट हिन्दी माध्यम बंसतपुर">स्व. आत्मानंद उत्कृष्ट हिन्दी माध्यम बंसतपुर</option>
+                  <option value="स्व. आत्मानंद उत्कृष्ट हिन्दी माध्यम बसंतपुर">स्व. आत्मानंद उत्कृष्ट हिन्दी माध्यम बसंतपुर</option>
                   <option value="स्व. आत्मानंद उत्कृष्ट हिन्दी माध्यम लारीपानी">स्व. आत्मानंद उत्कृष्ट हिन्दी माध्यम लारीपानी</option>
                   <option value="स्व. आत्मानंद उत्कृष्ट हिन्दी माध्यम झगरपुर">स्व. आत्मानंद उत्कृष्ट हिन्दी माध्यम झगरपुर</option>
               </optgroup>
@@ -210,7 +212,7 @@
         <!-- Topics will be injected here via JS -->
         <div class="card" onclick="startQuiz('बोर्ड परीक्षा के पुराने प्रश्न', 'board_pyq')" style="border-color: #f44336; color: #c62828; background: #ffebee;">🔥 32 बोर्ड परीक्षा के पुराने प्रश्न</div>
         <div class="card" onclick="startQuiz('रिक्त स्थान पूर्ति', 'fill_blanks')" style="border-color: #009688; color: #00695c; background: #e0f2f1;">✍️ 33 रिक्त स्थान पूर्ति</div>
-        <div class="card" onclick="startQuiz('सुभाषितानी श्लोक', '34 सुभाषितानी श्लोक')" style="border-color: #9c27b0; color: #6a1b9a; background: #f3e5f5;">📖 34 सुभाषितानी श्लोक</div>
+        <div class="card" onclick="startQuiz('सुभाषितानी श्लोक', '34 सुभाषितानि श्लोक')" style="border-color: #9c27b0; color: #6a1b9a; background: #f3e5f5;">📖 34 सुभाषितानि श्लोक</div>
 
     
     </div>
@@ -245,7 +247,7 @@
       <button class="cert-btn" onclick="generateCertificate()">🏆 प्रमाणपत्र (Certificate) डाउनलोड करें</button>
       
       <!-- Hidden Certificate Div -->
-      <div id="certificate-print" style="display: none; padding: 20px; border: 15px solid #2a5298; background: #fff9c4; text-align: center; font-family: Arial, sans-serif; position: absolute; top: 0; left: 0; width: 100%; z-index: 9999;">
+      <div id="certificate-print" style="display: none; padding: 20px; border: 15px solid #2a5298; background: #fff9c4; text-align: center; font-family: Arial, sans-serif; position: fixed; top: 0; left: 0; width: 100%; height: 100%; overflow-y: auto; box-sizing: border-box; z-index: 9999;">
           <h1 style="font-size: 3rem; color: #d84315; margin-bottom: 0px;">🏆 प्रमाणपत्रम् 🏆</h1>
           <h2 style="color: #2a5298; font-size: 1.8rem; margin: 5px 0;">शासकीय हाईस्कूल पोतरा, वि. ख. लैलूंगा, जिला - रायगढ़ (छ. ग.)</h2>
           <p style="font-size: 1.5rem; margin-top: 10px;">प्रमाणित किया जाता है कि</p>
@@ -279,19 +281,18 @@
               </div>
           </div>
           <div class="no-print" style="margin-top: 40px;">
-              <button onclick="document.getElementById('certificate-print').style.display='none'; document.body.style.overflow='auto'; if(document.getElementById('result-details').style.display === 'none') { window.location.reload(); }" style="padding: 10px 20px; background: red; color: white; border: none; border-radius:5px; font-size: 1.2rem; cursor: pointer; margin-right:10px;">❌ बंद करें</button>
+              <button onclick="closeCertificateModal()" style="padding: 10px 20px; background: red; color: white; border: none; border-radius:5px; font-size: 1.2rem; cursor: pointer; margin-right:10px;">❌ बंद करें</button>
               <button onclick="window.print()" style="padding: 10px 20px; background: green; color: white; border: none; border-radius:5px; font-size: 1.2rem; cursor: pointer;">🖨️ प्रिंट / Save PDF</button>
           </div>
       </div>
-      <button class="btn" style="width: 100%; font-size: 1.3rem; padding: 15px; margin-top: 15px;" onclick="showHome()">वापस जाएँ (Home)</button>
+      <button class="btn" style="width: 100%; font-size: 1.3rem; padding: 15px; margin-top: 15px;" onclick="showHome()">🏠 मुख्य पृष्ठ पर जाएँ (Home)</button>
   </div>
-    <button class="btn" onclick="showHome()">मुख्य पृष्ठ पर जाएँ</button>
 </div>
 
 <script>
     const quizData = {
 
-        "34 सुभाषितानी श्लोक": [
+        "34 सुभाषितानि श्लोक": [
             { q: "'उद्यमेन हि सिध्यन्ति कार्याणि न ...।' श्लोकांश पूरा करें।", options: ["मनोरथैः", "सुप्तेन", "यत्नेन", "धनेन"], ans: 0, exp: "परिश्रम से ही काम पूरे होते हैं, केवल इच्छा करने से नहीं। ('मनोरथैः' सही है)" },
             { q: "'विद्या ददाति ...।' रिक्त स्थान भरें।", options: ["धनम्", "सुखम्", "विनयम्", "रूपम्"], ans: 2, exp: "विद्या से नम्रता (विनय) आती है। 'विद्या ददाति विनयम्'।" },
             { q: "'स्वदेशे पूज्यते राजा, ... सर्वत्र पूज्यते।' रिक्त स्थान भरें।", options: ["मूर्खः", "विद्वान्", "धनी", "बलवान्"], ans: 1, exp: "राजा केवल अपने देश में पूजा जाता है, लेकिन विद्वान की पूजा हर जगह होती है।" },
@@ -299,7 +300,7 @@
             { q: "'काक चेष्टा बको ध्यानं, श्वान निद्रा तथैव च।' यह श्लोक किसके लक्षण बताता है?", options: ["राजा के", "मूर्ख के", "विद्यार्थी के", "शिक्षक के"], ans: 2, exp: "यह श्लोक एक आदर्श 'विद्यार्थी' के पाँच लक्षणों को बताता है।" },
             { q: "'नमन्ति फलिनो वृक्षाः नमन्ति गुणिनो जनाः। ... मूर्खाश्च न नमन्ति कदाचन।' रिक्त स्थान भरें।", options: ["शुष्कवृक्षाश्च", "आम्रवृक्षाश्च", "पुष्पवृक्षाश्च", "महावृक्षाश्च"], ans: 0, exp: "सूखे पेड़ (शुष्कवृक्षाश्च) और मूर्ख लोग कभी नहीं झुकते।" },
             { q: "'हस्तस्य भूषणं ...।' हाथ का आभूषण क्या है?", options: ["दानम्", "कंकणम्", "शास्त्रम्", "सत्यम्"], ans: 0, exp: "हाथ का असली आभूषण दान करना है (हस्तस्य भूषणं दानम्)।" },
-            { q: "'सत्यं ब्रूयात् प्रियं ब्रूयात् न ब्रूयात् ...।' रिक्त स्थान भरें।", options: ["सत्यमप्रियम्", "असत्यम्", "कटुवाक्यम्", "झूठम्"], ans: 0, exp: "ऐसा सच नहीं बोलना चाहिए जो अप्रिय हो (सत्यमप्रियम्)।" },
+            { q: "'सत्यं ब्रूयात् प्रियं ब्रूयात् न ब्रूयात् ...।' रिक्त स्थान भरें।", options: ["सत्यमप्रियम्", "असत्यम्", "कटुवाक्यम्", "मिथ्या"], ans: 0, exp: "ऐसा सच नहीं बोलना चाहिए जो अप्रिय हो (सत्यमप्रियम्)।" },
             { q: "'लोभः पापस्य ...।' लोभ किसका कारण है?", options: ["मूलम् (कारण)", "फलम्", "नाशम्", "सुखम्"], ans: 0, exp: "लोभ सभी पापों का मूल (जड़/कारण) है।" },
             { q: "'माता शत्रुः पिता वैरी येन बालो न ...।' रिक्त स्थान भरें।", options: ["पालितः", "पाठितः", "रक्षितः", "भक्षितः"], ans: 1, exp: "वे माता-पिता शत्रु के समान हैं, जिन्होंने अपने बच्चे को नहीं पढ़ाया (पाठितः)।" }
         ],
@@ -320,12 +321,26 @@
         "board_pyq": [
             { q: "रामः आपणं गच्छति। (वाक्य में अव्यय पद है?)", options: ["रामः", "आपणं", "गच्छति", "कोई नहीं"], ans: "कोई नहीं", exp: "इस वाक्य में कोई भी अव्यय नहीं है। रामः (कर्ता), आपणं (कर्म), गच्छति (क्रिया) है।" },
             { q: "पितरौ (समास विग्रह क्या होगा?)", options: ["पिता च पिता च", "माता च पिता च", "मातरौ च", "इनमें से कोई नहीं"], ans: "माता च पिता च", exp: "'पितरौ' द्वन्द्व समास का उदाहरण है। इसका विग्रह 'माता च पिता च' होता है।" },
-            { q: "विद्यालयः (संधि विच्छेद करें)", options: ["विद्या + आलयः", "विद्य + आलयः", "विद्या + लयः", "विद् + आलयः"], ans: "विद्या + आलयः", exp: "यहाँ दीर्घ स्वर संधि है। विद्या (आ) + आलयः (आ) = विद्यालयः।" }
+            { q: "विद्यालयः (संधि विच्छेद करें)", options: ["विद्या + आलयः", "विद्य + आलयः", "विद्या + लयः", "विद् + आलयः"], ans: "विद्या + आलयः", exp: "यहाँ दीर्घ स्वर संधि है। विद्या (आ) + आलयः (आ) = विद्यालयः।" },
+            { q: "'पावकः' पद का शुद्ध सन्धि-विच्छेद है?", options: ["पौ + अकः", "पो + अकः", "पा + अकः", "पाव + कः"], ans: "पौ + अकः", exp: "अयादि सन्धि के नियमानुसार 'औ' के बाद कोई स्वर आने पर 'आव्' आदेश होता है। पौ + अकः = पावकः।" },
+            { q: "'पञ्चवटी' में कौन सा समास है?", options: ["द्विगु समास", "द्वन्द्व समास", "तत्पुरुष समास", "कर्मधारय समास"], ans: "द्विगु समास", exp: "जिस समास का पूर्व पद संख्यावाची हो और समाहार (समूह) का बोध कराए, वह द्विगु समास होता है (पञ्चानां वटानां समाहारः)।" },
+            { q: "'कविना' पद में कौन सी विभक्ति एवं वचन है?", options: ["तृतीया, एकवचन", "प्रथमा, एकवचन", "द्वितीया, द्विवचन", "चतुर्थी, एकवचन"], ans: "तृतीया, एकवचन", exp: "'कवि' इकारान्त पुल्लिंग शब्द का तृतीया विभक्ति एकवचन रूप 'कविना' होता है।" },
+            { q: "'भू' (भव्) धातु का लट् लकार प्रथम पुरुष बहुवचन रूप क्या है?", options: ["भवन्ति", "भवति", "भवतः", "भवसि"], ans: "भवन्ति", exp: "भू धातु लट् लकार: भवति, भवतः, भवन्ति (प्रथम पुरुष बहुवचन)।" },
+            { q: "'हसितुम्' पद में कौन सा प्रत्यय प्रयुक्त है?", options: ["तुमुन्", "क्त्वा", "ल्यप्", "शतृ"], ans: "तुमुन्", exp: "'के लिए' अर्थ में धातुओं के साथ तुमुन् प्रत्यय लगता है। हस् + तुमुन् = हसितुम्।" },
+            { q: "'अलम्' (विवाद मत करो) के योग में कौन सी विभक्ति होती है?", options: ["तृतीया", "द्वितीया", "पञ्चमी", "सप्तमी"], ans: "तृतीया", exp: "निषेधार्थक 'अलम्' के योग में तृतीया विभक्ति होती है, जैसे—'अलम् विवादेन'।" },
+            { q: "'उपेन्द्रः' पद का सन्धि-विच्छेद क्या होगा?", options: ["उप + इन्द्रः", "उपे + न्द्रः", "उप + ईन्द्रः", "उपा + इन्द्रः"], ans: "उप + इन्द्रः", exp: "गुण स्वर सन्धि में अ/आ के बाद इ/ई आने पर 'ए' बन जाता है। उप (अ) + इन्द्रः (इ) = उपेन्द्रः।" }
         ],
         "fill_blanks": [
             { q: "बालकः पुस्तकं ____ (पठ् धातु लट् लकार)", options: ["पठति", "पठतः", "पठन्ति", "पठसि"], ans: "पठति", exp: "कर्ता 'बालकः' प्रथम पुरुष एकवचन है, इसलिए क्रिया भी प्रथम पुरुष एकवचन 'पठति' होगी।" },
             { q: "अहं ग्रामं ____ (गम् धातु लट् लकार)", options: ["गच्छति", "गच्छसि", "गच्छामि", "गच्छामः"], ans: "गच्छामि", exp: "कर्ता 'अहं' उत्तम पुरुष एकवचन है, इसलिए क्रिया भी उत्तम पुरुष एकवचन 'गच्छामि' होगी।" },
-            { q: "वृक्षात् पत्राणि ____ (पत् धातु लट् लकार)", options: ["पतति", "पततः", "पतन्ति", "पतसि"], ans: "पतन्ति", exp: "'पत्राणि' बहुवचन है, इसलिए क्रिया भी बहुवचन 'पतन्ति' (गिरते हैं) होगी।" }
+            { q: "वृक्षात् पत्राणि ____ (पत् धातु लट् लकार)", options: ["पतति", "पततः", "पतन्ति", "पतसि"], ans: "पतन्ति", exp: "'पत्राणि' बहुवचन है, इसलिए क्रिया भी बहुवचन 'पतन्ति' (गिरते हैं) होगी।" },
+            { q: "सूर्यः प्रातःकाले पूर्वदिशायां ____ (उद् + इ धातु लट् लकार)", options: ["उदेति", "उदन्ति", "उदसि", "उदयामि"], ans: "उदेति", exp: "सूर्यः एकवचन है, अतः क्रिया 'उदेति' (उदय होता है) होगी।" },
+            { q: "त्वं कुत्र ____ ? (गम् धातु लट् लकार)", options: ["गच्छसि", "गच्छति", "गच्छथः", "गच्छामि"], ans: "गच्छसि", exp: "मध्यम पुरुष एकवचन कर्ता 'त्वम्' के साथ क्रिया 'गच्छसि' लगती है।" },
+            { q: "छात्राः विद्यालये ____ (क्रीड् धातु लङ् लकार - भूतकाल)", options: ["अक्रीडन्", "अक्रीडत्", "अक्रीडताम्", "क्रीडन्ति"], ans: "अक्रीडन्", exp: "भूतकाल (लङ् लकार) प्रथम पुरुष बहुवचन रूप 'अक्रीडन्' होता है।" },
+            { q: "गुरुः शिष्याय ज्ञानं ____ (दा धातु लट् लकार)", options: ["यच्छति", "यच्छन्ति", "ददामि", "यच्छसि"], ans: "यच्छति", exp: "कर्ता 'गुरुः' प्रथम पुरुष एकवचन है, अतः 'यच्छति' सही है।" },
+            { q: "वयं राष्ट्रध्वजं ____ (नम् धातु लट् लकार)", options: ["नमामः", "नमामि", "नमन्ति", "नमथ"], ans: "नमामः", exp: "उत्तम पुरुष बहुवचन कर्ता 'वयम्' के साथ 'नमामः' का प्रयोग होता है।" },
+            { q: "सदा सत्यं ____ (वद् धातु लोट् लकार - आज्ञार्थक)", options: ["वद", "वदतु", "वदाम", "वदति"], ans: "वद", exp: "मध्यम पुरुष एकवचन लोट् लकार में 'वद' (बोलो) रूप बनता है।" },
+            { q: "माता पुत्राय ____ (स्निह् धातु लट् लकार)", options: ["स्निह्यति", "स्निह्यन्ति", "स्निह्यसि", "स्नेहं"], ans: "स्निह्यति", exp: "माता एकवचन है, अतः 'स्निह्यति' (स्नेह करती है) शुद्ध रूप है।" }
         ],
     "लिंग निर्णय": [
         { q: "'फलम्' शब्द किस लिंग का है?", options: ["पुल्लिंग", "स्त्रीलिंग", "नपुंसकलिंग", "कोई नहीं"], ans: 2 },
@@ -539,7 +554,7 @@
         { q: "'सुखम्' का विलोम?", options: ["दुःखम्", "कष्टम्", "रोगः", "शोकः"], ans: 0 },
         { q: "'धर्मः' का विलोम?", options: ["सत्यम्", "अधर्मः", "पापम्", "पुण्यम्"], ans: 1 },
         { q: "'आदिः' (शुरुआत) का विलोम?", options: ["मध्यः", "अन्तर्", "अन्तः", "प्रारम्भः"], ans: 2 },
-        { q: "'सत्यम्' का विलोम?", options: ["असत्यम्", "झूठम्", "कपटम्", "छलम्"], ans: 0 },
+        { q: "'सत्यम्' का विलोम?", options: ["असत्यम्", "मिथ्या", "कपटम्", "छलम्"], ans: 0 },
         { q: "'जयः' का विलोम?", options: ["पराजयः", "विजयः", "हारः", "शोकः"], ans: 0 },
         { q: "'गुणः' का विलोम?", options: ["दोषः", "अवगुणः", "दोनों (दोषः/अवगुणः)", "कोई नहीं"], ans: 2 },
         { q: "'मित्रम्' का विलोम?", options: ["शत्रुः", "सखा", "बन्धुः", "रिपुः"], ans: 0 }
@@ -552,7 +567,7 @@
         { q: "'अग्निः' का पर्यायवाची?", options: ["अनलः / पावकः", "अनिलः", "नीरम्", "वारि"], ans: 0 },
         { q: "'पवनः' (हवा) का पर्यायवाची?", options: ["अनलः", "वायुः / समीरः", "वह्निः", "सलिलम्"], ans: 1 },
         { q: "'नेत्रम्' का पर्यायवाची?", options: ["नयनम् / चक्षुः", "कर्णः", "नासिका", "हस्तः"], ans: 0 },
-        { q: "'कमलम्' का पर्यायवाची?", options: ["गुलाबम्", "पङ्कजम् / नीरजम्", "पुष्पम्", "कुसुमम्"], ans: 1 },
+        { q: "'कमलम्' का पर्यायवाची?", options: ["पाटलम्", "पङ्कजम् / नीरजम्", "पुष्पम्", "कुसुमम्"], ans: 1 },
         { q: "'वृक्षः' का पर्यायवाची?", options: ["तरुः / पादपः", "लता", "गुल्मः", "तृणम्"], ans: 0 },
         { q: "'पर्वत:' का पर्यायवाची?", options: ["अद्रि: / गिरि:", "समुद्र:", "नदी", "सरित्"], ans: 0 }
     ],
@@ -570,13 +585,13 @@
     ],
     "खाने पीने की वस्तुओ के नाम": [
         { q: "'दूध' को संस्कृत में क्या कहते हैं?", options: ["दधि", "दुग्धम्", "घृतम्", "तक्रम्"], ans: 1 },
-        { q: "'पानी' को संस्कृत में क्या कहते हैं?", options: ["जलम्", "अन्नम्", "दुग्धम्", "रसम"], ans: 0 },
+        { q: "'पानी' को संस्कृत में क्या कहते हैं?", options: ["जलम्", "अन्नम्", "दुग्धम्", "रसम्"], ans: 0 },
         { q: "'दही' को संस्कृत में क्या कहते हैं?", options: ["घृतम्", "दधि", "तक्रम्", "नवनीतम्"], ans: 1 },
         { q: "'घी' को संस्कृत में क्या कहते हैं?", options: ["दधि", "घृतम्", "तैलम्", "मधु"], ans: 1 },
         { q: "'रोटी' को संस्कृत में क्या कहते हैं?", options: ["ओदनम्", "रोटिका", "व्यञ्जनम्", "सूप:"], ans: 1 },
         { q: "'भात (पका चावल)' को संस्कृत में क्या कहते हैं?", options: ["तण्डुल:", "ओदनम्", "गोधूम:", "यव:"], ans: 1 },
         { q: "'मक्खन' को संस्कृत में क्या कहते हैं?", options: ["नवनीतम्", "दधि", "घृतम्", "तक्रम्"], ans: 0 },
-        { q: "'दाल' को संस्कृत में क्या कहते हैं?", options: ["सूप: / द्विदलम", "ओदनम्", "रोटिका", "शाकम्"], ans: 0 },
+        { q: "'दाल' को संस्कृत में क्या कहते हैं?", options: ["सूपः / द्विदलम्", "ओदनम्", "रोटिका", "शाकम्"], ans: 0 },
         { q: "'सब्जी' को संस्कृत में क्या कहते हैं?", options: ["फलम्", "शाकम्", "मूलम्", "पत्रम्"], ans: 1 },
         { q: "'नमक' को संस्कृत में क्या कहते हैं?", options: ["लवणम्", "शर्करा", "मरिचम्", "अम्लम्"], ans: 0 }
     ],
@@ -606,7 +621,7 @@
     ],
     "निबंध": [
         { q: "'अस्माकं देशः' निबंध में हमारे देश का क्या नाम बताया जाता है?", options: ["नेपालः", "भारतवर्षम्", "अमेरिका", "जापानः"], ans: 1 },
-        { q: "गाय के कितने सींग होते हैं? (धेनु निबंध)", options: ["एकम्", "द्वौ", "त्रीणि", "चत्वारि"], ans: 1 },
+        { q: "गाय के कितने सींग होते हैं? (धेनु निबंध)", options: ["एकम्", "द्वे (दो)", "त्रीणि", "चत्वारि"], ans: 1 },
         { q: "विद्या के बिना मनुष्य कैसा होता है? (विद्या निबंध)", options: ["पशु समान:", "देवता समान:", "ज्ञानी", "धनी"], ans: 0 },
         { q: "परोपकार से क्या मिलता है? (परोपकार निबंध)", options: ["पापम्", "पुण्यम्", "दु:खम्", "धनम्"], ans: 1 },
         { q: "दीपावली किसका पर्व है?", options: ["प्रकाशस्य", "अन्धकारस्य", "जलस्य", "शोकस्य"], ans: 0 },
@@ -693,8 +708,8 @@
     const topicsList = [
         "1 संख्यावाची", "2 कारक रचना", "3 पुरुष", "4 धातु प्रत्यय एवं लकार", "5 शब्दरूप", 
         "6 उपसर्ग", "7 समास", "8 संधि", "9 अव्यय", "10 हिन्दी से संस्कृत मे अनुवाद", 
-        "11 शुद्ध अशुद्ध वाक्य", "12 वाच्य प्रकरण", "13 संस्कृत विलोम शव्द", 
-        "14 संस्कृत मे पर्यायवाची शब्द", "15 जीव जन्तुओ के नाम", "16 खाने पीने की वस्तुओ के नाम", 
+        "11 शुद्ध अशुद्ध वाक्य", "12 वाच्य प्रकरण", "13 संस्कृत विलोम शब्द", 
+        "14 संस्कृत मे पर्यायवाची शब्द", "15 जीव-जन्तुओं के नाम", "16 खाने-पीने की वस्तुओं के नाम", 
         "17 रंगों के नाम", "18 अनाजों के नाम, पत्र लेखनं", "19 निबंध", "20 सूक्तियाँ", 
         "21 उच्चारण स्थान", "22 प्रत्यय", "23 अशुद्धि शोधन", "24 धातु रूप", "25 अनुस्वार, विसर्ग",
         "26 प्रकृति प्रत्यय", "27 लिंग निर्णय", "28 वचन", "29 सर्वनाम", "30 विशेषण-विशेष्य", "31 वर्णमाला / वर्ण विचार"
@@ -789,6 +804,7 @@
       }
       
       function generateCertificate() {
+          isViewingDemoCert = false;
           document.getElementById('cert-name').innerText = currentStudentName;
           document.getElementById('cert-class').innerText = currentStudentClass;
           document.getElementById('cert-school').innerText = currentStudentSchool;
@@ -799,40 +815,53 @@
           
           window.scrollTo(0, 0);
           document.getElementById('certificate-print').style.display = 'block';
-          document.body.style.overflow = 'hidden'; // hide scrollbar for main page
+          document.body.style.overflow = 'hidden';
       }
-      // --------------------------
+
+      function closeCertificateModal() {
+          document.getElementById('certificate-print').style.display = 'none';
+          document.body.style.overflow = 'auto';
+          if (isViewingDemoCert) {
+              document.getElementById('login-screen').style.display = 'block';
+              document.getElementById('result-screen').style.display = 'none';
+              isViewingDemoCert = false;
+          }
+      }
 
       let score = 0;
       let userAnswers = [];
-    let currentStudentName = "";
-    let currentStudentClass = "";
-    let currentTopicName = "";
+      let currentStudentName = "";
+      let currentStudentClass = "";
+      let currentStudentSchool = "";
+      let currentStudentMobile = "";
+      let currentTopicName = "";
+      let isViewingDemoCert = false;
+      let autoAdvanceTimeout = null;
+      let audioTimeout = null;
 
+      function init() {
+          const grid = document.getElementById('topics-grid');
+          const hardcodedHtml = grid.innerHTML; // Save the hardcoded special cards (32, 33, 34)
+          grid.innerHTML = '';
+          topicsList.forEach(topicStr => {
+              let cleanName = topicStr.replace(/^[0-9]+\s*/, '').split(',')[0].trim();
+              let div = document.createElement('div');
+              div.className = 'card';
+              div.innerText = topicStr;
+              div.onclick = () => startQuiz(cleanName, topicStr);
+              grid.appendChild(div);
+          });
+          grid.insertAdjacentHTML('beforeend', hardcodedHtml);
+          document.getElementById('result-screen').style.display = 'none';
+          document.getElementById('quiz-screen').style.display = 'none';
+      }
 
-    function init() {
-        const grid = document.getElementById('topics-grid');
-        const hardcodedHtml = grid.innerHTML; // Save the hardcoded special cards
-        grid.innerHTML = '';
-        topicsList.forEach(topicStr => {
-            let cleanName = topicStr.replace(/[0-9]+ /, '').split(',')[0].trim();
-            let div = document.createElement('div');
-            div.className = 'card';
-            div.innerText = topicStr;
-            div.onclick = () => startQuiz(cleanName, topicStr);
-            grid.appendChild(div);
-        });
-        grid.insertAdjacentHTML('beforeend', hardcodedHtml);
-        document.getElementById('result-screen').style.display = 'none';
-    }
-
-    
       function showReview() {
           let html = "";
           userAnswers.forEach((item, index) => {
               let isRight = item.selected === item.correct;
-              html += `<div style="border:1px solid #ccc; border-radius:8px; padding:15px; margin-bottom:15px; background: ${isRight ? '#e8f5e9' : '#ffebee'};">`;
-              html += `<p style="font-weight:bold; font-size:1.2rem;">${index + 1}. ${item.q}</p>`;
+              html += `<div style="border:1px solid #ccc; border-radius:8px; padding:15px; margin-bottom:15px; background: ${isRight ? '#e8f5e9' : '#ffebee'}; text-align: left;">`;
+              html += `<p style="font-weight:bold; font-size:1.2rem; margin-top:0;">${index + 1}. ${item.q}</p>`;
               html += `<p style="color: ${isRight ? 'green' : 'red'}; font-weight:bold;">आपका उत्तर: ${item.selected || 'कोई उत्तर नहीं दिया (Time Out)'}</p>`;
               if(!isRight) {
                   html += `<p style="color: green; font-weight:bold;">सही उत्तर: ${item.correct}</p>`;
@@ -843,38 +872,55 @@
           document.getElementById('review-content').innerHTML = html;
           document.getElementById('review-modal').style.display = 'block';
       }
-    
+
       function startQuiz(topicKey, fullTitle) {
-        let matchKey = Object.keys(quizData).find(k => fullTitle.includes(k) || topicKey.includes(k));
-        
-        if(matchKey && quizData[matchKey] && quizData[matchKey].length > 0) {
-            // Copy and shuffle the questions so the order is different every time
-            let shuffledQuestions = [...quizData[matchKey]];
-            for (let i = shuffledQuestions.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [shuffledQuestions[i], shuffledQuestions[j]] = [shuffledQuestions[j], shuffledQuestions[i]];
-            }
-            
-            currentTopicName = fullTitle;
-            currentTopicData = shuffledQuestions;
-            currentQuestionIndex = 0;
-            score = 0;
+          // Clear any dangling timers
+          clearInterval(timerInterval);
+          clearTimeout(autoAdvanceTimeout);
+          clearTimeout(audioTimeout);
+          window.speechSynthesis.cancel();
+
+          // Precise match to prevent Topic 22 from matching Topic 26
+          let matchKey = Object.keys(quizData).find(k => {
+              if (topicKey === "प्रत्यय") return k === "प्रत्यय";
+              return k === topicKey || fullTitle.startsWith(k) || k.startsWith(topicKey);
+          });
+          
+          if(matchKey && quizData[matchKey] && quizData[matchKey].length > 0) {
+              // Deep copy questions so shuffling never corrupts original data
+              let clonedQuestions = quizData[matchKey].map(q => ({
+                  q: q.q,
+                  options: [...q.options],
+                  ans: q.ans,
+                  exp: q.exp || "इस प्रश्न का उत्तर संस्कृत व्याकरण के प्रमाणिक नियमों पर आधारित है।"
+              }));
+
+              // Shuffle questions
+              for (let i = clonedQuestions.length - 1; i > 0; i--) {
+                  const j = Math.floor(Math.random() * (i + 1));
+                  [clonedQuestions[i], clonedQuestions[j]] = [clonedQuestions[j], clonedQuestions[i]];
+              }
+              
+              currentTopicName = fullTitle;
+              currentTopicData = clonedQuestions;
+              currentQuestionIndex = 0;
+              score = 0;
               userAnswers = [];
-            document.getElementById('home-screen').style.display = 'none';
-            document.getElementById('result-screen').style.display = 'none';
-        document.getElementById('result-details').style.display = 'none'; // Hide details
-        document.querySelector('.cert-btn').style.display = 'none'; // Hide real cert button
 
-            document.getElementById('quiz-screen').style.display = 'block';
-            document.getElementById('quiz-title').innerText = fullTitle;
-            loadQuestion();
-        } else {
-            alert("प्रश्न उपलब्ध नहीं हैं।");
-        }
-    }
+              document.getElementById('home-screen').style.display = 'none';
+              document.getElementById('result-screen').style.display = 'none';
+              document.getElementById('quiz-screen').style.display = 'block';
+              document.getElementById('quiz-title').innerText = fullTitle;
+              loadQuestion();
+          } else {
+              alert("प्रश्न उपलब्ध नहीं हैं।");
+          }
+      }
 
-    function loadQuestion() {
-        document.getElementById('next-btn').style.display = 'none';
+      function loadQuestion() {
+          document.getElementById('next-btn').style.display = 'none';
+          clearTimeout(autoAdvanceTimeout);
+          clearTimeout(audioTimeout);
 
           // Reset Timer
           clearInterval(timerInterval);
@@ -889,34 +935,27 @@
               }
               if(timeLeft <= 0) {
                   clearInterval(timerInterval);
-                  // Auto submit empty if time out (if checkAnswer expects div, index, correctIndex)
-                  // Let's get the correct index
                   const currentQ = currentTopicData[currentQuestionIndex];
                   checkAnswer(null, -1, currentQ.ans); 
               }
           }, 1000);
 
-        const qData = currentTopicData[currentQuestionIndex];
-        
-        // --- OPTION SHUFFLER ---
-        // Get the actual correct text before shuffling (handles both string and index ans)
-        let correctText = (typeof qData.ans === 'number') ? qData.options[qData.ans] : qData.ans;
-        
-        // Shuffle the options array
-        for (let i = qData.options.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [qData.options[i], qData.options[j]] = [qData.options[j], qData.options[i]];
-        }
-        
-        // Update the ans to the new correct index
-        qData.ans = qData.options.indexOf(correctText);
-        // --- END OPTION SHUFFLER ---
-        document.getElementById('question-text').innerText = "प्र. " + (currentQuestionIndex + 1) + ": " + qData.q;
-        
-        const optionsCont = document.getElementById('options-container');
-        optionsCont.innerHTML = '';
-        
-        const prefix = ['क) ', 'ख) ', 'ग) ', 'घ) '];
+          const qData = currentTopicData[currentQuestionIndex];
+          
+          // Shuffling options
+          let correctText = (typeof qData.ans === 'number') ? qData.options[qData.ans] : qData.ans;
+          for (let i = qData.options.length - 1; i > 0; i--) {
+              const j = Math.floor(Math.random() * (i + 1));
+              [qData.options[i], qData.options[j]] = [qData.options[j], qData.options[i]];
+          }
+          qData.ans = qData.options.indexOf(correctText);
+
+          document.getElementById('question-text').innerText = "प्र. " + (currentQuestionIndex + 1) + ": " + qData.q;
+          
+          const optionsCont = document.getElementById('options-container');
+          optionsCont.innerHTML = '';
+          
+          const prefix = ['क) ', 'ख) ', 'ग) ', 'घ) '];
           qData.options.forEach((opt, index) => {
               let div = document.createElement('div');
               div.className = 'option';
@@ -928,179 +967,197 @@
           if(document.getElementById('progress-bar')) {
               document.getElementById('progress-bar').style.width = progress + '%';
           }
-          setTimeout(() => playAudioQuestion(true), 500);
-    }
+          audioTimeout = setTimeout(() => playAudioQuestion(true), 400);
+      }
 
-    function checkAnswer(selectedDiv, selectedIndex, correctIndex) {
+      function checkAnswer(selectedDiv, selectedIndex, correctIndex) {
           clearInterval(timerInterval);
           window.speechSynthesis.cancel();
-        const options = document.getElementById('options-container').children;
-        for(let i=0; i<options.length; i++) {
-            options[i].onclick = null;
-            if(i === correctIndex) {
-                options[i].classList.add('correct');
-            }
-        }
-        
-        // Save answer for review
-        let prefix = ['क) ', 'ख) ', 'ग) ', 'घ) '];
-        let selText = selectedIndex >= 0 ? prefix[selectedIndex] + currentTopicData[currentQuestionIndex].options[selectedIndex] : 'कोई उत्तर नहीं (Time Out)';
-        let corText = prefix[correctIndex] + currentTopicData[currentQuestionIndex].options[correctIndex];
-        
-        userAnswers.push({
-            q: currentTopicData[currentQuestionIndex].q,
-            selected: selText,
-            correct: corText,
-            exp: currentTopicData[currentQuestionIndex].exp || "इस प्रश्न का उत्तर संस्कृत व्याकरण के सामान्य नियमों पर आधारित है।"
-        });
-        
-        if(selectedIndex === correctIndex) {
+          const options = document.getElementById('options-container').children;
+          for(let i=0; i<options.length; i++) {
+              options[i].onclick = null; // Disable multiple clicks
+              if(i === correctIndex) {
+                  options[i].classList.add('correct');
+              }
+          }
+          
+          let prefix = ['क) ', 'ख) ', 'ग) ', 'घ) '];
+          let selText = selectedIndex >= 0 ? prefix[selectedIndex] + currentTopicData[currentQuestionIndex].options[selectedIndex] : 'कोई उत्तर नहीं दिया (समय समाप्त)';
+          let corText = prefix[correctIndex] + currentTopicData[currentQuestionIndex].options[correctIndex];
+          
+          userAnswers.push({
+              q: currentTopicData[currentQuestionIndex].q,
+              selected: selText,
+              correct: corText,
+              exp: currentTopicData[currentQuestionIndex].exp || "इस प्रश्न का उत्तर संस्कृत व्याकरण के सामान्य नियमों पर आधारित है।"
+          });
+          
+          if(selectedIndex === correctIndex) {
               score++;
               try { confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } }); } catch(e){}
               try { new Audio('https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3').play(); } catch(e){}
               if(document.getElementById('autoplay-toggle') && document.getElementById('autoplay-toggle').checked) {
-                  window.speechSynthesis.cancel();
                   let u = new SpeechSynthesisUtterance("शोभनम्! समीचीनम् उत्तरम्।"); u.lang = 'hi-IN'; window.speechSynthesis.speak(u);
               }
           } else if(selectedDiv) {
               selectedDiv.classList.add('wrong');
               try { new Audio('https://assets.mixkit.co/active_storage/sfx/2955/2955-preview.mp3').play(); } catch(e){}
               if(document.getElementById('autoplay-toggle') && document.getElementById('autoplay-toggle').checked) {
-                  window.speechSynthesis.cancel();
                   let u = new SpeechSynthesisUtterance("चिन्ता मास्तु, पुनः प्रयत्नं करोतु।"); u.lang = 'hi-IN'; window.speechSynthesis.speak(u);
               }
+          } else {
+              // Time out case
+              if(document.getElementById('autoplay-toggle') && document.getElementById('autoplay-toggle').checked) {
+                  let u = new SpeechSynthesisUtterance("समयः समाप्तः।"); u.lang = 'hi-IN'; window.speechSynthesis.speak(u);
+              }
           }
-        
-        // Auto-advance instead of showing Next button
-        setTimeout(() => { nextQuestion(); }, 2000);
-    }
+          
+          autoAdvanceTimeout = setTimeout(() => { nextQuestion(); }, 2000);
+      }
 
-    function nextQuestion() {
-        currentQuestionIndex++;
-        if(currentQuestionIndex < currentTopicData.length) {
-            loadQuestion();
-        } else {
-            showResult();
-        }
-    }
+      function nextQuestion() {
+          currentQuestionIndex++;
+          if(currentQuestionIndex < currentTopicData.length) {
+              loadQuestion();
+          } else {
+              showResult();
+          }
+      }
 
-    function showResult() {
-        document.getElementById('quiz-screen').style.display = 'none';
-        document.getElementById('result-screen').style.display = 'block';
+      function showResult() {
+          clearInterval(timerInterval);
+          clearTimeout(autoAdvanceTimeout);
+          clearTimeout(audioTimeout);
+          window.speechSynthesis.cancel();
+
+          document.getElementById('quiz-screen').style.display = 'none';
+          document.getElementById('result-screen').style.display = 'block';
+          document.getElementById('result-details').style.display = 'block'; // Always visible!
+
           try { new Audio('https://assets.mixkit.co/active_storage/sfx/195/195-preview.mp3').play(); } catch(e){}
           try { confetti({ particleCount: 300, spread: 100, origin: { y: 0.3 } }); } catch(e){}
-        
-        let percentage = (score / currentTopicData.length) * 100;
-        let stars = "";
-        let msg = "";
-        if(percentage >= 80) { stars = "⭐⭐⭐⭐⭐"; msg = "शाबाश! बहुत उत्तम प्रदर्शन!"; }
-        else if(percentage >= 60) { stars = "⭐⭐⭐⭐"; msg = "अच्छा प्रयास है!"; }
-        else if(percentage >= 40) { stars = "⭐⭐⭐"; msg = "और मेहनत करो!"; }
-        else { stars = "⭐"; msg = "आपको पुनः अभ्यास करने की आवश्यकता है!"; }
-        
-        let detailsHtml = `
-            <p style="margin: 5px 0; font-size: 1.4rem;"><b>विद्यार्थी:</b> <span style="color:#1976d2;">${currentStudentName}</span> (कक्षा ${currentStudentClass})</p>
-            <p style="margin: 5px 0; font-size: 1.2rem;"><b>विषय:</b> ${currentTopicName}</p>
-            <div style="font-size: 2.5rem; color: #4caf50; font-weight: 900; margin: 20px 0; padding: 15px; background: #e8f5e9; border-radius: 10px; border: 2px dashed #4caf50;">प्राप्तांक: ${score} / ${currentTopicData.length}</div>
-            <div style="font-size: 2.5rem; letter-spacing: 5px; margin-bottom: 10px;">${stars}</div>
-            <h3 style="color: #d84315; font-size: 1.8rem; margin-top: 0px;">${msg}</h3>
-        `;
-        
+          
+          let percentage = (score / currentTopicData.length) * 100;
+          let stars = "";
+          let msg = "";
+          if(percentage >= 80) { stars = "⭐⭐⭐⭐⭐"; msg = "शाबाश! बहुत उत्तम प्रदर्शन!"; }
+          else if(percentage >= 60) { stars = "⭐⭐⭐⭐"; msg = "अच्छा प्रयास है!"; }
+          else if(percentage >= 40) { stars = "⭐⭐⭐"; msg = "और मेहनत करो!"; }
+          else { stars = "⭐"; msg = "आपको पुनः अभ्यास करने की आवश्यकता है!"; }
+          
+          let detailsHtml = `
+              <p style="margin: 5px 0; font-size: 1.4rem;"><b>विद्यार्थी:</b> <span style="color:#1976d2;">${currentStudentName}</span> (कक्षा ${currentStudentClass})</p>
+              <p style="margin: 5px 0; font-size: 1.2rem;"><b>विषय:</b> ${currentTopicName}</p>
+              <div style="font-size: 2.5rem; color: #4caf50; font-weight: 900; margin: 20px 0; padding: 15px; background: #e8f5e9; border-radius: 10px; border: 2px dashed #4caf50;">प्राप्तांक: ${score} / ${currentTopicData.length}</div>
+              <div style="font-size: 2.5rem; letter-spacing: 5px; margin-bottom: 10px;">${stars}</div>
+              <h3 style="color: #d84315; font-size: 1.8rem; margin-top: 0px;">${msg}</h3>
+          `;
+          
+          let certBtn = document.querySelector('.cert-btn');
           if(percentage < 70) {
-              document.querySelector('.cert-btn').style.display = 'none';
+              if (certBtn) certBtn.style.display = 'none';
               detailsHtml += `<p style="color:red; font-weight:bold; font-size:1.2rem; margin-top:15px; border: 2px solid red; padding: 10px; background: #ffebee; border-radius: 5px;">⚠️ प्रमाणपत्र प्राप्त करने के लिए कम से कम 70% अंक आवश्यक हैं। कृपया पुनः प्रयास करें।</p>`;
           } else {
-              document.querySelector('.cert-btn').style.display = 'block';
+              if (certBtn) certBtn.style.display = 'block';
           }
           
           let reviewBtn = `<button class="btn" style="background:#0288d1; margin-top:15px;" onclick="showReview()">🔍 हल किए गए प्रश्न देखें (Review)</button>`;
           document.getElementById('result-details').innerHTML = detailsHtml + reviewBtn;
 
-          saveResultToDatabase(); // Background save
-    }
+          saveResultToDatabase(); // Background cloud & local save
+      }
 
+      function previewCertificate() {
+          isViewingDemoCert = true;
+          document.getElementById('cert-name').innerText = "डेमो छात्र (Demo)";
+          document.getElementById('cert-class').innerText = "10";
+          document.getElementById('cert-school').innerText = "शासकीय हाईस्कूल, डेमो";
+          document.getElementById('cert-topic').innerText = "डेमो परीक्षण";
+          document.getElementById('cert-score').innerText = "10 / 10";
+          let d = new Date();
+          document.getElementById('cert-date').innerText = d.toLocaleDateString('en-IN');
+          
+          document.getElementById('certificate-print').style.display = 'block';
+          document.body.style.overflow = 'hidden';
+          window.scrollTo(0,0);
+      }
 
-    
-    function previewCertificate() {
-        document.getElementById('cert-name').innerText = "डेमो छात्र (Demo)";
-        document.getElementById('cert-class').innerText = "10";
-        document.getElementById('cert-school').innerText = "शासकीय हाईस्कूल, डेमो";
-        document.getElementById('cert-topic').innerText = "डेमो परीक्षण";
-        document.getElementById('cert-score').innerText = "10 / 10";
-        let d = new Date();
-        document.getElementById('cert-date').innerText = d.toLocaleDateString('en-IN');
-        
-        document.getElementById('login-screen').style.display = 'none';
-        document.getElementById('home-screen').style.display = 'none';
-        document.getElementById('quiz-screen').style.display = 'none';
-        document.getElementById('result-screen').style.display = 'block';
-        document.getElementById('result-details').style.display = 'none'; // Hide details
-        document.querySelector('.cert-btn').style.display = 'none'; // Hide real cert button
+      function submitLogin() {
+          const name = document.getElementById('student-name').value.trim();
+          const cls = document.getElementById('student-class').value;
+          const mobile = document.getElementById('student-mobile').value.trim();
+          const school = document.getElementById('student-school').value;
 
-        
-        document.getElementById('certificate-print').style.display = 'block';
-        document.body.style.overflow = 'hidden';
-        window.scrollTo(0,0);
-    }
+          if(!name || !school || !cls || !mobile) {
+              alert("कृपया आगे बढ़ने से पहले अपना नाम, विद्यालय, कक्षा और मोबाइल नंबर भरें!");
+              return;
+          }
+          if(mobile.length !== 10) {
+              alert("कृपया 10 अंकों का सही मोबाइल नंबर डालें!");
+              return;
+          }
+          
+          currentStudentName = name; 
+          currentStudentClass = cls; 
+          currentStudentSchool = school; 
+          currentStudentMobile = mobile;
 
-    function submitLogin() {
-        const name = document.getElementById('student-name').value.trim();
-        const cls = document.getElementById('student-class').value;
-        const mobile = document.getElementById('student-mobile').value.trim();
-        
-        const school = document.getElementById('student-school').value;
-        if(!name || !school || !cls || !mobile) {
-            alert("कृपया आगे बढ़ने से पहले अपना नाम, विद्यालय, कक्षा और मोबाइल नंबर भरें!");
-            return;
-        }
-        if(mobile.length !== 10) {
-            alert("कृपया 10 अंकों का सही मोबाइल नंबर डालें!");
-            return;
-        }
-        
-        currentStudentName = name; currentStudentClass = cls; currentStudentSchool = school; currentStudentMobile = mobile;
-        document.getElementById('login-screen').style.display = 'none';
-        document.getElementById('home-screen').style.display = 'block'; updateShloka(); loadLeaderboard();
-    }
+          document.getElementById('login-screen').style.display = 'none';
+          document.getElementById('home-screen').style.display = 'block'; 
+          updateShloka(); 
+          loadLeaderboard();
+      }
 
-    function showHome() {
-        document.getElementById('quiz-screen').style.display = 'none';
-        document.getElementById('result-screen').style.display = 'block';
-        document.getElementById('result-details').style.display = 'none'; // Hide details
-        document.querySelector('.cert-btn').style.display = 'none'; // Hide real cert button
+      function showHome() {
+          clearInterval(timerInterval);
+          clearTimeout(autoAdvanceTimeout);
+          clearTimeout(audioTimeout);
+          window.speechSynthesis.cancel();
 
-        document.getElementById('home-screen').style.display = 'block'; updateShloka(); loadLeaderboard();
-    }
+          document.getElementById('quiz-screen').style.display = 'none';
+          document.getElementById('result-screen').style.display = 'none';
+          document.getElementById('home-screen').style.display = 'block'; 
+          updateShloka(); 
+          loadLeaderboard();
+      }
 
-    window.onload = init;
+      window.onload = init;
 
       const API_URL = "https://api.restful-api.dev/objects/ff808181a09d98f701a1214c99682ef1";
       
       async function saveResultToDatabase() {
+          let scoreText = score + " / " + currentTopicData.length;
+          let dateObj = new Date();
+          let timeString = dateObj.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
+
+          let newRecord = {
+              time: timeString,
+              name: currentStudentName,
+              class: currentStudentClass,
+              school: currentStudentSchool,
+              mobile: currentStudentMobile,
+              topic: currentTopicName,
+              score: scoreText
+          };
+
+          // Save locally first
           try {
-              let scoreText = score + " / " + currentTopicData.length;
-              let dateObj = new Date();
-              let timeString = dateObj.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
+              let localData = JSON.parse(localStorage.getItem('sanskrit_quiz_results') || '[]');
+              localData.unshift(newRecord);
+              localStorage.setItem('sanskrit_quiz_results', JSON.stringify(localData.slice(0, 500)));
+          } catch(e){}
 
-              let newRecord = {
-                  time: timeString,
-                  name: currentStudentName,
-                  class: currentStudentClass,
-                  school: currentStudentSchool,
-                  mobile: currentStudentMobile,
-                  topic: currentTopicName,
-                  score: scoreText
-              };
-
-              // Fetch current array
+          // Cloud sync
+          try {
               let response = await fetch(API_URL, {cache: 'no-store'});
               let resData = await response.json();
               let data = (resData && resData.data && Array.isArray(resData.data.students)) ? resData.data.students : [];
-              window.allStudentsData = data;
               
-              data.unshift(newRecord); // Add to top
+              // Filter out any invalid items
+              data = data.filter(item => item && item.name && item.score);
+              data.unshift(newRecord);
+              window.allStudentsData = data;
 
-              // Save back to DB
               await fetch(API_URL, {
                   method: 'PUT',
                   headers: { 'Content-Type': 'application/json' },
@@ -1109,6 +1166,77 @@
           } catch(e) {
               console.log("Error saving to DB:", e);
           }
+      }
+
+      async function loadLeaderboard() {
+          try {
+              let response = await fetch(API_URL, {cache: 'no-store'});
+              let resData = await response.json();
+              let data = (resData && resData.data && Array.isArray(resData.data.students)) ? resData.data.students : [];
+              
+              // Clean data
+              data = data.filter(item => item && item.name && typeof item.score === 'string' && item.score.includes('/'));
+              window.allStudentsData = data;
+
+              if(data.length > 0) {
+                  // Sort by percentage and score safely
+                  data.sort((a, b) => {
+                      let parseA = a.score.split('/').map(x => parseInt(x.trim()));
+                      let parseB = b.score.split('/').map(x => parseInt(x.trim()));
+                      let pctA = parseA[1] > 0 ? (parseA[0] / parseA[1]) : 0;
+                      let pctB = parseB[1] > 0 ? (parseB[0] / parseB[1]) : 0;
+                      if (pctB !== pctA) return pctB - pctA;
+                      return (parseB[0] || 0) - (parseA[0] || 0);
+                  });
+
+                  let top5 = data.slice(0, 5);
+                  let html = "";
+                  let medals = ['🥇', '🥈', '🥉', '🏅', '🏅'];
+                  top5.forEach((row, i) => {
+                      html += `<li style="padding: 8px; border-bottom: 1px solid #c8e6c9; display: flex; justify-content: space-between;">
+                          <span style="line-height:1.4;">${medals[i]} <b>${row.name}</b> (कक्षा ${row.class})<br><small style="color:#555; margin-left:25px;">🏫 ${row.school}</small></span>
+                          <span style="color:#d84315; font-weight:bold;">${row.score}</span>
+                      </li>`;
+                  });
+                  document.getElementById('leaderboard-list').innerHTML = html;
+              } else {
+                  document.getElementById('leaderboard-list').innerHTML = "<li style='text-align:center;'>अभी कोई टॉपर नहीं है।</li>";
+              }
+          } catch(e) {
+              document.getElementById('leaderboard-list').innerHTML = "<li style='text-align:center; color:red;'>टॉपर्स लोड नहीं हो पाए।</li>";
+          }
+      }
+
+      function updateShloka() {
+          const shlokas = [
+              { s: "स्वदेशे पूज्यते राजा, विद्वान् सर्वत्र पूज्यते।", m: "राजा केवल अपने देश में पूजा जाता है, लेकिन विद्वान की पूजा हर जगह होती है।" },
+              { s: "विद्या ददाति विनयम्, विनयाद् याति पात्रताम्।", m: "विद्या से नम्रता आती है, और नम्रता से योग्यता प्राप्त होती है।" },
+              { s: "उद्यमेन हि सिध्यन्ति कार्याणि न मनोरथैः।", m: "परिश्रम से ही कार्य पूरे होते हैं, केवल इच्छा करने से नहीं।" },
+              { s: "आलस्यं हि मनुष्याणां शरीरस्थो महान् रिपुः।", m: "मनुष्यों के शरीर में रहने वाला आलस्य ही उनका सबसे बड़ा शत्रु है।" },
+              { s: "काक चेष्टा, बको ध्यानं, श्वान निद्रा तथैव च।", m: "विद्यार्थी के पांच लक्षण: कौवे जैसी चेष्टा, बगुले जैसा ध्यान और कुत्ते जैसी नींद।" },
+              { s: "माता शत्रुः पिता वैरी येन बालो न पाठितः।", m: "वे माता-पिता शत्रु के समान हैं जिन्होंने अपने बच्चों को नहीं पढ़ाया।" },
+              { s: "अयं निजः परो वेति गणना लघुचेतसाम्।", m: "यह मेरा है, यह पराया है, ऐसी सोच छोटे विचारों वालों की होती है। उदार चरित्र वालों के लिए पूरा संसार ही परिवार है।" }
+          ];
+          let rand = shlokas[Math.floor(Math.random() * shlokas.length)];
+          let st = document.getElementById('shloka-text');
+          let sm = document.getElementById('shloka-meaning');
+          if(st && sm) {
+              st.innerText = rand.s;
+              sm.innerText = rand.m;
+          }
+      }
+
+      function playAudioQuestion(isAuto = false) {
+          if(!currentTopicData || !currentTopicData[currentQuestionIndex]) return;
+          if(isAuto && document.getElementById('autoplay-toggle') && !document.getElementById('autoplay-toggle').checked) return;
+          window.speechSynthesis.cancel();
+          let q = currentTopicData[currentQuestionIndex];
+          let cleanQ = q.q.replace(/_+/g, " खाली स्थान ").replace(/\.{3,}/g, " रिक्त स्थान ");
+          let optText = q.options.map((o, i) => ['क', 'ख', 'ग', 'घ'][i] + " . " + o).join(", ");
+          let text = cleanQ + " . विकल्प हैं: " + optText;
+          let utterance = new SpeechSynthesisUtterance(text);
+          utterance.lang = 'hi-IN';
+          window.speechSynthesis.speak(utterance);
       }
 
       function openTeacherDashboard() {
@@ -1129,6 +1257,8 @@
               let response = await fetch(API_URL, {cache: 'no-store'});
               let resData = await response.json();
               let data = (resData && resData.data && Array.isArray(resData.data.students)) ? resData.data.students : [];
+              
+              data = data.filter(item => item && item.name);
               window.allStudentsData = data;
               
               if(data.length > 0) {
@@ -1136,24 +1266,25 @@
                   data.forEach(row => {
                       html += `
                           <tr>
+                              <td style="padding: 10px; border: 1px solid #ddd; font-size: 0.95rem; color:#555;">${row.time || '-'}</td>
                               <td style="padding: 10px; border: 1px solid #ddd; font-weight:bold; color:#d84315;">${row.name || '-'}</td>
                               <td style="padding: 10px; border: 1px solid #ddd;">${row.school || '-'}</td>
                               <td style="padding: 10px; border: 1px solid #ddd;">${row.class || '-'}</td>
                               <td style="padding: 10px; border: 1px solid #ddd;">${row.mobile || '-'}</td>
+                              <td style="padding: 10px; border: 1px solid #ddd; font-weight:bold; color:#1976d2;">${row.topic || '-'}</td>
                               <td style="padding: 10px; border: 1px solid #ddd; font-weight:bold; color:#4caf50; font-size:1.2rem;">${row.score || '-'}</td>
                           </tr>
                       `;
                   });
                   document.getElementById('result-table-body').innerHTML = html;
               } else {
-                  document.getElementById('result-table-body').innerHTML = "<tr><td colspan='5' style='padding:20px; color:red;'>अभी तक किसी भी छात्र ने टेस्ट नहीं दिया है।</td></tr>";
+                  document.getElementById('result-table-body').innerHTML = "<tr><td colspan='7' style='padding:20px; color:red;'>अभी तक किसी भी छात्र ने टेस्ट नहीं दिया है।</td></tr>";
               }
           } catch(e) {
-              document.getElementById('result-table-body').innerHTML = "<tr><td colspan='5'>डेटा लोड करने में समस्या हुई। इंटरनेट कनेक्शन चेक करें।</td></tr>";
+              document.getElementById('result-table-body').innerHTML = "<tr><td colspan='7' style='padding:20px; color:red;'>डेटा लोड करने में समस्या हुई। इंटरनेट कनेक्शन चेक करें।</td></tr>";
           }
           document.getElementById('loading-msg').style.display = 'none';
       }
-
 
       async function downloadExcel() {
           let btn = document.querySelector('button[onclick="downloadExcel()"]');
@@ -1163,12 +1294,13 @@
           try {
               let students = window.allStudentsData;
               if (!students || students.length === 0) {
-                  // If not loaded yet, fetch directly right now!
                   let res = await fetch(API_URL, {cache: 'no-store'});
                   let resData = await res.json();
                   students = (resData && resData.data && Array.isArray(resData.data.students)) ? resData.data.students : [];
                   window.allStudentsData = students;
               }
+
+              students = students.filter(item => item && item.name);
 
               if (!students || students.length === 0) {
                   alert("डेटाबेस में अभी कोई छात्र रिकॉर्ड नहीं है!");
@@ -1176,7 +1308,7 @@
                   return;
               }
 
-              let csvContent = "समय,छात्र का नाम,कक्षा,विद्यालय,मोबाइल नंबर,विषय,स्कोर\r\n";
+              let csvContent = "दिनांक व समय,छात्र का नाम,कक्षा,विद्यालय,मोबाइल नंबर,विषय,स्कोर\r\n";
               students.forEach(function(row) {
                   let rowData = [
                       '"' + (row.time ? String(row.time).replace(/"/g, '""') : '') + '"',
@@ -1197,12 +1329,12 @@
               // 1. Automatic click download
               let link = document.createElement("a");
               link.href = url;
-              link.download = "Students_Result.csv";
+              link.download = "Sanskrit_Students_Result.csv";
               document.body.appendChild(link);
               link.click();
               document.body.removeChild(link);
 
-              // 2. Also create a clear visible RED BUTTON right on screen for mobile browsers!
+              // 2. Clear visible mobile button
               let container = document.getElementById('manual-download-container');
               if (!container) {
                   container = document.createElement('div');
@@ -1215,9 +1347,8 @@
                   }
               }
               container.innerHTML = `
-                  <div style="background: #ffebee; border: 1px solid #ef5350; padding: 10px; border-radius: 8px; display: inline-block; text-align: right; margin-top: 5px;">
-                      <span style="color: #c62828; font-size: 0.9rem; font-weight: bold; display: block; margin-bottom: 5px;">यदि फ़ाइल ऑटोमैटिक डाउनलोड न हुई हो:</span>
-                      <a href="${url}" download="Students_Result.csv" style="display: inline-block; background: #d32f2f; color: white; padding: 8px 16px; border-radius: 5px; text-decoration: none; font-weight: bold; font-size: 1rem; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">🔴 लाल बटन: यहाँ क्लिक करके एक्सेल फ़ाइल सेव करें</a>
+                  <div style="background: #e8f5e9; border: 1px solid #4caf50; padding: 10px; border-radius: 8px; display: inline-block; text-align: right; margin-top: 5px;">
+                      <a href="${url}" download="Sanskrit_Students_Result.csv" style="display: inline-block; background: #2e7d32; color: white; padding: 8px 16px; border-radius: 5px; text-decoration: none; font-weight: bold; font-size: 1rem; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">📥 यदि ऑटो डाउनलोड न हो, तो यहाँ क्लिक करें</a>
                   </div>
               `;
 
@@ -1227,7 +1358,6 @@
               if (btn) btn.innerHTML = oldText;
           }
       }
-
 </script>
 <footer style="text-align: center; margin-top: 40px; padding: 20px; color: #666; font-size: 1.1rem; font-weight: bold; border-top: 1px solid #ddd; background: #fafafa;">
         " सा विद्या या विमुक्तये "
