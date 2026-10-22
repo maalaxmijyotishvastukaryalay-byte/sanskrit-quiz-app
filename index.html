@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>संस्कृत व्याकरण क्विज़ (कक्षा 9-10) | शासकीय हाईस्कूल पोतरा</title>
+    <title>संस्कृत व्याकरण क्विज़ (कक्षा 6-10) | शासकीय हाईस्कूल पोतरा</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -119,7 +119,7 @@
     <h1 style="margin: 0; font-size: 1.8rem; font-weight: 900; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">शासकीय हाईस्कूल पोतरा</h1>
     <p style="margin: 5px 0 15px; font-size: 1.1rem; color: #fff3e0;">विकासखण्ड - लैलूंगा, ज़िला - रायगढ़ (छ.ग.)</p>
     <div>
-        <h2 style="margin: 10px 0 15px 0; font-size: 1.8rem; font-weight: bold; color: #fffde7; text-shadow: 2px 2px 4px rgba(0,0,0,0.4); border-bottom: 2px dashed rgba(255,255,255,0.5); padding-bottom: 5px; display: inline-block;">संस्कृत व्याकरण अभ्यास (कक्षा 9-10)</h2>
+        <h2 style="margin: 10px 0 15px 0; font-size: 1.8rem; font-weight: bold; color: #fffde7; text-shadow: 2px 2px 4px rgba(0,0,0,0.4); border-bottom: 2px dashed rgba(255,255,255,0.5); padding-bottom: 5px; display: inline-block;">संस्कृत व्याकरण अभ्यास (कक्षा 6-10)</h2>
     </div>
     <div style="background: rgba(255,255,255,0.2); padding: 5px 20px; border-radius: 20px; display: inline-block; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.4);">
         <p style="margin: 0; font-size: 1.2rem; font-weight: bold; font-style: italic; letter-spacing: 1px; text-shadow: 1px 1px 1px rgba(0,0,0,0.2);">" विद्या ददाति विनयम् "</p>
@@ -320,6 +320,10 @@
         <label style="font-weight: bold; color: #333; font-size: 1.1rem;">विद्यालय का नाम: <span style="color:red;">*</span></label>
         <select id="student-school" onchange="toggleOtherSchoolFields()" style="width: 100%; padding: 10px; margin-top: 5px; border: 2px solid #ccc; border-radius: 5px; font-size: 1rem; font-family: inherit;" required>
             <option value="">विद्यालय चुनें...</option>
+            <optgroup label="⭐ प्राथमिकता चयन (Quick Choice) ⭐">
+                <option value="OTHER">➕ अन्य विद्यालय (अपना विद्यालय, विकासखण्ड व ज़िला लिखें)</option>
+                <option value="शासकीय हाईस्कूल पोतरा">🏫 शासकीय हाईस्कूल पोतरा</option>
+            </optgroup>
             <optgroup label="── हाईस्कूल (विकासखण्ड - लैलूंगा, ज़िला - रायगढ़) ──">
                 <option value="शासकीय हाईस्कूल सलखिया">शासकीय हाईस्कूल सलखिया</option>
                 <option value="शासकीय हाईस्कूल खम्हार">शासकीय हाईस्कूल खम्हार</option>
@@ -356,9 +360,6 @@
                 <option value="स्व. आत्मानंद उत्कृष्ट हिन्दी माध्यम लारीपानी">स्व. आत्मानंद उत्कृष्ट हिन्दी माध्यम लारीपानी</option>
                 <option value="स्व. आत्मानंद उत्कृष्ट हिन्दी माध्यम झगरपुर">स्व. आत्मानंद उत्कृष्ट हिन्दी माध्यम झगरपुर</option>
             </optgroup>
-            <optgroup label="── अन्य विकासखण्ड / अन्य ज़िले के विद्यालय ──">
-                <option value="OTHER">➕ अन्य विद्यालय (अपना विद्यालय, विकासखण्ड व ज़िला लिखें)</option>
-            </optgroup>
             <optgroup label="── डेमो / टेस्टिंग ──">
                 <option value="शासकीय हाईस्कूल, डेमो">शासकीय हाईस्कूल, डेमो</option>
             </optgroup>
@@ -387,6 +388,9 @@
         <label style="font-weight: bold; color: #333; font-size: 1.1rem;">कक्षा: <span style="color:red;">*</span></label>
         <select id="student-class" style="width: 100%; padding: 10px; margin-top: 5px; border: 2px solid #ccc; border-radius: 5px; font-size: 1rem; font-family: inherit;">
             <option value="">कक्षा चुनें...</option>
+            <option value="6">कक्षा 6</option>
+            <option value="7">कक्षा 7</option>
+            <option value="8">कक्षा 8</option>
             <option value="9">कक्षा 9</option>
             <option value="10">कक्षा 10</option>
         </select>
