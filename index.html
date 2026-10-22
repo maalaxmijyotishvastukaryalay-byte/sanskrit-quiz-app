@@ -162,6 +162,10 @@
             <div style="font-size: 0.9rem; color: #555;">प्रश्न-कोश (35 विषय)</div>
             <div id="stat-q-count" style="font-size: 1.7rem; font-weight: 800; color: #e65100;">380</div>
         </div>
+        <div class="stat-badge" style="border-left-color: #7b1fa2;">
+            <div style="font-size: 0.9rem; color: #555;">कुल प्राप्त सुझाव</div>
+            <div id="stat-feedback-count" style="font-size: 1.7rem; font-weight: 800; color: #7b1fa2;">0</div>
+        </div>
     </div>
 
     <!-- Navigation & Action Buttons -->
@@ -170,6 +174,7 @@
             <button id="tab-btn-exams" class="tab-btn active" onclick="switchTeacherTab('exams')">📊 परीक्षा परिणाम (Exam DB)</button>
             <button id="tab-btn-students" class="tab-btn" onclick="switchTeacherTab('students')">👨‍🎓 पंजीकृत छात्र (Student DB)</button>
             <button id="tab-btn-questions" class="tab-btn" onclick="switchTeacherTab('questions')">📚 प्रश्न-कोश डेटाबेस (Question DB)</button>
+            <button id="tab-btn-feedback" class="tab-btn" onclick="switchTeacherTab('feedback')">💬 प्राप्त सुझाव (Feedback DB)</button>
         </div>
         <div style="display: flex; flex-wrap: wrap; gap: 8px;">
             <button onclick="fetchResults()" style="padding: 9px 15px; background: #2a5298; color: white; border: none; border-radius: 6px; font-weight: bold; font-size: 0.95rem; cursor: pointer;">🔄 रिफ्रेश</button>
@@ -277,6 +282,30 @@
             <div id="question-bank-inspector-list" style="max-height: 500px; overflow-y: auto;"></div>
         </div>
     </div>
+
+    <!-- TAB 4: FEEDBACK & SUGGESTIONS DATABASE -->
+    <div id="teacher-tab-feedback" style="display: none;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 10px;">
+            <h3 style="margin: 0; color: #6a1b9a;">💬 प्राप्त सुझाव एवं प्रतिक्रियाएँ (Feedback & Suggestions DB)</h3>
+            <button id="btn-dl-feedback" onclick="downloadExcel('feedback')" style="background: #6a1b9a; color: white; border: none; padding: 9px 16px; border-radius: 6px; font-size: 1rem; font-weight: bold; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">📥 सुझाव सूची एक्सेल (CSV) डाउनलोड</button>
+        </div>
+        <div style="overflow-x:auto;">
+            <table style="width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 1.02rem; box-shadow: 0 2px 5px rgba(0,0,0,0.1); background: white;">
+                <thead style="background-color: #6a1b9a; color: white;">
+                    <tr>
+                        <th style="padding: 11px; border: 1px solid #ddd;">दिनांक / समय</th>
+                        <th style="padding: 11px; border: 1px solid #ddd;">नाम</th>
+                        <th style="padding: 11px; border: 1px solid #ddd;">भूमिका</th>
+                        <th style="padding: 11px; border: 1px solid #ddd;">विद्यालय एवं स्थान</th>
+                        <th style="padding: 11px; border: 1px solid #ddd;">मोबाइल नंबर</th>
+                        <th style="padding: 11px; border: 1px solid #ddd;">रेटिंग</th>
+                        <th style="padding: 11px; border: 1px solid #ddd; min-width: 240px;">सुझाव / संदेश (Comment)</th>
+                    </tr>
+                </thead>
+                <tbody id="feedback-table-body" style="background: white; color: black; text-align: center;"></tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
 <!-- Student Login / Registration Form -->
@@ -369,7 +398,8 @@
 
     <button class="btn" style="width: 100%; font-size: 1.3rem; padding: 15px; background: #4caf50; font-weight: bold; border-radius: 8px;" onclick="submitLogin()">क्विज़ शुरू करें ➔</button>
     <button type="button" onclick="openTeacherDashboard()" style="width: 100%; padding: 15px; background: white; color: #2a5298; border: 2px solid #2a5298; border-radius: 8px; font-size: 1.25rem; font-weight: bold; cursor: pointer; margin-top: 15px; font-family: inherit;">👨‍🏫 गुरुजी पैनल (डेटाबेस व रिज़ल्ट)</button>
-    <button type="button" onclick="previewCertificate()" style="width: 100%; padding: 15px; background: #ff9800; color: white; border: none; border-radius: 8px; font-size: 1.15rem; font-weight: bold; cursor: pointer; margin-top: 15px; font-family: inherit;">👀 केवल सर्टिफिकेट डिज़ाइन देखें (Testing)</button>
+    <button type="button" onclick="previewCertificate()" style="width: 100%; padding: 15px; background: #ff9800; color: white; border: none; border-radius: 8px; font-size: 1.15rem; font-weight: bold; cursor: pointer; margin-top: 12px; font-family: inherit;">👀 केवल सर्टिफिकेट डिज़ाइन देखें (Testing)</button>
+    <button type="button" onclick="openFeedbackModal()" style="width: 100%; padding: 14px; background: #6a1b9a; color: white; border: none; border-radius: 8px; font-size: 1.15rem; font-weight: bold; cursor: pointer; margin-top: 12px; font-family: inherit;">💬 ऐप के लिए सुझाव / प्रतिक्रिया (Feedback) दें</button>
 </div>
 
 <!-- Home Screen (Shloka + Unique Top 5 Leaderboard + 5x7 = 35 Topics Grid) -->
@@ -391,6 +421,9 @@
 
     <h2 style="text-align: center; color: #424242; margin-bottom: 14px;">विषय चुनें (कुल 35 अभ्यास विषय)</h2>
     <div class="grid" id="topics-grid"></div>
+    <div style="text-align: center; margin-top: 24px;">
+        <button type="button" onclick="openFeedbackModal()" style="padding: 13px 26px; background: #6a1b9a; color: white; border: none; border-radius: 50px; font-size: 1.15rem; font-weight: bold; cursor: pointer; box-shadow: 0 3px 8px rgba(0,0,0,0.2); font-family: inherit;">💬 ऐप के लिए सुझाव / प्रतिक्रिया (Feedback) दें</button>
+    </div>
 </div>
 
 <!-- Quiz Screen -->
@@ -424,6 +457,7 @@
     <h2 style="font-size:2rem; color:#2a5298; margin-top: 0;">मूल्यांकन पूर्ण!</h2>
     <div id="result-details" style="margin: 20px 0;"></div>
     <button class="cert-btn" onclick="generateCertificate()">🏆 प्रमाणपत्र (Certificate) डाउनलोड करें</button>
+    <button type="button" onclick="openFeedbackModal()" style="width: 100%; padding: 14px; background: #6a1b9a; color: white; border: none; border-radius: 8px; font-size: 1.25rem; font-weight: bold; cursor: pointer; margin-top: 15px; font-family: inherit;">💬 ऐप के लिए सुझाव / प्रतिक्रिया (Feedback) दें</button>
     <button class="btn" style="width: 100%; font-size: 1.3rem; padding: 15px; margin-top: 15px;" onclick="showHome()">🏠 मुख्य पृष्ठ पर जाएँ (Home)</button>
 </div>
 
@@ -553,6 +587,7 @@
     window.allStudentsData = [];       // Tier 2: Exam Logs (every quiz attempt across all devices)
     window.registeredStudentsData = []; // Tier 1: Master Student Directory (registered students across all devices)
     window.cloudCustomQuestions = [];   // Cloud-synced custom questions added by Guruji
+    window.feedbacksData = [];          // Tier 3: Feedback & Suggestions DB across all devices
 
     function parseScorePercentage(scoreStr) {
         if (!scoreStr || typeof scoreStr !== 'string' || !scoreStr.includes('/')) return -1;
@@ -598,6 +633,33 @@
                     mobile: item.mobile || '-',
                     topic: formatTopicName(item.topic),
                     score: item.score
+                });
+            }
+        });
+        return out;
+    }
+
+    function deduplicateFeedbacks(list) {
+        let seen = new Set();
+        let out = [];
+        (list || []).forEach(item => {
+            if (!item || !item.name || !item.comment) return;
+            let k = [
+                (item.name || '').trim().toLowerCase(),
+                (item.role || '').trim(),
+                (item.comment || '').trim(),
+                (item.time || '').trim()
+            ].join('|');
+            if (!seen.has(k)) {
+                seen.add(k);
+                out.push({
+                    time: item.time || '-',
+                    name: item.name,
+                    role: item.role || 'छात्र / छात्रा',
+                    school: item.school || '-',
+                    mobile: item.mobile || '-',
+                    rating: item.rating || '⭐⭐⭐⭐⭐ (5/5)',
+                    comment: item.comment
                 });
             }
         });
@@ -685,6 +747,7 @@
         let streamExams = [];
         let streamRegs = [];
         let streamQs = [];
+        let streamFeedbacks = [];
 
         // 1. Pull real-time stream events from ntfy.sh
         try {
@@ -703,6 +766,8 @@
                                 streamRegs.unshift(inner.payload);
                             } else if (inner && inner.eventType === 'question' && inner.payload) {
                                 streamQs.push(inner.payload);
+                            } else if (inner && inner.eventType === 'feedback' && inner.payload) {
+                                streamFeedbacks.unshift(inner.payload);
                             }
                         }
                     } catch (parseErr) {}
@@ -714,6 +779,7 @@
         let snapExams = [];
         let snapRegs = [];
         let snapQs = [];
+        let snapFeedbacks = [];
         try {
             let response = await fetch(API_URL, { cache: 'no-store' });
             if (response.ok) {
@@ -722,6 +788,7 @@
                 if (Array.isArray(rawData.students)) snapExams = rawData.students;
                 if (Array.isArray(rawData.registered_students)) snapRegs = rawData.registered_students;
                 if (Array.isArray(rawData.custom_questions)) snapQs = rawData.custom_questions;
+                if (Array.isArray(rawData.feedbacks)) snapFeedbacks = rawData.feedbacks;
             }
         } catch (e) {}
 
@@ -729,28 +796,33 @@
         let localExams = [];
         let localRegs = [];
         let localQs = [];
+        let localFeedbacks = [];
         try {
             localExams = JSON.parse(localStorage.getItem('sanskrit_quiz_results') || '[]');
             localRegs = JSON.parse(localStorage.getItem('sanskrit_registered_students') || '[]');
             localQs = JSON.parse(localStorage.getItem('sanskrit_custom_questions') || '[]');
+            localFeedbacks = JSON.parse(localStorage.getItem('sanskrit_feedbacks') || '[]');
         } catch (e) {}
 
         // Merge & deduplicate everything
         let mergedExams = deduplicateExamLogs([...streamExams, ...localExams, ...snapExams]);
         let mergedRegs = consolidateStudentDirectory([...streamRegs, ...localRegs, ...snapRegs], mergedExams);
+        let mergedFeedbacks = deduplicateFeedbacks([...streamFeedbacks, ...localFeedbacks, ...snapFeedbacks]);
         let allCustomQs = [...snapQs, ...streamQs, ...localQs];
         mergeCustomQuestions(allCustomQs);
 
         window.allStudentsData = mergedExams;
         window.registeredStudentsData = mergedRegs;
+        window.feedbacksData = mergedFeedbacks;
 
         // Cache merged data locally as backup
         try {
             localStorage.setItem('sanskrit_quiz_results', JSON.stringify(mergedExams.slice(0, 1000)));
             localStorage.setItem('sanskrit_registered_students', JSON.stringify(mergedRegs.slice(0, 1000)));
+            localStorage.setItem('sanskrit_feedbacks', JSON.stringify(mergedFeedbacks.slice(0, 1000)));
         } catch (e) {}
 
-        return { exams: mergedExams, regs: mergedRegs, customQs: allCustomQs };
+        return { exams: mergedExams, regs: mergedRegs, customQs: allCustomQs, feedbacks: mergedFeedbacks };
     }
 
     // Immediately save student registration when they click "क्विज़ शुरू करें"
@@ -800,7 +872,8 @@
                     data: {
                         students: synced.exams.slice(0, 1000),
                         registered_students: synced.regs.slice(0, 1000),
-                        custom_questions: synced.customQs
+                        custom_questions: synced.customQs,
+                        feedbacks: synced.feedbacks.slice(0, 1000)
                     }
                 })
             });
@@ -847,7 +920,8 @@
                     data: {
                         students: synced.exams.slice(0, 1000),
                         registered_students: synced.regs.slice(0, 1000),
-                        custom_questions: synced.customQs
+                        custom_questions: synced.customQs,
+                        feedbacks: synced.feedbacks.slice(0, 1000)
                     }
                 })
             });
@@ -1315,16 +1389,22 @@
     }
 
     // =========================================================================
-    // GURUJI PANEL: 3-TAB CONTROLLER (EXAM LOGS, REGISTERED STUDENTS, QUESTION DB)
+    // GURUJI PANEL: 4-TAB CONTROLLER (EXAM LOGS, STUDENTS, QUESTION DB, FEEDBACK)
     // =========================================================================
     function switchTeacherTab(tabName) {
         document.getElementById('teacher-tab-exams').style.display = (tabName === 'exams') ? 'block' : 'none';
         document.getElementById('teacher-tab-students').style.display = (tabName === 'students') ? 'block' : 'none';
         document.getElementById('teacher-tab-questions').style.display = (tabName === 'questions') ? 'block' : 'none';
+        if (document.getElementById('teacher-tab-feedback')) {
+            document.getElementById('teacher-tab-feedback').style.display = (tabName === 'feedback') ? 'block' : 'none';
+        }
 
         document.getElementById('tab-btn-exams').classList.toggle('active', tabName === 'exams');
         document.getElementById('tab-btn-students').classList.toggle('active', tabName === 'students');
         document.getElementById('tab-btn-questions').classList.toggle('active', tabName === 'questions');
+        if (document.getElementById('tab-btn-feedback')) {
+            document.getElementById('tab-btn-feedback').classList.toggle('active', tabName === 'feedback');
+        }
 
         if (tabName === 'questions') {
             renderQuestionBankInspector();
@@ -1347,14 +1427,21 @@
         document.getElementById('loading-msg').style.display = 'block';
         document.getElementById('result-table-body').innerHTML = "";
         document.getElementById('registered-students-body').innerHTML = "";
+        if (document.getElementById('feedback-table-body')) {
+            document.getElementById('feedback-table-body').innerHTML = "";
+        }
 
         try {
             let synced = await syncAllCloudAndLocalData();
             let data = synced.exams || [];
             let consolidatedStudents = synced.regs || [];
+            let feedbacks = synced.feedbacks || [];
 
             document.getElementById('stat-exam-count').innerText = data.length;
             document.getElementById('stat-reg-count').innerText = consolidatedStudents.length;
+            if (document.getElementById('stat-feedback-count')) {
+                document.getElementById('stat-feedback-count').innerText = feedbacks.length;
+            }
             updateQuestionCountBadge();
 
             // Render Tab 1: Exam Results
@@ -1404,6 +1491,29 @@
             } else {
                 document.getElementById('registered-students-body').innerHTML = "<tr><td colspan='8' style='padding:20px; color:red;'>अभी कोई पंजीकृत छात्र नहीं है।</td></tr>";
             }
+
+            // Render Tab 4: Feedback & Suggestions Directory
+            if (document.getElementById('feedback-table-body')) {
+                if (feedbacks.length > 0) {
+                    let fbHtml = "";
+                    feedbacks.forEach(fb => {
+                        fbHtml += `
+                            <tr>
+                                <td style="padding: 10px; border: 1px solid #ddd; font-size: 0.92rem; color:#555;">${fb.time || '-'}</td>
+                                <td style="padding: 10px; border: 1px solid #ddd; font-weight:bold; color:#6a1b9a;">${fb.name || '-'}</td>
+                                <td style="padding: 10px; border: 1px solid #ddd; font-weight:600;">${fb.role || '-'}</td>
+                                <td style="padding: 10px; border: 1px solid #ddd;">${fb.school || '-'}</td>
+                                <td style="padding: 10px; border: 1px solid #ddd;">${fb.mobile || '-'}</td>
+                                <td style="padding: 10px; border: 1px solid #ddd; font-size: 0.95rem;">${fb.rating || '-'}</td>
+                                <td style="padding: 10px; border: 1px solid #ddd; text-align:left; background:#faf5ff; font-weight:600; color:#333;">${fb.comment || '-'}</td>
+                            </tr>
+                        `;
+                    });
+                    document.getElementById('feedback-table-body').innerHTML = fbHtml;
+                } else {
+                    document.getElementById('feedback-table-body').innerHTML = "<tr><td colspan='7' style='padding:20px; color:#6a1b9a; font-weight:bold;'>अभी कोई सुझाव या प्रतिक्रिया प्राप्त नहीं हुई है।</td></tr>";
+                }
+            }
         } catch (e) {
             document.getElementById('result-table-body').innerHTML = "<tr><td colspan='8' style='padding:20px; color:red;'>डेटा लोड करने में समस्या हुई। इंटरनेट कनेक्शन चेक करें।</td></tr>";
         }
@@ -1411,8 +1521,8 @@
     }
 
     async function downloadExcel(mode = 'exams') {
-        let isStudentsMode = (mode === 'students');
-        let btn = document.getElementById(isStudentsMode ? 'btn-dl-students' : 'btn-dl-exams');
+        let btnId = mode === 'students' ? 'btn-dl-students' : (mode === 'feedback' ? 'btn-dl-feedback' : 'btn-dl-exams');
+        let btn = document.getElementById(btnId);
         let oldText = btn ? btn.innerHTML : "📥 डाउनलोड एक्सेल";
         if (btn) btn.innerHTML = "⏳ तैयार हो रहा है...";
 
@@ -1422,7 +1532,7 @@
             let csvContent = "";
             let filename = "";
 
-            if (isStudentsMode) {
+            if (mode === 'students') {
                 let regList = window.registeredStudentsData || [];
                 if (regList.length === 0) {
                     alert("पंजीकृत छात्र डेटाबेस में अभी कोई रिकॉर्ड नहीं है!");
@@ -1445,6 +1555,27 @@
                     csvContent += rowData.join(",") + "\r\n";
                 });
                 filename = "Sanskrit_Registered_Students_DB.csv";
+            } else if (mode === 'feedback') {
+                let fbList = window.feedbacksData || [];
+                if (fbList.length === 0) {
+                    alert("सुझाव डेटाबेस में अभी कोई रिकॉर्ड नहीं है!");
+                    if (btn) btn.innerHTML = oldText;
+                    return;
+                }
+                csvContent = "दिनांक व समय,नाम,भूमिका (Role),विद्यालय एवं स्थान,मोबाइल नंबर,रेटिंग,सुझाव / संदेश\r\n";
+                fbList.forEach(row => {
+                    let rowData = [
+                        '"' + String(row.time || '').replace(/"/g, '""') + '"',
+                        '"' + String(row.name || '').replace(/"/g, '""') + '"',
+                        '"' + String(row.role || '').replace(/"/g, '""') + '"',
+                        '"' + String(row.school || '').replace(/"/g, '""') + '"',
+                        '"' + String(row.mobile || '').replace(/"/g, '""') + '"',
+                        '"' + String(row.rating || '').replace(/"/g, '""') + '"',
+                        '"' + String(row.comment || '').replace(/"/g, '""') + '"'
+                    ];
+                    csvContent += rowData.join(",") + "\r\n";
+                });
+                filename = "Sanskrit_App_Feedback_DB.csv";
             } else {
                 let students = (window.allStudentsData || []).filter(item => item && item.name);
                 if (students.length === 0) {
@@ -1493,6 +1624,94 @@
         } finally {
             if (btn) btn.innerHTML = oldText;
         }
+    }
+
+    // =========================================================================
+    // FEEDBACK / SUGGESTION MODAL CONTROLLER (CLOUD + LOCAL SYNCED)
+    // =========================================================================
+    function openFeedbackModal() {
+        if (currentStudentName) {
+            document.getElementById('fb-name').value = currentStudentName;
+        }
+        if (currentStudentSchool) {
+            document.getElementById('fb-school').value = currentStudentSchool + " (" + (currentStudentBlock || "लैलूंगा") + ", " + (currentStudentDistrict || "रायगढ़") + ")";
+        }
+        if (currentStudentMobile) {
+            document.getElementById('fb-mobile').value = currentStudentMobile;
+        }
+        document.getElementById('feedback-modal').style.display = 'block';
+    }
+
+    function closeFeedbackModal() {
+        document.getElementById('feedback-modal').style.display = 'none';
+    }
+
+    async function submitFeedback() {
+        let name = document.getElementById('fb-name').value.trim();
+        let role = document.getElementById('fb-role').value;
+        let school = document.getElementById('fb-school').value.trim();
+        let mobile = document.getElementById('fb-mobile').value.trim();
+        let rating = document.getElementById('fb-rating').value;
+        let comment = document.getElementById('fb-comment').value.trim();
+
+        if (!name || !comment) {
+            alert("कृपया अपना नाम और अपना सुझाव / संदेश अवश्य लिखें!");
+            return;
+        }
+
+        let btn = document.getElementById('btn-submit-fb');
+        if (btn) {
+            btn.disabled = true;
+            btn.innerText = "⏳ भेजा जा रहा है...";
+        }
+
+        let dateObj = new Date();
+        let timeString = dateObj.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
+        let fbRecord = {
+            time: timeString,
+            name: name,
+            role: role,
+            school: school || "उल्लेख नहीं",
+            mobile: mobile || "-",
+            rating: rating,
+            comment: comment
+        };
+
+        // 1. Save locally first
+        try {
+            let localFbs = JSON.parse(localStorage.getItem('sanskrit_feedbacks') || '[]');
+            localFbs.unshift(fbRecord);
+            localStorage.setItem('sanskrit_feedbacks', JSON.stringify(localFbs.slice(0, 1000)));
+        } catch (e) {}
+
+        // 2. Publish to Real-Time Cloud Stream (Instant delivery to Guruji Panel!)
+        await publishCloudEvent('feedback', fbRecord);
+
+        // 3. Also update Cloud Snapshot DB
+        try {
+            let synced = await syncAllCloudAndLocalData();
+            await fetch(API_URL, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: "leaderboard",
+                    data: {
+                        students: synced.exams.slice(0, 1000),
+                        registered_students: synced.regs.slice(0, 1000),
+                        custom_questions: synced.customQs,
+                        feedbacks: synced.feedbacks.slice(0, 1000)
+                    }
+                })
+            });
+        } catch (e) {}
+
+        if (btn) {
+            btn.disabled = false;
+            btn.innerText = "📨 सुझाव भेजें (Submit Feedback)";
+        }
+        document.getElementById('fb-comment').value = '';
+        closeFeedbackModal();
+        alert("🙏 धन्यवाद! आपका अमूल्य सुझाव एवं प्रतिक्रिया सफलतापूर्वक गुरुजी पैनल में भेज दी गई है।");
     }
 
     // Guruji Question Bank Inspector & Live Question Creator
@@ -1564,7 +1783,8 @@
                     data: {
                         students: synced.exams.slice(0, 1000),
                         registered_students: synced.regs.slice(0, 1000),
-                        custom_questions: synced.customQs
+                        custom_questions: synced.customQs,
+                        feedbacks: synced.feedbacks.slice(0, 1000)
                     }
                 })
             });
@@ -1606,6 +1826,60 @@
         <h2 style="color:#2a5298; text-align:center;">📖 आपके उत्तर एवं व्याकरण व्याख्या (Review)</h2>
         <div id="review-content"></div>
         <button onclick="document.getElementById('review-modal').style.display='none'" style="display:block; width:100%; padding:15px; background:#c62828; color:white; font-size:1.3rem; font-weight:bold; border:none; border-radius:10px; margin-top:20px; cursor:pointer; font-family:inherit;">❌ बंद करें (Close)</button>
+    </div>
+</div>
+
+<!-- Feedback / Suggestion Modal -->
+<div id="feedback-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.65); z-index:10001; overflow-y:auto; padding:20px; box-sizing:border-box;">
+    <div style="max-width: 520px; margin: 20px auto; background: white; padding: 25px; border-radius: 14px; box-shadow: 0 8px 25px rgba(0,0,0,0.3); border-top: 6px solid #6a1b9a; text-align: left;">
+        <h2 style="color: #6a1b9a; margin-top: 0; text-align: center; font-size: 1.65rem;">💬 सुझाव एवं प्रतिक्रिया पंजिका</h2>
+        <p style="text-align: center; color: #555; font-size: 0.95rem; margin-bottom: 18px;">इस संस्कृत व्याकरण ऐप को और बेहतर बनाने के लिए अपनी अमूल्य सलाह या प्रतिक्रिया लिखें। आपका संदेश सीधे गुरुजी पैनल में सुरक्षित होगा।</p>
+
+        <div style="margin-bottom: 12px;">
+            <label style="font-weight: bold; color: #333; display: block; margin-bottom: 4px;">आपका नाम: <span style="color:red;">*</span></label>
+            <input type="text" id="fb-name" placeholder="अपना पूरा नाम लिखें..." style="width: 95%; padding: 10px; border: 2px solid #ccc; border-radius: 6px; font-size: 1rem; font-family: inherit;">
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
+            <div>
+                <label style="font-weight: bold; color: #333; display: block; margin-bottom: 4px;">आपकी भूमिका:</label>
+                <select id="fb-role" style="width: 100%; padding: 10px; border: 2px solid #ccc; border-radius: 6px; font-size: 0.96rem; font-family: inherit;">
+                    <option value="👨‍🎓 छात्र / छात्रा">👨‍🎓 छात्र / छात्रा</option>
+                    <option value="👨‍🏫 शिक्षक / प्राचार्य">👨‍🏫 शिक्षक / प्राचार्य</option>
+                    <option value="👪 अभिभावक / अन्य">👪 अभिभावक / अन्य</option>
+                </select>
+            </div>
+            <div>
+                <label style="font-weight: bold; color: #333; display: block; margin-bottom: 4px;">ऐप की रेटिंग:</label>
+                <select id="fb-rating" style="width: 100%; padding: 10px; border: 2px solid #ccc; border-radius: 6px; font-size: 0.96rem; font-family: inherit;">
+                    <option value="⭐⭐⭐⭐⭐ (5/5 - अति उत्तम)">⭐⭐⭐⭐⭐ (5/5 - अति उत्तम)</option>
+                    <option value="⭐⭐⭐⭐ (4/5 - उत्तम)">⭐⭐⭐⭐ (4/5 - उत्तम)</option>
+                    <option value="⭐⭐⭐ (3/5 - अच्छा)">⭐⭐⭐ (3/5 - अच्छा)</option>
+                    <option value="⭐⭐ (2/5 - सामान्य)">⭐⭐ (2/5 - सामान्य)</option>
+                    <option value="⭐ (1/5 - सुधार आवश्यक)">⭐ (1/5 - सुधार आवश्यक)</option>
+                </select>
+            </div>
+        </div>
+
+        <div style="margin-bottom: 12px;">
+            <label style="font-weight: bold; color: #333; display: block; margin-bottom: 4px;">विद्यालय / विकासखण्ड / ज़िला:</label>
+            <input type="text" id="fb-school" placeholder="अपने विद्यालय या स्थान का नाम लिखें..." style="width: 95%; padding: 10px; border: 2px solid #ccc; border-radius: 6px; font-size: 0.98rem; font-family: inherit;">
+        </div>
+
+        <div style="margin-bottom: 12px;">
+            <label style="font-weight: bold; color: #333; display: block; margin-bottom: 4px;">मोबाइल नंबर (ऐच्छिक):</label>
+            <input type="tel" id="fb-mobile" maxlength="10" oninput="this.value=this.value.replace(/[^0-9]/g,'');" placeholder="10 अंकों का मोबाइल नंबर" style="width: 95%; padding: 10px; border: 2px solid #ccc; border-radius: 6px; font-size: 0.98rem; font-family: inherit;">
+        </div>
+
+        <div style="margin-bottom: 16px;">
+            <label style="font-weight: bold; color: #333; display: block; margin-bottom: 4px;">आपका सुझाव / सलाह / संदेश: <span style="color:red;">*</span></label>
+            <textarea id="fb-comment" rows="4" placeholder="ऐप के संबंध में अपनी सलाह, सुधार या प्रशंसा संदेश यहाँ लिखें..." style="width: 95%; padding: 10px; border: 2px solid #9c27b0; border-radius: 6px; font-size: 1rem; font-family: inherit; resize: vertical;"></textarea>
+        </div>
+
+        <div style="display: flex; gap: 10px;">
+            <button id="btn-submit-fb" type="button" onclick="submitFeedback()" style="flex: 2; padding: 13px; background: #6a1b9a; color: white; border: none; border-radius: 8px; font-size: 1.15rem; font-weight: bold; cursor: pointer; font-family: inherit;">📨 सुझाव भेजें (Submit)</button>
+            <button type="button" onclick="closeFeedbackModal()" style="flex: 1; padding: 13px; background: #c62828; color: white; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; font-family: inherit;">❌ बंद करें</button>
+        </div>
     </div>
 </div>
 
