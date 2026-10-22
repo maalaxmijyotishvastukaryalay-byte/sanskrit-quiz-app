@@ -193,6 +193,7 @@
                         <th style="padding: 11px; border: 1px solid #ddd;">दिनांक / समय</th>
                         <th style="padding: 11px; border: 1px solid #ddd;">छात्र का नाम</th>
                         <th style="padding: 11px; border: 1px solid #ddd;">विद्यालय का नाम</th>
+                        <th style="padding: 11px; border: 1px solid #ddd;">विकासखण्ड / ज़िला</th>
                         <th style="padding: 11px; border: 1px solid #ddd;">कक्षा</th>
                         <th style="padding: 11px; border: 1px solid #ddd;">मोबाइल नंबर</th>
                         <th style="padding: 11px; border: 1px solid #ddd;">विषय (Topic)</th>
@@ -217,6 +218,7 @@
                         <th style="padding: 11px; border: 1px solid #ddd;">पंजीकरण / अंतिम सक्रियता</th>
                         <th style="padding: 11px; border: 1px solid #ddd;">छात्र का नाम</th>
                         <th style="padding: 11px; border: 1px solid #ddd;">विद्यालय का नाम</th>
+                        <th style="padding: 11px; border: 1px solid #ddd;">विकासखण्ड / ज़िला</th>
                         <th style="padding: 11px; border: 1px solid #ddd;">कक्षा</th>
                         <th style="padding: 11px; border: 1px solid #ddd;">मोबाइल नंबर</th>
                         <th style="padding: 11px; border: 1px solid #ddd;">कुल दिए गए टेस्ट</th>
@@ -278,7 +280,7 @@
 </div>
 
 <!-- Student Login / Registration Form -->
-<div class="container" id="login-screen" style="max-width: 460px; text-align: left; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); margin-top: 30px; border-top: 5px solid #4caf50;">
+<div class="container" id="login-screen" style="max-width: 480px; text-align: left; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); margin-top: 30px; border-top: 5px solid #4caf50;">
     <h2 style="color: #2e7d32; font-size: 1.8rem; margin-top: 0; text-align:center;">📖 छात्र प्रवेश पंजिका</h2>
     <p style="text-align: center; color: #666; font-size: 0.95rem;">क्विज़ शुरू करने से पहले अपनी जानकारी भरें</p>
     <div style="margin-bottom: 15px;">
@@ -287,9 +289,9 @@
     </div>
     <div style="margin-bottom: 15px;">
         <label style="font-weight: bold; color: #333; font-size: 1.1rem;">विद्यालय का नाम: <span style="color:red;">*</span></label>
-        <select id="student-school" style="width: 100%; padding: 10px; margin-top: 5px; border: 2px solid #ccc; border-radius: 5px; font-size: 1rem; font-family: inherit;" required>
+        <select id="student-school" onchange="toggleOtherSchoolFields()" style="width: 100%; padding: 10px; margin-top: 5px; border: 2px solid #ccc; border-radius: 5px; font-size: 1rem; font-family: inherit;" required>
             <option value="">विद्यालय चुनें...</option>
-            <optgroup label="── हाईस्कूल (High School) ──">
+            <optgroup label="── हाईस्कूल (विकासखण्ड - लैलूंगा, ज़िला - रायगढ़) ──">
                 <option value="शासकीय हाईस्कूल सलखिया">शासकीय हाईस्कूल सलखिया</option>
                 <option value="शासकीय हाईस्कूल खम्हार">शासकीय हाईस्कूल खम्हार</option>
                 <option value="शासकीय हाईस्कूल गहनाझरिया">शासकीय हाईस्कूल गहनाझरिया</option>
@@ -303,7 +305,7 @@
                 <option value="शासकीय हाईस्कूल सोनाजोरी">शासकीय हाईस्कूल सोनाजोरी</option>
                 <option value="शासकीय हाईस्कूल किलकिला">शासकीय हाईस्कूल किलकिला</option>
             </optgroup>
-            <optgroup label="── हायर सेकेंडरी (उ.मा.वि.) ──">
+            <optgroup label="── हायर सेकेंडरी / उ.मा.वि. (विकासखण्ड - लैलूंगा) ──">
                 <option value="शासकीय उ.मा.वि. कटकलिया">शासकीय उ.मा.वि. कटकलिया</option>
                 <option value="शासकीय उ.मा.वि. कन्या लैलूंगा">शासकीय उ.मा.वि. कन्या लैलूंगा</option>
                 <option value="शासकीय उ.मा.वि. बगुडेगा">शासकीय उ.मा.वि. बगुडेगा</option>
@@ -318,17 +320,39 @@
                 <option value="शासकीय उ.मा.वि. नारायणपुर">शासकीय उ.मा.वि. नारायणपुर</option>
                 <option value="शासकीय उ.मा.वि. गंजपुर">शासकीय उ.मा.वि. गंजपुर</option>
             </optgroup>
-            <optgroup label="── स्वामी आत्मानंद विद्यालय ──">
+            <optgroup label="── स्वामी आत्मानंद विद्यालय (विकासखण्ड - लैलूंगा) ──">
                 <option value="पीएम श्री स्व. आत्मानंद अंग्रेजी माध्यम लैलूंगा">पीएम श्री स्व. आत्मानंद अंग्रेजी माध्यम लैलूंगा</option>
                 <option value="स्व. आत्मानंद उत्कृष्ट हिन्दी माध्यम राजपुर">स्व. आत्मानंद उत्कृष्ट हिन्दी माध्यम राजपुर</option>
                 <option value="स्व. आत्मानंद उत्कृष्ट हिन्दी माध्यम बसंतपुर">स्व. आत्मानंद उत्कृष्ट हिन्दी माध्यम बसंतपुर</option>
                 <option value="स्व. आत्मानंद उत्कृष्ट हिन्दी माध्यम लारीपानी">स्व. आत्मानंद उत्कृष्ट हिन्दी माध्यम लारीपानी</option>
                 <option value="स्व. आत्मानंद उत्कृष्ट हिन्दी माध्यम झगरपुर">स्व. आत्मानंद उत्कृष्ट हिन्दी माध्यम झगरपुर</option>
             </optgroup>
+            <optgroup label="── अन्य विकासखण्ड / अन्य ज़िले के विद्यालय ──">
+                <option value="OTHER">➕ अन्य विद्यालय (अपना विद्यालय, विकासखण्ड व ज़िला लिखें)</option>
+            </optgroup>
             <optgroup label="── डेमो / टेस्टिंग ──">
                 <option value="शासकीय हाईस्कूल, डेमो">शासकीय हाईस्कूल, डेमो</option>
             </optgroup>
         </select>
+
+        <!-- Dynamic Fields for Outside Lailunga Block / District Students -->
+        <div id="other-school-container" style="display: none; background: #e8f5e9; padding: 14px; border-radius: 8px; border: 2px dashed #2e7d32; margin-top: 12px;">
+            <p style="margin: 0 0 10px 0; color: #1b5e20; font-weight: bold; font-size: 0.95rem;">🏫 अन्य विकासखण्ड / ज़िले का विवरण भरें:</p>
+            <div style="margin-bottom: 10px;">
+                <label style="font-weight: bold; color: #333; font-size: 0.98rem;">विद्यालय का पूरा नाम: <span style="color:red;">*</span></label>
+                <input type="text" id="other-school-name" style="width: 94%; padding: 9px; margin-top: 4px; border: 2px solid #81c784; border-radius: 5px; font-size: 0.98rem; font-family: inherit;" placeholder="जैसे: शासकीय उ.मा.वि. घरघोड़ा">
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <div>
+                    <label style="font-weight: bold; color: #333; font-size: 0.98rem;">विकासखण्ड (Block): <span style="color:red;">*</span></label>
+                    <input type="text" id="other-block-name" style="width: 90%; padding: 9px; margin-top: 4px; border: 2px solid #81c784; border-radius: 5px; font-size: 0.98rem; font-family: inherit;" placeholder="जैसे: घरघोड़ा">
+                </div>
+                <div>
+                    <label style="font-weight: bold; color: #333; font-size: 0.98rem;">ज़िला (District): <span style="color:red;">*</span></label>
+                    <input type="text" id="other-district-name" style="width: 90%; padding: 9px; margin-top: 4px; border: 2px solid #81c784; border-radius: 5px; font-size: 0.98rem; font-family: inherit;" placeholder="जैसे: रायगढ़">
+                </div>
+            </div>
+        </div>
     </div>
     <div style="margin-bottom: 15px;">
         <label style="font-weight: bold; color: #333; font-size: 1.1rem;">कक्षा: <span style="color:red;">*</span></label>
@@ -522,11 +546,12 @@
     }
 
     // =========================================================================
-    // PILLAR 2: DEDICATED STUDENT & EXAM TWO-TIER DATABASE
+    // PILLAR 2: DEDICATED STUDENT & EXAM TWO-TIER CLOUD + LOCAL DATABASE
     // =========================================================================
-    const API_URL = "https://api.restful-api.dev/objects/ff808181a09d98f701a1214c99682ef1";
-    window.allStudentsData = [];       // Tier 2: Exam Logs (every quiz attempt)
-    window.registeredStudentsData = []; // Tier 1: Master Student Directory (registered students)
+    const API_URL = "https://api.restful-api.dev/objects/ff808181a09d98f701a16453664b5b8c";
+    const CLOUD_STREAM_URL = "https://ntfy.sh/ghs_potra_sanskrit_db_9691160200_v2";
+    window.allStudentsData = [];       // Tier 2: Exam Logs (every quiz attempt across all devices)
+    window.registeredStudentsData = []; // Tier 1: Master Student Directory (registered students across all devices)
     window.cloudCustomQuestions = [];   // Cloud-synced custom questions added by Guruji
 
     function parseScorePercentage(scoreStr) {
@@ -543,6 +568,42 @@
         return m ? (n + '|' + m) : (n + '|' + s);
     }
 
+    function buildExamKey(rec) {
+        if (!rec) return '';
+        return [
+            (rec.name || '').trim().toLowerCase(),
+            (rec.mobile || '').trim(),
+            (rec.school || '').trim().toLowerCase(),
+            formatTopicName(rec.topic || ''),
+            (rec.score || '').trim(),
+            (rec.time || '').trim()
+        ].join('|');
+    }
+
+    function deduplicateExamLogs(logs) {
+        let seen = new Set();
+        let out = [];
+        (logs || []).forEach(item => {
+            if (!item || !item.name || !item.score) return;
+            let k = buildExamKey(item);
+            if (!seen.has(k)) {
+                seen.add(k);
+                out.push({
+                    time: item.time || '-',
+                    name: item.name,
+                    class: item.class || '-',
+                    school: item.school || '-',
+                    block: item.block || 'लैलूंगा',
+                    district: item.district || 'रायगढ़',
+                    mobile: item.mobile || '-',
+                    topic: formatTopicName(item.topic),
+                    score: item.score
+                });
+            }
+        });
+        return out;
+    }
+
     // Merge registered profiles + derive any historical profiles from exam logs so 0 students are ever lost
     function consolidateStudentDirectory(regList, examLogs) {
         let map = new Map();
@@ -556,6 +617,8 @@
                     registeredAt: log.time || '-',
                     name: log.name,
                     school: log.school || '-',
+                    block: log.block || 'लैलूंगा',
+                    district: log.district || 'रायगढ़',
                     class: log.class || '-',
                     mobile: log.mobile || '-',
                     testsTaken: 0,
@@ -566,6 +629,8 @@
             let entry = map.get(key);
             entry.testsTaken += 1;
             entry.registeredAt = log.time || entry.registeredAt;
+            if (log.block && log.block !== 'लैलूंगा') entry.block = log.block;
+            if (log.district && log.district !== 'रायगढ़') entry.district = log.district;
             let pct = parseScorePercentage(log.score);
             if (pct > entry.bestPct) {
                 entry.bestPct = pct;
@@ -582,6 +647,8 @@
                     registeredAt: reg.registeredAt || reg.time || '-',
                     name: reg.name,
                     school: reg.school || '-',
+                    block: reg.block || 'लैलूंगा',
+                    district: reg.district || 'रायगढ़',
                     class: reg.class || '-',
                     mobile: reg.mobile || '-',
                     testsTaken: reg.testsTaken || 0,
@@ -590,14 +657,100 @@
                 });
             } else {
                 let entry = map.get(key);
-                if (reg.registeredAt) entry.registeredAt = reg.registeredAt;
+                if (reg.registeredAt && entry.registeredAt === '-') entry.registeredAt = reg.registeredAt;
                 if (reg.mobile && entry.mobile === '-') entry.mobile = reg.mobile;
                 if (reg.school && entry.school === '-') entry.school = reg.school;
+                if (reg.block) entry.block = reg.block;
+                if (reg.district) entry.district = reg.district;
                 if (reg.class && entry.class === '-') entry.class = reg.class;
             }
         });
 
         return Array.from(map.values()).reverse();
+    }
+
+    // Real-time Cloud Event Publisher (Zero-preflight CORS Simple POST works on all mobile networks)
+    async function publishCloudEvent(eventType, payload) {
+        try {
+            await fetch(CLOUD_STREAM_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify({ eventType: eventType, payload: payload, ts: Date.now() })
+            });
+        } catch (e) {}
+    }
+
+    // Pull all multi-device events from Cloud Stream + Cloud Snapshot + LocalStorage
+    async function syncAllCloudAndLocalData() {
+        let streamExams = [];
+        let streamRegs = [];
+        let streamQs = [];
+
+        // 1. Pull real-time stream events from ntfy.sh
+        try {
+            let streamRes = await fetch(CLOUD_STREAM_URL + "/json?poll=1&since=all", { cache: 'no-store' });
+            if (streamRes.ok) {
+                let text = await streamRes.text();
+                let lines = text.split('\n').filter(Boolean);
+                lines.forEach(line => {
+                    try {
+                        let outer = JSON.parse(line);
+                        if (outer && outer.event === 'message' && outer.message) {
+                            let inner = JSON.parse(outer.message);
+                            if (inner && inner.eventType === 'exam' && inner.payload) {
+                                streamExams.unshift(inner.payload);
+                            } else if (inner && inner.eventType === 'register' && inner.payload) {
+                                streamRegs.unshift(inner.payload);
+                            } else if (inner && inner.eventType === 'question' && inner.payload) {
+                                streamQs.push(inner.payload);
+                            }
+                        }
+                    } catch (parseErr) {}
+                });
+            }
+        } catch (e) {}
+
+        // 2. Pull snapshot from API_URL
+        let snapExams = [];
+        let snapRegs = [];
+        let snapQs = [];
+        try {
+            let response = await fetch(API_URL, { cache: 'no-store' });
+            if (response.ok) {
+                let resData = await response.json();
+                let rawData = (resData && resData.data) ? resData.data : (resData || {});
+                if (Array.isArray(rawData.students)) snapExams = rawData.students;
+                if (Array.isArray(rawData.registered_students)) snapRegs = rawData.registered_students;
+                if (Array.isArray(rawData.custom_questions)) snapQs = rawData.custom_questions;
+            }
+        } catch (e) {}
+
+        // 3. Pull LocalStorage records
+        let localExams = [];
+        let localRegs = [];
+        let localQs = [];
+        try {
+            localExams = JSON.parse(localStorage.getItem('sanskrit_quiz_results') || '[]');
+            localRegs = JSON.parse(localStorage.getItem('sanskrit_registered_students') || '[]');
+            localQs = JSON.parse(localStorage.getItem('sanskrit_custom_questions') || '[]');
+        } catch (e) {}
+
+        // Merge & deduplicate everything
+        let mergedExams = deduplicateExamLogs([...streamExams, ...localExams, ...snapExams]);
+        let mergedRegs = consolidateStudentDirectory([...streamRegs, ...localRegs, ...snapRegs], mergedExams);
+        let allCustomQs = [...snapQs, ...streamQs, ...localQs];
+        mergeCustomQuestions(allCustomQs);
+
+        window.allStudentsData = mergedExams;
+        window.registeredStudentsData = mergedRegs;
+
+        // Cache merged data locally as backup
+        try {
+            localStorage.setItem('sanskrit_quiz_results', JSON.stringify(mergedExams.slice(0, 1000)));
+            localStorage.setItem('sanskrit_registered_students', JSON.stringify(mergedRegs.slice(0, 1000)));
+        } catch (e) {}
+
+        return { exams: mergedExams, regs: mergedRegs, customQs: allCustomQs };
     }
 
     // Immediately save student registration when they click "क्विज़ शुरू करें"
@@ -609,12 +762,14 @@
             name: currentStudentName,
             class: currentStudentClass,
             school: currentStudentSchool,
+            block: currentStudentBlock || "लैलूंगा",
+            district: currentStudentDistrict || "रायगढ़",
             mobile: currentStudentMobile,
             testsTaken: 0,
             bestScore: "प्रवेश पंजीकृत"
         };
 
-        // Save locally in Tier-1 Student DB
+        // 1. Save locally in Tier-1 Student DB
         try {
             let localReg = JSON.parse(localStorage.getItem('sanskrit_registered_students') || '[]');
             let key = buildStudentKey(profile.name, profile.school, profile.mobile);
@@ -622,6 +777,8 @@
             if (existingIdx >= 0) {
                 localReg[existingIdx].registeredAt = timeString;
                 localReg[existingIdx].school = profile.school;
+                localReg[existingIdx].block = profile.block;
+                localReg[existingIdx].district = profile.district;
                 localReg[existingIdx].class = profile.class;
             } else {
                 localReg.unshift(profile);
@@ -629,43 +786,25 @@
             localStorage.setItem('sanskrit_registered_students', JSON.stringify(localReg.slice(0, 1000)));
         } catch (e) {}
 
-        // Sync to Cloud DB without overwriting exam logs or custom questions
+        // 2. Publish to Real-Time Multi-Device Cloud Stream
+        await publishCloudEvent('register', profile);
+
+        // 3. Also update Cloud Snapshot DB
         try {
-            let response = await fetch(API_URL, { cache: 'no-store' });
-            let resData = await response.json();
-            let rawData = (resData && resData.data) ? resData.data : {};
-            let students = Array.isArray(rawData.students) ? rawData.students : [];
-            let regStudents = Array.isArray(rawData.registered_students) ? rawData.registered_students : [];
-            let customQs = Array.isArray(rawData.custom_questions) ? rawData.custom_questions : [];
-
-            let key = buildStudentKey(profile.name, profile.school, profile.mobile);
-            let existingIdx = regStudents.findIndex(r => r && buildStudentKey(r.name, r.school, r.mobile) === key);
-            if (existingIdx >= 0) {
-                regStudents[existingIdx].registeredAt = timeString;
-                regStudents[existingIdx].school = profile.school;
-                regStudents[existingIdx].class = profile.class;
-            } else {
-                regStudents.unshift(profile);
-            }
-
-            window.allStudentsData = students;
-            window.registeredStudentsData = consolidateStudentDirectory(regStudents, students);
-
+            let synced = await syncAllCloudAndLocalData();
             await fetch(API_URL, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     name: "leaderboard",
                     data: {
-                        students: students,
-                        registered_students: regStudents.slice(0, 1000),
-                        custom_questions: customQs
+                        students: synced.exams.slice(0, 1000),
+                        registered_students: synced.regs.slice(0, 1000),
+                        custom_questions: synced.customQs
                     }
                 })
             });
-        } catch (e) {
-            console.log("Cloud student registration sync notice:", e);
-        }
+        } catch (e) {}
     }
 
     // Save completed exam result to Tier-2 Exam DB and update Tier-1 Student DB
@@ -680,6 +819,8 @@
             name: currentStudentName,
             class: currentStudentClass,
             school: currentStudentSchool,
+            block: currentStudentBlock || "लैलूंगा",
+            district: currentStudentDistrict || "रायगढ़",
             mobile: currentStudentMobile,
             topic: cleanTopic,
             score: scoreText
@@ -692,55 +833,25 @@
             localStorage.setItem('sanskrit_quiz_results', JSON.stringify(localData.slice(0, 1000)));
         } catch (e) {}
 
-        // 2. Cloud sync (updates both students exam logs and registered_students master directory)
+        // 2. Publish to Real-Time Multi-Device Cloud Stream (Instant delivery from any student's phone!)
+        await publishCloudEvent('exam', newRecord);
+
+        // 3. Sync consolidated snapshot to Cloud DB
         try {
-            let response = await fetch(API_URL, { cache: 'no-store' });
-            let resData = await response.json();
-            let rawData = (resData && resData.data) ? resData.data : {};
-            let data = Array.isArray(rawData.students) ? rawData.students : [];
-            let regStudents = Array.isArray(rawData.registered_students) ? rawData.registered_students : [];
-            let customQs = Array.isArray(rawData.custom_questions) ? rawData.custom_questions : [];
-
-            data = data.filter(item => item && item.name && item.score);
-            data.unshift(newRecord);
-
-            let key = buildStudentKey(currentStudentName, currentStudentSchool, currentStudentMobile);
-            let existingIdx = regStudents.findIndex(r => r && buildStudentKey(r.name, r.school, r.mobile) === key);
-            if (existingIdx >= 0) {
-                regStudents[existingIdx].testsTaken = (regStudents[existingIdx].testsTaken || 0) + 1;
-                if (parseScorePercentage(scoreText) >= parseScorePercentage(regStudents[existingIdx].bestScore)) {
-                    regStudents[existingIdx].bestScore = scoreText;
-                }
-            } else {
-                regStudents.unshift({
-                    registeredAt: timeString,
-                    name: currentStudentName,
-                    class: currentStudentClass,
-                    school: currentStudentSchool,
-                    mobile: currentStudentMobile,
-                    testsTaken: 1,
-                    bestScore: scoreText
-                });
-            }
-
-            window.allStudentsData = data;
-            window.registeredStudentsData = consolidateStudentDirectory(regStudents, data);
-
+            let synced = await syncAllCloudAndLocalData();
             await fetch(API_URL, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     name: "leaderboard",
                     data: {
-                        students: data.slice(0, 1000),
-                        registered_students: regStudents.slice(0, 1000),
-                        custom_questions: customQs
+                        students: synced.exams.slice(0, 1000),
+                        registered_students: synced.regs.slice(0, 1000),
+                        custom_questions: synced.customQs
                     }
                 })
             });
-        } catch (e) {
-            console.log("Error saving exam result to DB:", e);
-        }
+        } catch (e) {}
     }
 
     // =========================================================================
@@ -755,6 +866,8 @@
     let currentStudentName = "";
     let currentStudentClass = "";
     let currentStudentSchool = "";
+    let currentStudentBlock = "लैलूंगा";
+    let currentStudentDistrict = "रायगढ़";
     let currentStudentMobile = "";
     let currentTopicName = "";
     let isViewingDemoCert = false;
@@ -763,23 +876,8 @@
 
     async function loadLeaderboard() {
         try {
-            let data = [];
-            try {
-                let response = await fetch(API_URL, { cache: 'no-store' });
-                let resData = await response.json();
-                if (resData && resData.data) {
-                    if (Array.isArray(resData.data.students)) data = resData.data.students;
-                    if (Array.isArray(resData.data.custom_questions)) {
-                        window.cloudCustomQuestions = resData.data.custom_questions;
-                        mergeCustomQuestions(resData.data.custom_questions);
-                    }
-                }
-            } catch (cloudErr) {
-                data = JSON.parse(localStorage.getItem('sanskrit_quiz_results') || '[]');
-            }
-
-            data = data.filter(item => item && item.name && typeof item.score === 'string' && item.score.includes('/'));
-            window.allStudentsData = data;
+            let synced = await syncAllCloudAndLocalData();
+            let data = (synced.exams || []).filter(item => item && item.name && typeof item.score === 'string' && item.score.includes('/'));
 
             if (data.length > 0) {
                 // Sort all attempts by percentage descending, then raw score descending
@@ -807,8 +905,10 @@
                 let html = "";
                 let medals = ['🥇', '🥈', '🥉', '🏅', '🏅'];
                 uniqueToppers.forEach((row, i) => {
+                    let blk = row.block || 'लैलूंगा';
+                    let dst = row.district || 'रायगढ़';
                     html += `<li style="padding: 9px 8px; border-bottom: 1px solid #c8e6c9; display: flex; justify-content: space-between; align-items: center;">
-                        <span style="line-height:1.4;">${medals[i]} <b>${row.name}</b> (कक्षा ${row.class})<br><small style="color:#555; margin-left:25px;">🏫 ${row.school} | 📖 ${formatTopicName(row.topic)}</small></span>
+                        <span style="line-height:1.4;">${medals[i]} <b>${row.name}</b> (कक्षा ${row.class})<br><small style="color:#555; margin-left:25px;">🏫 ${row.school} (वि.ख. ${blk}, ज़िला ${dst}) | 📖 ${formatTopicName(row.topic)}</small></span>
                         <span style="color:#d84315; font-weight:bold; font-size:1.15rem; white-space:nowrap;">${row.score}</span>
                     </li>`;
                 });
@@ -857,7 +957,8 @@
         isViewingDemoCert = false;
         document.getElementById('cert-name').innerText = currentStudentName;
         document.getElementById('cert-class').innerText = currentStudentClass;
-        document.getElementById('cert-school').innerText = currentStudentSchool;
+        let schoolWithLoc = currentStudentSchool + " (वि.ख. - " + (currentStudentBlock || "लैलूंगा") + ", ज़िला - " + (currentStudentDistrict || "रायगढ़") + ")";
+        document.getElementById('cert-school').innerText = schoolWithLoc;
         document.getElementById('cert-topic').innerText = formatTopicName(currentTopicName);
         document.getElementById('cert-score').innerText = score + " / " + currentTopicData.length;
         let d = new Date();
@@ -1136,7 +1237,7 @@
         isViewingDemoCert = true;
         document.getElementById('cert-name').innerText = "आदर्श छात्रः (Demo)";
         document.getElementById('cert-class').innerText = "10";
-        document.getElementById('cert-school').innerText = "शासकीय हाईस्कूल पोतरा";
+        document.getElementById('cert-school').innerText = "शासकीय हाईस्कूल पोतरा (वि.ख. - लैलूंगा, ज़िला - रायगढ़)";
         document.getElementById('cert-topic').innerText = "32 बोर्ड परीक्षा के पुराने प्रश्न";
         document.getElementById('cert-score').innerText = "10 / 10";
         let d = new Date();
@@ -1147,13 +1248,21 @@
         window.scrollTo(0, 0);
     }
 
+    function toggleOtherSchoolFields() {
+        let val = document.getElementById('student-school').value;
+        let box = document.getElementById('other-school-container');
+        if (box) {
+            box.style.display = (val === 'OTHER') ? 'block' : 'none';
+        }
+    }
+
     function submitLogin() {
         const name = document.getElementById('student-name').value.trim();
         const cls = document.getElementById('student-class').value;
         const mobile = document.getElementById('student-mobile').value.trim();
-        const school = document.getElementById('student-school').value;
+        const schoolSelect = document.getElementById('student-school').value;
 
-        if (!name || !school || !cls || !mobile) {
+        if (!name || !schoolSelect || !cls || !mobile) {
             alert("कृपया आगे बढ़ने से पहले अपना नाम, विद्यालय, कक्षा और मोबाइल नंबर भरें!");
             return;
         }
@@ -1162,12 +1271,28 @@
             return;
         }
 
+        let finalSchool = schoolSelect;
+        let finalBlock = "लैलूंगा";
+        let finalDistrict = "रायगढ़";
+
+        if (schoolSelect === 'OTHER') {
+            finalSchool = document.getElementById('other-school-name').value.trim();
+            finalBlock = document.getElementById('other-block-name').value.trim();
+            finalDistrict = document.getElementById('other-district-name').value.trim();
+            if (!finalSchool || !finalBlock || !finalDistrict) {
+                alert("कृपया अपने विद्यालय का पूरा नाम, विकासखण्ड (Block) और ज़िले (District) का नाम अवश्य भरें!");
+                return;
+            }
+        }
+
         currentStudentName = name;
         currentStudentClass = cls;
-        currentStudentSchool = school;
+        currentStudentSchool = finalSchool;
+        currentStudentBlock = finalBlock;
+        currentStudentDistrict = finalDistrict;
         currentStudentMobile = mobile;
 
-        // Immediately register student in Master Student Database!
+        // Immediately register student in Master Student Database & Cloud Stream!
         registerStudentOnLogin();
 
         document.getElementById('login-screen').style.display = 'none';
@@ -1224,34 +1349,9 @@
         document.getElementById('registered-students-body').innerHTML = "";
 
         try {
-            let data = [];
-            let regList = [];
-            try {
-                let response = await fetch(API_URL, { cache: 'no-store' });
-                let resData = await response.json();
-                if (resData && resData.data) {
-                    data = Array.isArray(resData.data.students) ? resData.data.students : [];
-                    regList = Array.isArray(resData.data.registered_students) ? resData.data.registered_students : [];
-                    if (Array.isArray(resData.data.custom_questions)) {
-                        window.cloudCustomQuestions = resData.data.custom_questions;
-                        mergeCustomQuestions(resData.data.custom_questions);
-                    }
-                }
-            } catch (cloudErr) {
-                data = JSON.parse(localStorage.getItem('sanskrit_quiz_results') || '[]');
-                regList = JSON.parse(localStorage.getItem('sanskrit_registered_students') || '[]');
-            }
-
-            // Also merge local records so offline/desktop tests show up seamlessly
-            try {
-                let localReg = JSON.parse(localStorage.getItem('sanskrit_registered_students') || '[]');
-                regList = [...localReg, ...regList];
-            } catch (e) {}
-
-            data = data.filter(item => item && item.name);
-            window.allStudentsData = data;
-            let consolidatedStudents = consolidateStudentDirectory(regList, data);
-            window.registeredStudentsData = consolidatedStudents;
+            let synced = await syncAllCloudAndLocalData();
+            let data = synced.exams || [];
+            let consolidatedStudents = synced.regs || [];
 
             document.getElementById('stat-exam-count').innerText = data.length;
             document.getElementById('stat-reg-count').innerText = consolidatedStudents.length;
@@ -1261,11 +1361,14 @@
             if (data.length > 0) {
                 let html = "";
                 data.forEach(row => {
+                    let blk = row.block || 'लैलूंगा';
+                    let dst = row.district || 'रायगढ़';
                     html += `
                         <tr>
                             <td style="padding: 10px; border: 1px solid #ddd; font-size: 0.95rem; color:#555;">${row.time || '-'}</td>
                             <td style="padding: 10px; border: 1px solid #ddd; font-weight:bold; color:#d84315;">${row.name || '-'}</td>
                             <td style="padding: 10px; border: 1px solid #ddd;">${row.school || '-'}</td>
+                            <td style="padding: 10px; border: 1px solid #ddd; font-size: 0.95rem; color:#1b5e20; font-weight:600;">${blk} / ${dst}</td>
                             <td style="padding: 10px; border: 1px solid #ddd;">${row.class || '-'}</td>
                             <td style="padding: 10px; border: 1px solid #ddd;">${row.mobile || '-'}</td>
                             <td style="padding: 10px; border: 1px solid #ddd; font-weight:bold; color:#1976d2;">${formatTopicName(row.topic)}</td>
@@ -1275,18 +1378,21 @@
                 });
                 document.getElementById('result-table-body').innerHTML = html;
             } else {
-                document.getElementById('result-table-body').innerHTML = "<tr><td colspan='7' style='padding:20px; color:red;'>अभी तक किसी भी छात्र ने टेस्ट नहीं दिया है।</td></tr>";
+                document.getElementById('result-table-body').innerHTML = "<tr><td colspan='8' style='padding:20px; color:red;'>अभी तक किसी भी छात्र ने टेस्ट नहीं दिया है।</td></tr>";
             }
 
             // Render Tab 2: Registered Students Directory
             if (consolidatedStudents.length > 0) {
                 let regHtml = "";
                 consolidatedStudents.forEach(st => {
+                    let blk = st.block || 'लैलूंगा';
+                    let dst = st.district || 'रायगढ़';
                     regHtml += `
                         <tr>
                             <td style="padding: 10px; border: 1px solid #ddd; font-size: 0.95rem; color:#555;">${st.registeredAt || '-'}</td>
                             <td style="padding: 10px; border: 1px solid #ddd; font-weight:bold; color:#2e7d32;">${st.name || '-'}</td>
                             <td style="padding: 10px; border: 1px solid #ddd;">${st.school || '-'}</td>
+                            <td style="padding: 10px; border: 1px solid #ddd; font-size: 0.95rem; color:#1b5e20; font-weight:600;">${blk} / ${dst}</td>
                             <td style="padding: 10px; border: 1px solid #ddd;">${st.class || '-'}</td>
                             <td style="padding: 10px; border: 1px solid #ddd;">${st.mobile || '-'}</td>
                             <td style="padding: 10px; border: 1px solid #ddd; font-weight:bold; color:#1565c0;">${st.testsTaken || 0}</td>
@@ -1296,10 +1402,10 @@
                 });
                 document.getElementById('registered-students-body').innerHTML = regHtml;
             } else {
-                document.getElementById('registered-students-body').innerHTML = "<tr><td colspan='7' style='padding:20px; color:red;'>अभी कोई पंजीकृत छात्र नहीं है।</td></tr>";
+                document.getElementById('registered-students-body').innerHTML = "<tr><td colspan='8' style='padding:20px; color:red;'>अभी कोई पंजीकृत छात्र नहीं है।</td></tr>";
             }
         } catch (e) {
-            document.getElementById('result-table-body').innerHTML = "<tr><td colspan='7' style='padding:20px; color:red;'>डेटा लोड करने में समस्या हुई। इंटरनेट कनेक्शन चेक करें।</td></tr>";
+            document.getElementById('result-table-body').innerHTML = "<tr><td colspan='8' style='padding:20px; color:red;'>डेटा लोड करने में समस्या हुई। इंटरनेट कनेक्शन चेक करें।</td></tr>";
         }
         document.getElementById('loading-msg').style.display = 'none';
     }
@@ -1311,9 +1417,7 @@
         if (btn) btn.innerHTML = "⏳ तैयार हो रहा है...";
 
         try {
-            if (!window.allStudentsData || window.allStudentsData.length === 0) {
-                await fetchResults();
-            }
+            await fetchResults();
 
             let csvContent = "";
             let filename = "";
@@ -1325,13 +1429,15 @@
                     if (btn) btn.innerHTML = oldText;
                     return;
                 }
-                csvContent = "पंजीकरण समय,छात्र का नाम,कक्षा,विद्यालय,मोबाइल नंबर,कुल दिए गए टेस्ट,सर्वश्रेष्ठ स्कोर\r\n";
+                csvContent = "पंजीकरण समय,छात्र का नाम,कक्षा,विद्यालय का नाम,विकासखण्ड (Block),ज़िला (District),मोबाइल नंबर,कुल दिए गए टेस्ट,सर्वश्रेष्ठ स्कोर\r\n";
                 regList.forEach(row => {
                     let rowData = [
                         '"' + String(row.registeredAt || '').replace(/"/g, '""') + '"',
                         '"' + String(row.name || '').replace(/"/g, '""') + '"',
                         '"' + String(row.class || '').replace(/"/g, '""') + '"',
                         '"' + String(row.school || '').replace(/"/g, '""') + '"',
+                        '"' + String(row.block || 'लैलूंगा').replace(/"/g, '""') + '"',
+                        '"' + String(row.district || 'रायगढ़').replace(/"/g, '""') + '"',
                         '"' + String(row.mobile || '').replace(/"/g, '""') + '"',
                         '"' + String(row.testsTaken || 0) + '"',
                         '"' + String(row.bestScore || '').replace(/"/g, '""') + '"'
@@ -1346,13 +1452,15 @@
                     if (btn) btn.innerHTML = oldText;
                     return;
                 }
-                csvContent = "दिनांक व समय,छात्र का नाम,कक्षा,विद्यालय,मोबाइल नंबर,विषय,प्राप्तांक\r\n";
+                csvContent = "दिनांक व समय,छात्र का नाम,कक्षा,विद्यालय का नाम,विकासखण्ड (Block),ज़िला (District),मोबाइल नंबर,विषय,प्राप्तांक\r\n";
                 students.forEach(row => {
                     let rowData = [
                         '"' + String(row.time || '').replace(/"/g, '""') + '"',
                         '"' + String(row.name || '').replace(/"/g, '""') + '"',
                         '"' + String(row.class || '').replace(/"/g, '""') + '"',
                         '"' + String(row.school || '').replace(/"/g, '""') + '"',
+                        '"' + String(row.block || 'लैलूंगा').replace(/"/g, '""') + '"',
+                        '"' + String(row.district || 'रायगढ़').replace(/"/g, '""') + '"',
                         '"' + String(row.mobile || '').replace(/"/g, '""') + '"',
                         '"' + String(formatTopicName(row.topic)).replace(/"/g, '""') + '"',
                         '"' + String(row.score || '').replace(/"/g, '""') + '"'
@@ -1444,25 +1552,19 @@
             localStorage.setItem('sanskrit_custom_questions', JSON.stringify(localCustom));
         } catch (e) {}
 
-        // 2. Sync to Cloud DB
+        // 2. Publish to Real-Time Cloud Stream & Snapshot DB
+        await publishCloudEvent('question', newQObj);
         try {
-            let response = await fetch(API_URL, { cache: 'no-store' });
-            let resData = await response.json();
-            let rawData = (resData && resData.data) ? resData.data : {};
-            let students = Array.isArray(rawData.students) ? rawData.students : [];
-            let regStudents = Array.isArray(rawData.registered_students) ? rawData.registered_students : [];
-            let customQs = Array.isArray(rawData.custom_questions) ? rawData.custom_questions : [];
-            customQs.push(newQObj);
-
+            let synced = await syncAllCloudAndLocalData();
             await fetch(API_URL, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     name: "leaderboard",
                     data: {
-                        students: students,
-                        registered_students: regStudents,
-                        custom_questions: customQs
+                        students: synced.exams.slice(0, 1000),
+                        registered_students: synced.regs.slice(0, 1000),
+                        custom_questions: synced.customQs
                     }
                 })
             });
