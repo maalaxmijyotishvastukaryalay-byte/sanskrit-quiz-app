@@ -109,7 +109,7 @@
     </style>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <!-- Dedicated External Question-Answer Database -->
-    <script src="questions_db.js?v=63"></script>
+    <script src="questions_db.js?v=64"></script>
 </head>
 
 <body>
@@ -620,7 +620,7 @@
         } catch (e) {}
         if (window.location.protocol.startsWith('http')) {
             try {
-                let res = await fetch('questions_db.json?v=63', { cache: 'no-store' });
+                let res = await fetch('questions_db.json?v=64', { cache: 'no-store' });
                 if (res.ok) {
                     let extJson = await res.json();
                     if (extJson && typeof extJson === 'object') {
@@ -1941,23 +1941,12 @@
             });
         } catch(e) {}
 
-        // 3. Update Cloud Snapshot
+        // 3. Update Cloud Snapshot via PATCH
         try {
-            let currentAll = await syncAllCloudAndLocalData();
-            let payload = {
-                name: "sanskrit_potra_master_db",
-                data: {
-                    students: currentAll.exams || [],
-                    registered_students: currentAll.regs || [],
-                    custom_questions: currentAll.customQs || [],
-                    feedbacks: currentAll.feedbacks || [],
-                    notice: noticeObj
-                }
-            };
             await fetch(API_URL, {
-                method: 'PUT',
+                method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
+                body: JSON.stringify({ data: { notice: noticeObj } })
             });
         } catch(e) {}
 
@@ -1988,21 +1977,10 @@
         if (input) input.value = '';
 
         try {
-            let currentAll = await syncAllCloudAndLocalData();
-            let payload = {
-                name: "sanskrit_potra_master_db",
-                data: {
-                    students: currentAll.exams || [],
-                    registered_students: currentAll.regs || [],
-                    custom_questions: currentAll.customQs || [],
-                    feedbacks: currentAll.feedbacks || [],
-                    notice: noticeObj
-                }
-            };
             await fetch(API_URL, {
-                method: 'PUT',
+                method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
+                body: JSON.stringify({ data: { notice: noticeObj } })
             });
         } catch(e) {}
 
