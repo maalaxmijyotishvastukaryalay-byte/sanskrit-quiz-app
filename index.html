@@ -109,7 +109,7 @@
     </style>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <!-- Dedicated External Question-Answer Database -->
-    <script src="questions_db.js?v=62"></script>
+    <script src="questions_db.js?v=63"></script>
 </head>
 
 <body>
@@ -175,6 +175,7 @@
             <button id="tab-btn-students" class="tab-btn" onclick="switchTeacherTab('students')">👨‍🎓 पंजीकृत छात्र (Student DB)</button>
             <button id="tab-btn-questions" class="tab-btn" onclick="switchTeacherTab('questions')">📚 प्रश्न-कोश डेटाबेस (Question DB)</button>
             <button id="tab-btn-feedback" class="tab-btn" onclick="switchTeacherTab('feedback')">💬 प्राप्त सुझाव (Feedback DB)</button>
+            <button id="tab-btn-notice" class="tab-btn" onclick="switchTeacherTab('notice')">📢 छात्र सूचना प्रसारण (Notice Board)</button>
         </div>
         <div style="display: flex; flex-wrap: wrap; gap: 8px;">
             <button onclick="fetchResults()" style="padding: 9px 15px; background: #2a5298; color: white; border: none; border-radius: 6px; font-weight: bold; font-size: 0.95rem; cursor: pointer;">🔄 रिफ्रेश</button>
@@ -306,6 +307,31 @@
             </table>
         </div>
     </div>
+
+    <!-- TAB 5: GURUJI NOTICE BROADCAST MANAGER -->
+    <div id="teacher-tab-notice" style="display: none;">
+        <div style="background: white; padding: 22px; border-radius: 10px; box-shadow: 0 3px 8px rgba(0,0,0,0.1); border-top: 5px solid #f57f17; text-align: left;">
+            <h3 style="margin-top: 0; color: #b71c1c; font-size: 1.45rem;">📢 छात्र सूचना प्रसारण केंद्र (Live Notice Broadcast)</h3>
+            <p style="color: #666; font-size: 0.98rem; margin-bottom: 18px;">यहाँ से आप जो भी संदेश लिखेंगे, वह तुरंत ऐप के <b>होम पेज पर सभी विद्यार्थियों</b> को दिखाई देगा।</p>
+            
+            <div style="margin-bottom: 15px;">
+                <label style="font-weight: bold; color: #333; font-size: 1.05rem;">संदेश / सूचना लिखें: <span style="color:red;">*</span></label>
+                <textarea id="notice-input-text" rows="4" style="width: 96%; padding: 12px; margin-top: 6px; border: 2px solid #ffb74d; border-radius: 8px; font-size: 1.05rem; font-family: inherit; line-height: 1.5;" placeholder="जैसे: प्रिय विद्यार्थियों! आगामी सोमवार को कक्षा 10वीं के लिए 'संधि एवं समास' का विशेष टेस्ट होगा। सभी छात्र तैयारी करें। — देवेन्द्र पाराशर"></textarea>
+            </div>
+            
+            <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 15px;">
+                <button type="button" id="btn-pub-notice" onclick="publishGurujiNotice()" style="padding: 12px 24px; background: linear-gradient(135deg, #f57f17, #e65100); color: white; border: none; border-radius: 6px; font-size: 1.15rem; font-weight: bold; cursor: pointer; box-shadow: 0 3px 6px rgba(0,0,0,0.2);">📢 संदेश तुरंत प्रसारित करें (Publish)</button>
+                <button type="button" onclick="clearGurujiNotice()" style="padding: 12px 20px; background: #d32f2f; color: white; border: none; border-radius: 6px; font-size: 1.05rem; font-weight: bold; cursor: pointer;">❌ सूचना हटाएं (Clear)</button>
+            </div>
+            
+            <div id="notice-status-msg" style="margin-top: 15px; font-weight: bold; font-size: 1.05rem; display: none;"></div>
+
+            <div style="margin-top: 25px; padding: 15px; background: #fffde7; border: 2px dashed #fbc02d; border-radius: 8px;">
+                <h4 style="margin: 0 0 8px 0; color: #e65100;">👀 वर्तमान में लाइव सूचना का पूर्वावलोकन (Preview):</h4>
+                <div id="notice-preview-box" style="font-size: 1.1rem; color: #212121; font-weight: 500; white-space: pre-wrap;">लोड हो रहा है...</div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Student Login / Registration Form -->
@@ -415,8 +441,24 @@
     <button type="button" onclick="openFeedbackModal()" style="width: 100%; padding: 14px; background: #6a1b9a; color: white; border: none; border-radius: 8px; font-size: 1.15rem; font-weight: bold; cursor: pointer; margin-top: 12px; font-family: inherit;">💬 ऐप के लिए सुझाव / प्रतिक्रिया (Feedback) दें</button>
 </div>
 
-<!-- Home Screen (Shloka + Unique Top 5 Leaderboard + 5x7 = 35 Topics Grid) -->
+<!-- Home Screen (Notice Board + Shloka + Unique Top 5 Leaderboard + Topics Grid) -->
 <div class="container" id="home-screen" style="display: none;">
+    <!-- 📢 GURUJI'S ANNOUNCEMENT / NOTICE BOARD (LIVE CLOUD BROADCAST) -->
+    <div id="guruji-notice-card" style="background: linear-gradient(135deg, #fffde7, #fff8e1); border: 2px solid #ffe082; border-left: 7px solid #f57f17; border-radius: 10px; padding: 16px 20px; margin-bottom: 22px; box-shadow: 0 4px 14px rgba(245,127,23,0.15); text-align: left;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="font-size: 1.8rem;">📢</span>
+                <span style="font-size: 1.25rem; font-weight: 900; color: #b71c1c; letter-spacing: 0.5px;">गुरुजी का विशेष संदेश / सूचना-पट्ट</span>
+            </div>
+            <span id="guruji-notice-date" style="font-size: 0.88rem; background: #ffe082; color: #5d4037; font-weight: bold; padding: 4px 12px; border-radius: 20px;"></span>
+        </div>
+        <p id="guruji-notice-text" style="font-size: 1.15rem; color: #212121; font-weight: 600; line-height: 1.6; margin: 10px 0; white-space: pre-wrap;"></p>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; border-top: 1px dashed #fbc02d; padding-top: 8px; font-size: 0.95rem; color: #6d4c41; flex-wrap: wrap; gap: 6px;">
+            <span style="font-weight: bold;">👨‍🏫 देवेन्द्र पाराशर <span style="font-weight: normal;">(व्याख्याता संस्कृत, शा.हा. पोतरा, लैलूंगा)</span></span>
+            <span style="color: #2e7d32; font-weight: bold; background: #e8f5e9; padding: 3px 10px; border-radius: 12px; font-size: 0.85rem;">🟢 आधिकारिक प्रसारण</span>
+        </div>
+    </div>
+
     <!-- SHLOKA -->
     <div style="background: #fff3e0; padding: 15px; border-left: 5px solid #ff9800; border-radius: 5px; margin-bottom: 20px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
         <h3 style="margin-top: 0; color: #e65100; font-size: 1.2rem;">🕉️ आज का सुभाषित</h3>
@@ -469,7 +511,8 @@
 <div class="container" id="result-screen" style="display: none; text-align: center;">
     <h2 style="font-size:2rem; color:#2a5298; margin-top: 0;">मूल्यांकन पूर्ण!</h2>
     <div id="result-details" style="margin: 20px 0;"></div>
-    <button class="cert-btn" onclick="generateCertificate()">🏆 प्रमाणपत्र (Certificate) डाउनलोड करें</button>
+    <button class="cert-btn" onclick="generateCertificate()">🏆 प्रमाणपत्र (Certificate) देखें / प्रिंट करें</button>
+    <button type="button" onclick="shareCertificateWhatsApp()" style="width: 100%; padding: 15px; background: #25D366; color: white; border: none; border-radius: 8px; font-size: 1.25rem; font-weight: bold; cursor: pointer; margin-top: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); font-family: inherit; display: flex; align-items: center; justify-content: center; gap: 8px;">📲 प्रमाणपत्र व्हाट्सएप्प (WhatsApp) पर शेयर करें</button>
     <button type="button" onclick="openFeedbackModal()" style="width: 100%; padding: 14px; background: #6a1b9a; color: white; border: none; border-radius: 8px; font-size: 1.25rem; font-weight: bold; cursor: pointer; margin-top: 15px; font-family: inherit;">💬 ऐप के लिए सुझाव / प्रतिक्रिया (Feedback) दें</button>
     <button class="btn" style="width: 100%; font-size: 1.3rem; padding: 15px; margin-top: 15px;" onclick="showHome()">🏠 मुख्य पृष्ठ पर जाएँ (Home)</button>
 </div>
@@ -508,7 +551,8 @@
     </div>
     <div class="no-print" style="margin-top: 30px;">
         <button onclick="closeCertificateModal()" style="padding: 10px 20px; background: red; color: white; border: none; border-radius:5px; font-size: 1.2rem; cursor: pointer; margin-right:10px; font-family: inherit; font-weight: bold;">❌ बंद करें</button>
-        <button onclick="window.print()" style="padding: 10px 20px; background: green; color: white; border: none; border-radius:5px; font-size: 1.2rem; cursor: pointer; font-family: inherit; font-weight: bold;">🖨️ प्रिंट / Save PDF</button>
+        <button onclick="window.print()" style="padding: 10px 20px; background: green; color: white; border: none; border-radius:5px; font-size: 1.2rem; cursor: pointer; margin-right:10px; font-family: inherit; font-weight: bold;">🖨️ प्रिंट / Save PDF</button>
+        <button onclick="shareCertificateWhatsApp()" style="padding: 10px 20px; background: #25D366; color: white; border: none; border-radius:5px; font-size: 1.2rem; cursor: pointer; font-family: inherit; font-weight: bold;">📲 WhatsApp शेयर</button>
     </div>
 </div>
 
@@ -576,7 +620,7 @@
         } catch (e) {}
         if (window.location.protocol.startsWith('http')) {
             try {
-                let res = await fetch('questions_db.json?v=62', { cache: 'no-store' });
+                let res = await fetch('questions_db.json?v=63', { cache: 'no-store' });
                 if (res.ok) {
                     let extJson = await res.json();
                     if (extJson && typeof extJson === 'object') {
@@ -1068,6 +1112,7 @@
 
     function init() {
         syncExternalQuestionDB();
+        loadGurujiNoticeOnHome();
         const grid = document.getElementById('topics-grid');
         grid.innerHTML = '';
         topicsList.forEach((topicStr, idx) => {
@@ -1411,12 +1456,21 @@
         if (document.getElementById('teacher-tab-feedback')) {
             document.getElementById('teacher-tab-feedback').style.display = (tabName === 'feedback') ? 'block' : 'none';
         }
+        if (document.getElementById('teacher-tab-notice')) {
+            document.getElementById('teacher-tab-notice').style.display = (tabName === 'notice') ? 'block' : 'none';
+        }
 
         document.getElementById('tab-btn-exams').classList.toggle('active', tabName === 'exams');
         document.getElementById('tab-btn-students').classList.toggle('active', tabName === 'students');
         document.getElementById('tab-btn-questions').classList.toggle('active', tabName === 'questions');
         if (document.getElementById('tab-btn-feedback')) {
             document.getElementById('tab-btn-feedback').classList.toggle('active', tabName === 'feedback');
+        }
+        if (document.getElementById('tab-btn-notice')) {
+            document.getElementById('tab-btn-notice').classList.toggle('active', tabName === 'notice');
+        }
+        if (tabName === 'notice') {
+            loadGurujiNoticeForEdit();
         }
 
         if (tabName === 'questions') {
@@ -1725,6 +1779,239 @@
         document.getElementById('fb-comment').value = '';
         closeFeedbackModal();
         alert("🙏 धन्यवाद! आपका अमूल्य सुझाव एवं प्रतिक्रिया सफलतापूर्वक गुरुजी पैनल में भेज दी गई है।");
+    }
+
+
+    // =========================================================================
+    // WHATSAPP CERTIFICATE SHARING CONTROLLER
+    // =========================================================================
+    function shareCertificateWhatsApp() {
+        let sName = currentStudentName || (document.getElementById('cert-name') ? document.getElementById('cert-name').innerText : "") || "छात्र";
+        let sClass = currentStudentClass || (document.getElementById('cert-class') ? document.getElementById('cert-class').innerText : "") || "10";
+        let sSchool = currentStudentSchool || (document.getElementById('cert-school') ? document.getElementById('cert-school').innerText : "") || "शासकीय विद्यालय";
+        let sTopic = (typeof currentTopicName !== 'undefined' && currentTopicName) ? formatTopicName(currentTopicName) : (document.getElementById('cert-topic') ? document.getElementById('cert-topic').innerText : "संस्कृत व्याकरण");
+        let sScore = (typeof score !== 'undefined' && score !== null) ? score : ((document.getElementById('cert-score') && document.getElementById('cert-score').innerText) || "10");
+
+        let text = "🏆 *संस्कृत व्याकरण अभ्यास क्विज़ प्रमाण-पत्र* 🏆
+" +
+                   "━━━━━━━━━━━━━━━━━━━━
+" +
+                   "📖 *छात्र का नाम:* " + sName + "
+" +
+                   "🏫 *विद्यालय:* " + sSchool + "
+" +
+                   "📚 *कक्षा:* " + sClass + "
+" +
+                   "🎯 *विषय:* " + sTopic + "
+" +
+                   "⭐ *प्राप्तांक:* " + sScore + " अंक
+" +
+                   "━━━━━━━━━━━━━━━━━━━━
+" +
+                   "✨ *"संस्कृत-भाषायां तव नैपुण्यं प्रशंसनीयम्। साफल्यमस्तु, तव भावि-जीवनम् उज्ज्वलं भूयात्!"
+
+" +
+                   "👨‍🏫 *मार्गदर्शक:* देवेन्द्र पाराशर (व्याख्याता संस्कृत)
+" +
+                   "🏛️ *शासकीय हाईस्कूल पोतरा, वि.ख. लैलूंगा (रायगढ़, छ.ग.)*
+
+" +
+                   "👇 *आप भी टेस्ट दें और अपना डिजिटल प्रमाण-पत्र प्राप्त करें:*
+" +
+                   "https://maalaxmijyotishvastukaryalay-byte.github.io/sanskrit-quiz-app/";
+
+        let waUrl = "https://api.whatsapp.com/send?text=" + encodeURIComponent(text);
+        window.open(waUrl, "_blank");
+    }
+
+    // =========================================================================
+    // GURUJI NOTICE BROADCAST CONTROLLER (CLOUD & LOCAL SYNCED)
+    // =========================================================================
+    const DEFAULT_GURUJI_NOTICE = {
+        text: "सर्वेभ्यो छात्रेभ्यः शुभाशयाः! प्रतिदिनं संस्कृत-व्याकरणस्य अभ्यासं कुर्वन्तु, ज्ञानं वर्धयन्तु च।
+(सभी विद्यार्थियों को हार्दिक शुभकामनाएँ! प्रतिदिन मन लगाकर संस्कृत व्याकरण का अभ्यास करें और अपना ज्ञान बढ़ाएँ।)",
+        date: "नियमित सूचना",
+        active: true
+    };
+
+    function applyGurujiNotice(notice) {
+        let card = document.getElementById('guruji-notice-card');
+        let textEl = document.getElementById('guruji-notice-text');
+        let dateEl = document.getElementById('guruji-notice-date');
+        let previewBox = document.getElementById('notice-preview-box');
+
+        if (!notice || notice.active === false || !notice.text || !notice.text.trim()) {
+            notice = DEFAULT_GURUJI_NOTICE;
+        }
+
+        if (textEl) textEl.innerText = notice.text;
+        if (dateEl) dateEl.innerText = notice.date || "आज की सूचना";
+        if (card) card.style.display = 'block';
+
+        if (previewBox) {
+            previewBox.innerText = "📅 दिनांकः " + (notice.date || "नियमित") + "
+" + notice.text;
+        }
+    }
+
+    function loadGurujiNoticeOnHome() {
+        try {
+            let saved = localStorage.getItem('sanskrit_guruji_notice');
+            if (saved) {
+                applyGurujiNotice(JSON.parse(saved));
+            } else {
+                applyGurujiNotice(DEFAULT_GURUJI_NOTICE);
+            }
+        } catch (e) {
+            applyGurujiNotice(DEFAULT_GURUJI_NOTICE);
+        }
+        // Also fetch fresh from cloud snapshot
+        syncNoticeFromCloud();
+    }
+
+    async function syncNoticeFromCloud() {
+        try {
+            let res = await fetch(API_URL, { cache: 'no-store' });
+            if (res.ok) {
+                let data = await res.json();
+                let raw = data.data || data;
+                if (raw && raw.notice) {
+                    localStorage.setItem('sanskrit_guruji_notice', JSON.stringify(raw.notice));
+                    applyGurujiNotice(raw.notice);
+                }
+            }
+        } catch (e) {}
+    }
+
+    function loadGurujiNoticeForEdit() {
+        let savedNotice = null;
+        try {
+            savedNotice = JSON.parse(localStorage.getItem('sanskrit_guruji_notice') || 'null');
+        } catch(e) {}
+        if (!savedNotice) savedNotice = DEFAULT_GURUJI_NOTICE;
+
+        let input = document.getElementById('notice-input-text');
+        if (input && savedNotice.text) {
+            input.value = savedNotice.text;
+        }
+        applyGurujiNotice(savedNotice);
+    }
+
+    async function publishGurujiNotice() {
+        let input = document.getElementById('notice-input-text');
+        let text = input ? input.value.trim() : '';
+        if (!text) {
+            alert("कृपया प्रसारित करने के लिए कोई संदेश लिखें!");
+            return;
+        }
+
+        let now = new Date();
+        let dateStr = now.toLocaleDateString('hi-IN', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        let noticeObj = {
+            text: text,
+            date: dateStr,
+            active: true,
+            updatedAt: now.toISOString(),
+            author: "देवेन्द्र पाराशर (व्याख्याता संस्कृत)"
+        };
+
+        // 1. Save locally
+        localStorage.setItem('sanskrit_guruji_notice', JSON.stringify(noticeObj));
+        applyGurujiNotice(noticeObj);
+
+        let btn = document.getElementById('btn-pub-notice');
+        if (btn) {
+            btn.disabled = true;
+            btn.innerText = "⏳ प्रसारित हो रहा है...";
+        }
+
+        let statusMsg = document.getElementById('notice-status-msg');
+        if (statusMsg) {
+            statusMsg.style.display = 'block';
+            statusMsg.style.color = '#e65100';
+            statusMsg.innerText = "⏳ क्लाउड पर अपडेट हो रहा है...";
+        }
+
+        // 2. Broadcast via ntfy stream
+        try {
+            await fetch(CLOUD_STREAM_URL, {
+                method: 'POST',
+                body: JSON.stringify({ eventType: 'notice', payload: noticeObj }),
+                headers: { 'Title': 'GURUJI_NOTICE', 'Priority': 'high' }
+            });
+        } catch(e) {}
+
+        // 3. Update Cloud Snapshot
+        try {
+            let currentAll = await syncAllCloudAndLocalData();
+            let payload = {
+                name: "sanskrit_potra_master_db",
+                data: {
+                    students: currentAll.exams || [],
+                    registered_students: currentAll.regs || [],
+                    custom_questions: currentAll.customQs || [],
+                    feedbacks: currentAll.feedbacks || [],
+                    notice: noticeObj
+                }
+            };
+            await fetch(API_URL, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+        } catch(e) {}
+
+        if (btn) {
+            btn.disabled = false;
+            btn.innerText = "📢 संदेश तुरंत प्रसारित करें (Publish)";
+        }
+        if (statusMsg) {
+            statusMsg.style.color = '#2e7d32';
+            statusMsg.innerText = "✅ आपका संदेश सफलतापूर्वक लाइव प्रसारित हो गया है! अब यह होम पेज पर सभी विद्यार्थियों को दिखाई देगा।";
+        }
+        alert("✅ आपका संदेश सफलतापूर्वक लाइव प्रसारित हो गया है! अब यह होम पेज पर सभी विद्यार्थियों को दिखाई देगा।");
+    }
+
+    async function clearGurujiNotice() {
+        if (!confirm("क्या आप वर्तमान सूचना को हटाकर डिफ़ॉल्ट संदेश सेट करना चाहते हैं?")) return;
+
+        let noticeObj = {
+            text: "",
+            date: "",
+            active: false
+        };
+
+        localStorage.removeItem('sanskrit_guruji_notice');
+        applyGurujiNotice(DEFAULT_GURUJI_NOTICE);
+
+        let input = document.getElementById('notice-input-text');
+        if (input) input.value = '';
+
+        try {
+            let currentAll = await syncAllCloudAndLocalData();
+            let payload = {
+                name: "sanskrit_potra_master_db",
+                data: {
+                    students: currentAll.exams || [],
+                    registered_students: currentAll.regs || [],
+                    custom_questions: currentAll.customQs || [],
+                    feedbacks: currentAll.feedbacks || [],
+                    notice: noticeObj
+                }
+            };
+            await fetch(API_URL, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+        } catch(e) {}
+
+        let statusMsg = document.getElementById('notice-status-msg');
+        if (statusMsg) {
+            statusMsg.style.display = 'block';
+            statusMsg.style.color = '#c62828';
+            statusMsg.innerText = "सूचना हटा दी गई है और डिफ़ॉल्ट संदेश बहाल कर दिया गया है।";
+        }
     }
 
     // Guruji Question Bank Inspector & Live Question Creator
