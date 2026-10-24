@@ -1902,7 +1902,7 @@
             const canvas = await captureCertificateCanvas();
             hideCertToast();
             let sName = currentStudentName || (document.getElementById('cert-name') ? document.getElementById('cert-name').innerText : '') || 'छात्र';
-            let safeName = (sName || 'संस्कृत').replace(/[\s\/:*?"<>|]+/g, '_');
+            let safeName = (sName || 'संस्कृत').split(' ').join('_');
             let fileName = 'प्रमाणपत्र_' + safeName + '.png';
 
             if (canvas.toBlob) {
@@ -1976,7 +1976,7 @@
             const canvas = await captureCertificateCanvas();
             hideCertToast();
 
-            let safeName = (sName || 'संस्कृत').replace(/[\s\/:*?"<>|]+/g, '_');
+            let safeName = (sName || 'संस्कृत').split(' ').join('_');
             let fileName = 'प्रमाणपत्र_' + safeName + '.png';
 
             if (canvas.toBlob) {
