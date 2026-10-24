@@ -109,7 +109,7 @@
     </style>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <!-- Dedicated External Question-Answer Database -->
-    <script src="questions_db.js?v=64"></script>
+    <script src="questions_db.js?v=65"></script>
 </head>
 
 <body>
@@ -620,7 +620,7 @@
         } catch (e) {}
         if (window.location.protocol.startsWith('http')) {
             try {
-                let res = await fetch('questions_db.json?v=64', { cache: 'no-store' });
+                let res = await fetch('questions_db.json?v=65', { cache: 'no-store' });
                 if (res.ok) {
                     let extJson = await res.json();
                     if (extJson && typeof extJson === 'object') {
@@ -1786,51 +1786,40 @@
     // WHATSAPP CERTIFICATE SHARING CONTROLLER
     // =========================================================================
     function shareCertificateWhatsApp() {
-        let sName = currentStudentName || (document.getElementById('cert-name') ? document.getElementById('cert-name').innerText : "") || "छात्र";
-        let sClass = currentStudentClass || (document.getElementById('cert-class') ? document.getElementById('cert-class').innerText : "") || "10";
-        let sSchool = currentStudentSchool || (document.getElementById('cert-school') ? document.getElementById('cert-school').innerText : "") || "शासकीय विद्यालय";
-        let sTopic = (typeof currentTopicName !== 'undefined' && currentTopicName) ? formatTopicName(currentTopicName) : (document.getElementById('cert-topic') ? document.getElementById('cert-topic').innerText : "संस्कृत व्याकरण");
-        let sScore = (typeof score !== 'undefined' && score !== null) ? score : ((document.getElementById('cert-score') && document.getElementById('cert-score').innerText) || "10");
+        let sName = currentStudentName || (document.getElementById('cert-name') ? document.getElementById('cert-name').innerText : '') || 'छात्र';
+        let sClass = currentStudentClass || (document.getElementById('cert-class') ? document.getElementById('cert-class').innerText : '') || '10';
+        let sSchool = currentStudentSchool || (document.getElementById('cert-school') ? document.getElementById('cert-school').innerText : '') || 'शासकीय विद्यालय';
+        let sTopic = (typeof currentTopicName !== 'undefined' && currentTopicName) ? formatTopicName(currentTopicName) : (document.getElementById('cert-topic') ? document.getElementById('cert-topic').innerText : 'संस्कृत व्याकरण');
+        let sScore = (typeof score !== 'undefined' && score !== null) ? score : ((document.getElementById('cert-score') && document.getElementById('cert-score').innerText) || '10');
 
-        let text = "🏆 *संस्कृत व्याकरण अभ्यास क्विज़ प्रमाण-पत्र* 🏆
-" +
-                   "━━━━━━━━━━━━━━━━━━━━
-" +
-                   "📖 *छात्र का नाम:* " + sName + "
-" +
-                   "🏫 *विद्यालय:* " + sSchool + "
-" +
-                   "📚 *कक्षा:* " + sClass + "
-" +
-                   "🎯 *विषय:* " + sTopic + "
-" +
-                   "⭐ *प्राप्तांक:* " + sScore + " अंक
-" +
-                   "━━━━━━━━━━━━━━━━━━━━
-" +
-                   "✨ *"संस्कृत-भाषायां तव नैपुण्यं प्रशंसनीयम्। साफल्यमस्तु, तव भावि-जीवनम् उज्ज्वलं भूयात्!"
+        let lines = [
+            '🏆 *संस्कृत व्याकरण अभ्यास क्विज़ प्रमाण-पत्र* 🏆',
+            '━━━━━━━━━━━━━━━━━━━━',
+            '📖 *छात्र का नाम:* ' + sName,
+            '🏫 *विद्यालय:* ' + sSchool,
+            '📚 *कक्षा:* ' + sClass,
+            '🎯 *विषय:* ' + sTopic,
+            '⭐ *प्राप्तांक:* ' + sScore + ' अंक',
+            '━━━━━━━━━━━━━━━━━━━━',
+            '✨ *"संस्कृत-भाषायां तव नैपुण्यं प्रशंसनीयम्। साफल्यमस्तु, तव भावि-जीवनम् उज्ज्वलं भूयात्!"*',
+            '',
+            '👨‍🏫 *मार्गदर्शक:* देवेन्द्र पाराशर (व्याख्याता संस्कृत)',
+            '🏛️ *शासकीय हाईस्कूल पोतरा, वि.ख. लैलूंगा (रायगढ़, छ.ग.)*',
+            '',
+            '👇 *आप भी टेस्ट दें और अपना डिजिटल प्रमाण-पत्र प्राप्त करें:*',
+            'https://maalaxmijyotishvastukaryalay-byte.github.io/sanskrit-quiz-app/'
+        ];
 
-" +
-                   "👨‍🏫 *मार्गदर्शक:* देवेन्द्र पाराशर (व्याख्याता संस्कृत)
-" +
-                   "🏛️ *शासकीय हाईस्कूल पोतरा, वि.ख. लैलूंगा (रायगढ़, छ.ग.)*
-
-" +
-                   "👇 *आप भी टेस्ट दें और अपना डिजिटल प्रमाण-पत्र प्राप्त करें:*
-" +
-                   "https://maalaxmijyotishvastukaryalay-byte.github.io/sanskrit-quiz-app/";
-
-        let waUrl = "https://api.whatsapp.com/send?text=" + encodeURIComponent(text);
-        window.open(waUrl, "_blank");
+        let waUrl = 'https://api.whatsapp.com/send?text=' + encodeURIComponent(lines.join(String.fromCharCode(10)));
+        window.open(waUrl, '_blank');
     }
 
     // =========================================================================
     // GURUJI NOTICE BROADCAST CONTROLLER (CLOUD & LOCAL SYNCED)
     // =========================================================================
     const DEFAULT_GURUJI_NOTICE = {
-        text: "सर्वेभ्यो छात्रेभ्यः शुभाशयाः! प्रतिदिनं संस्कृत-व्याकरणस्य अभ्यासं कुर्वन्तु, ज्ञानं वर्धयन्तु च।
-(सभी विद्यार्थियों को हार्दिक शुभकामनाएँ! प्रतिदिन मन लगाकर संस्कृत व्याकरण का अभ्यास करें और अपना ज्ञान बढ़ाएँ।)",
-        date: "नियमित सूचना",
+        text: 'सर्वेभ्यो छात्रेभ्यः शुभाशयाः! प्रतिदिनं संस्कृत-व्याकरणस्य अभ्यासं कुर्वन्तु, ज्ञानं वर्धयन्तु च।' + String.fromCharCode(10) + '(सभी विद्यार्थियों को हार्दिक शुभकामनाएँ! प्रतिदिन मन लगाकर संस्कृत व्याकरण का अभ्यास करें और अपना ज्ञान बढ़ाएँ।)',
+        date: 'नियमित सूचना',
         active: true
     };
 
@@ -1845,12 +1834,11 @@
         }
 
         if (textEl) textEl.innerText = notice.text;
-        if (dateEl) dateEl.innerText = notice.date || "आज की सूचना";
+        if (dateEl) dateEl.innerText = notice.date || 'आज की सूचना';
         if (card) card.style.display = 'block';
 
         if (previewBox) {
-            previewBox.innerText = "📅 दिनांकः " + (notice.date || "नियमित") + "
-" + notice.text;
+            previewBox.innerText = '📅 दिनांकः ' + (notice.date || 'नियमित') + String.fromCharCode(10) + notice.text;
         }
     }
 
@@ -1865,7 +1853,6 @@
         } catch (e) {
             applyGurujiNotice(DEFAULT_GURUJI_NOTICE);
         }
-        // Also fetch fresh from cloud snapshot
         syncNoticeFromCloud();
     }
 
@@ -1901,7 +1888,7 @@
         let input = document.getElementById('notice-input-text');
         let text = input ? input.value.trim() : '';
         if (!text) {
-            alert("कृपया प्रसारित करने के लिए कोई संदेश लिखें!");
+            alert('कृपया प्रसारित करने के लिए कोई संदेश लिखें!');
             return;
         }
 
@@ -1912,27 +1899,25 @@
             date: dateStr,
             active: true,
             updatedAt: now.toISOString(),
-            author: "देवेन्द्र पाराशर (व्याख्याता संस्कृत)"
+            author: 'देवेन्द्र पाराशर (व्याख्याता संस्कृत)'
         };
 
-        // 1. Save locally
         localStorage.setItem('sanskrit_guruji_notice', JSON.stringify(noticeObj));
         applyGurujiNotice(noticeObj);
 
         let btn = document.getElementById('btn-pub-notice');
         if (btn) {
             btn.disabled = true;
-            btn.innerText = "⏳ प्रसारित हो रहा है...";
+            btn.innerText = '⏳ प्रसारित हो रहा है...';
         }
 
         let statusMsg = document.getElementById('notice-status-msg');
         if (statusMsg) {
             statusMsg.style.display = 'block';
             statusMsg.style.color = '#e65100';
-            statusMsg.innerText = "⏳ क्लाउड पर अपडेट हो रहा है...";
+            statusMsg.innerText = '⏳ क्लाउड पर अपडेट हो रहा है...';
         }
 
-        // 2. Broadcast via ntfy stream
         try {
             await fetch(CLOUD_STREAM_URL, {
                 method: 'POST',
@@ -1941,7 +1926,6 @@
             });
         } catch(e) {}
 
-        // 3. Update Cloud Snapshot via PATCH
         try {
             await fetch(API_URL, {
                 method: 'PATCH',
@@ -1952,21 +1936,21 @@
 
         if (btn) {
             btn.disabled = false;
-            btn.innerText = "📢 संदेश तुरंत प्रसारित करें (Publish)";
+            btn.innerText = '📢 संदेश तुरंत प्रसारित करें (Publish)';
         }
         if (statusMsg) {
             statusMsg.style.color = '#2e7d32';
-            statusMsg.innerText = "✅ आपका संदेश सफलतापूर्वक लाइव प्रसारित हो गया है! अब यह होम पेज पर सभी विद्यार्थियों को दिखाई देगा।";
+            statusMsg.innerText = '✅ आपका संदेश सफलतापूर्वक लाइव प्रसारित हो गया है! अब यह होम पेज पर सभी विद्यार्थियों को दिखाई देगा।';
         }
-        alert("✅ आपका संदेश सफलतापूर्वक लाइव प्रसारित हो गया है! अब यह होम पेज पर सभी विद्यार्थियों को दिखाई देगा।");
+        alert('✅ आपका संदेश सफलतापूर्वक लाइव प्रसारित हो गया है! अब यह होम पेज पर सभी विद्यार्थियों को दिखाई देगा।');
     }
 
     async function clearGurujiNotice() {
-        if (!confirm("क्या आप वर्तमान सूचना को हटाकर डिफ़ॉल्ट संदेश सेट करना चाहते हैं?")) return;
+        if (!confirm('क्या आप वर्तमान सूचना को हटाकर डिफ़ॉल्ट संदेश सेट करना चाहते हैं?')) return;
 
         let noticeObj = {
-            text: "",
-            date: "",
+            text: '',
+            date: '',
             active: false
         };
 
@@ -1988,7 +1972,7 @@
         if (statusMsg) {
             statusMsg.style.display = 'block';
             statusMsg.style.color = '#c62828';
-            statusMsg.innerText = "सूचना हटा दी गई है और डिफ़ॉल्ट संदेश बहाल कर दिया गया है।";
+            statusMsg.innerText = 'सूचना हटा दी गई है और डिफ़ॉल्ट संदेश बहाल कर दिया गया है।';
         }
     }
 
