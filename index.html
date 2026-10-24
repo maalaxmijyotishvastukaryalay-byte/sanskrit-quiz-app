@@ -109,7 +109,7 @@
     </style>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <!-- Dedicated External Question-Answer Database -->
-    <script src="questions_db.js?v=65"></script>
+    <script src="questions_db.js?v=66"></script>
 </head>
 
 <body>
@@ -179,7 +179,7 @@
         </div>
         <div style="display: flex; flex-wrap: wrap; gap: 8px;">
             <button onclick="fetchResults()" style="padding: 9px 15px; background: #2a5298; color: white; border: none; border-radius: 6px; font-weight: bold; font-size: 0.95rem; cursor: pointer;">🔄 रिफ्रेश</button>
-            <button onclick="document.getElementById('teacher-screen').style.display='none'; document.getElementById('login-screen').style.display='block';" style="padding: 9px 15px; background: #757575; color: white; border: none; border-radius: 6px; font-weight: bold; font-size: 0.95rem; cursor: pointer;">🔙 वापस जाएँ</button>
+            <button onclick="document.getElementById('teacher-screen').style.display='none'; document.getElementById('login-screen').style.display='block'; if(document.getElementById('guruji-notice-card-front')) document.getElementById('guruji-notice-card-front').style.display='block';" style="padding: 9px 15px; background: #757575; color: white; border: none; border-radius: 6px; font-weight: bold; font-size: 0.95rem; cursor: pointer;">🔙 वापस जाएँ</button>
         </div>
     </div>
 
@@ -334,8 +334,24 @@
     </div>
 </div>
 
+<!-- 📢 OPENING / FIRST SCREEN NOTICE BOARD (VISIBLE IMMEDIATELY ON APP OPEN) -->
+<div class="container" id="guruji-notice-card-front" style="max-width: 480px; margin: 25px auto 0 auto; background: linear-gradient(135deg, #fffde7, #fff8e1); border: 2px solid #ffe082; border-left: 7px solid #f57f17; border-radius: 12px; padding: 16px 20px; box-shadow: 0 4px 14px rgba(245,127,23,0.18); text-align: left; box-sizing: border-box;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 1.7rem;">📢</span>
+            <span style="font-size: 1.22rem; font-weight: 900; color: #b71c1c; letter-spacing: 0.5px;">गुरुजी का विशेष संदेश / सूचना-पट्ट</span>
+        </div>
+        <span id="guruji-notice-date-front" style="font-size: 0.88rem; background: #ffe082; color: #5d4037; font-weight: bold; padding: 4px 12px; border-radius: 20px;"></span>
+    </div>
+    <p id="guruji-notice-text-front" style="font-size: 1.12rem; color: #212121; font-weight: 600; line-height: 1.6; margin: 10px 0; white-space: pre-wrap;"></p>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; border-top: 1px dashed #fbc02d; padding-top: 8px; font-size: 0.95rem; color: #6d4c41; flex-wrap: wrap; gap: 6px;">
+        <span style="font-weight: bold;">👨‍🏫 देवेन्द्र पाराशर <span style="font-weight: normal; font-size:0.88rem;">(व्याख्याता संस्कृत, पोतरा)</span></span>
+        <span style="color: #2e7d32; font-weight: bold; background: #e8f5e9; padding: 3px 10px; border-radius: 12px; font-size: 0.85rem;">🟢 आधिकारिक प्रसारण</span>
+    </div>
+</div>
+
 <!-- Student Login / Registration Form -->
-<div class="container" id="login-screen" style="max-width: 480px; text-align: left; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); margin-top: 30px; border-top: 5px solid #4caf50;">
+<div class="container" id="login-screen" style="max-width: 480px; text-align: left; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); margin-top: 16px; border-top: 5px solid #4caf50;">
     <h2 style="color: #2e7d32; font-size: 1.8rem; margin-top: 0; text-align:center;">📖 छात्र प्रवेश पंजिका</h2>
     <p style="text-align: center; color: #666; font-size: 0.95rem;">क्विज़ शुरू करने से पहले अपनी जानकारी भरें</p>
     <div style="margin-bottom: 15px;">
@@ -620,7 +636,7 @@
         } catch (e) {}
         if (window.location.protocol.startsWith('http')) {
             try {
-                let res = await fetch('questions_db.json?v=65', { cache: 'no-store' });
+                let res = await fetch('questions_db.json?v=66', { cache: 'no-store' });
                 if (res.ok) {
                     let extJson = await res.json();
                     if (extJson && typeof extJson === 'object') {
@@ -1428,6 +1444,7 @@
         registerStudentOnLogin();
 
         document.getElementById('login-screen').style.display = 'none';
+        if (document.getElementById('guruji-notice-card-front')) document.getElementById('guruji-notice-card-front').style.display = 'none';
         document.getElementById('home-screen').style.display = 'block';
         updateShloka();
         loadLeaderboard();
@@ -1482,6 +1499,7 @@
         let pwd = prompt("कृपया गुरुजी पासवर्ड दर्ज करें:");
         if (pwd === "devendra" || pwd === "1234") {
             document.getElementById('login-screen').style.display = 'none';
+            if (document.getElementById('guruji-notice-card-front')) document.getElementById('guruji-notice-card-front').style.display = 'none';
             document.getElementById('teacher-screen').style.display = 'block';
             switchTeacherTab('exams');
             fetchResults();
@@ -1833,6 +1851,17 @@
             notice = DEFAULT_GURUJI_NOTICE;
         }
 
+        // 1. Front page opening notice card
+        let frontCard = document.getElementById('guruji-notice-card-front');
+        let frontText = document.getElementById('guruji-notice-text-front');
+        let frontDate = document.getElementById('guruji-notice-date-front');
+        if (frontText) frontText.innerText = notice.text;
+        if (frontDate) frontDate.innerText = notice.date || 'आज की सूचना';
+        if (frontCard && document.getElementById('login-screen') && document.getElementById('login-screen').style.display !== 'none') {
+            frontCard.style.display = 'block';
+        }
+
+        // 2. Home page quiz topics notice card
         if (textEl) textEl.innerText = notice.text;
         if (dateEl) dateEl.innerText = notice.date || 'आज की सूचना';
         if (card) card.style.display = 'block';
