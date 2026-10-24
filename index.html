@@ -109,7 +109,7 @@
     </style>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <!-- Dedicated External Question-Answer Database -->
-    <script src="questions_db.js?v=66"></script>
+    <script src="questions_db.js?v=67"></script>
 </head>
 
 <body>
@@ -408,7 +408,6 @@
                 <option value="अमरदीप उच्चतर माध्यमिक विद्यालय लैलूंगा">अमरदीप उच्चतर माध्यमिक विद्यालय लैलूंगा (Amardeep School)</option>
                 <option value="बेसिक स्कूल लैलूंगा">बेसिक स्कूल लैलूंगा (Basic English Medium School)</option>
                 <option value="सरस्वती शिशु मंदिर कोड़ासिया">सरस्वती शिशु मंदिर कोड़ासिया</option>
-                <option value="ग्रीन वैली उच्चतर माध्यमिक विद्यालय लैलूंगा">ग्रीन वैली उच्चतर माध्यमिक विद्यालय लैलूंगा (Green Valley)</option>
                 <option value="आर्य उच्चतर माध्यमिक विद्यालय सलखिया">आर्य उच्चतर माध्यमिक विद्यालय सलखिया</option>
             </optgroup>
             <optgroup label="── डेमो / टेस्टिंग ──">
@@ -636,7 +635,7 @@
         } catch (e) {}
         if (window.location.protocol.startsWith('http')) {
             try {
-                let res = await fetch('questions_db.json?v=66', { cache: 'no-store' });
+                let res = await fetch('questions_db.json?v=67', { cache: 'no-store' });
                 if (res.ok) {
                     let extJson = await res.json();
                     if (extJson && typeof extJson === 'object') {
